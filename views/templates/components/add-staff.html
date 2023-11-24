@@ -1,0 +1,40 @@
+{{ define "add-staff" }}
+<div class="flex justify-end">
+    <button id="add-staff" class="bg-red-900 px-3 py-1 text-white hover:bg-red-700">Add Staff</button>
+</div>
+
+<div id="popup" class="absolute inset-0 hidden place-items-center bg-gray-300/90">
+    <form action="/admin/add-staff" method="POST" class="grid gap-4 rounded border bg-white p-4">
+
+        <div class="">
+            <label for="fullname">Fullname</label>
+            <br>
+            <input autofocus autocomplete="off" required type="text" id="fullname" name="fullname" placeholder="fullname"
+            class="rounded-md border border-gray-300 p-1">
+        </div>
+
+        <div class="">
+            <label for="username">Username</label>
+            <br>
+            <input autocomplete="off" type="text" required id="username" name="username" placeholder="username"
+            class="rounded-md border border-gray-300 p-1">
+        </div>
+
+        <div class="">
+            <label for="password">Password</label>
+            <br>
+            <input autocomplete="off" type="password" required id="password" name="password" placeholder="password"
+            class="rounded-md border border-gray-300 p-1">
+        </div>
+
+        <div class="">
+            <button type="submit" class="rounded-md bg-red-900 px-3 py-1 text-white hover:bg-red-700">Add Staff</button>
+        </div>
+    </form>
+</div>
+<script>
+    document.getElementById('add-staff').addEventListener('click', () => {
+        document.getElementById('popup').classList.replace('hidden', 'grid')
+    })
+</script>
+{{ end }}

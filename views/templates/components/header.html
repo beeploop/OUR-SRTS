@@ -1,0 +1,54 @@
+{{ define "header" }}
+<div class="max-h-[4rem] border-0 border-b-[1px] border-gray-400">
+
+    <div class="h-2 bg-red-900"></div>
+
+    <div class="flex items-center justify-between px-2">
+        <div class="flex gap-4 p-2">
+            <div class="text-sm text-red-900">
+                <p>Tagum -</p>
+                <p>Mabini</p>
+            </div>
+
+            <div class="inline-block min-h-[1em] w-1 self-stretch bg-yellow-400 ">
+            </div>
+
+            <div class="text-sm">
+                <p>Office of the University Registrar</p>
+                <p><span class="text-red-900">Student Records</span> <span class="text-yellow-500">Tracking System</span></p>
+            </div>
+        </div>
+
+        {{ if . }}
+        <div id="profile" class="cursor-pointer select-none text-sm">
+            <div class="flex items-center gap-2">
+                <div class="">
+                    <svg class="aspect-square w-6 rounded-full border border-black p-0.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+                </div>
+                <div class="">
+                    <p>{{ .Fullname }} ({{ .Role }})</p>
+                </div>
+            </div>
+            <div class="relative">
+                <div id="dropdown" class="absolute left-0 right-0 top-2 z-10 hidden divide-y divide-gray-100 rounded-lg bg-white shadow ">
+                    <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDefaultButton">
+                        <li class="">
+                            <form action="/auth/logout" method="POST">
+                                <button type="submit" class="w-full px-4 py-2 text-left hover:bg-red-300">Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        {{ end }}
+
+    </div>
+</div>
+<script>
+    document.getElementById('profile').addEventListener('click', () => {
+        document.getElementById('dropdown').classList.toggle('hidden')
+    })
+</script>
+{{ end }}

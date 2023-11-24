@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+    {{ template "head" }}
+
+    <body>
+
+        {{ template "header" .user }}
+    
+        <div class="mx-auto my-4 max-w-5xl rounded-md border p-4">
+
+            <div class="py-2">
+                <a href="/admin/search" class="rounded-md bg-yellow-400 px-3 py-1 hover:bg-yellow-200">Back</a>
+            </div>
+
+            <!-- Student Information Part -->
+            <div class="flex justify-between">
+                <div class="flex gap-4">
+
+                    <!-- Student Image -->
+                    <div class="aspect-square w-40 border border-gray-400">
+                        <img src="/public/placeholder.jpg" alt="profile picture" class="">
+                    </div>
+
+                    <!-- Student Info -->
+                    <div class="flex flex-col justify-end">
+                        <div class="text-bold flex text-lg uppercase">
+                            <h2 class="w-40">
+                                Name:
+                            </h2>
+                            <h2>
+                                {{ .files.Lastname }}, {{ .files.Firstname }} {{ .files.Middlename }}
+                            </h2>
+                        </div>
+                        <div class="flex text-sm">
+                            <p class="w-40">File Control Number:</p>
+                            <p>{{ .files.ControlNumber }}</p>
+                        </div>
+                        <div class="flex text-sm">
+                            <p class="w-40">Program:</p>
+                            <p>{{ .files.Program.String }}</p>
+                        </div>
+                        <div class="flex text-sm">
+                            <p class="w-40">Major:</p>
+                            <p>{{ .files.Major.String }}</p>
+                        </div>
+                        <div class="flex text-sm">
+                            <p class="w-40">File Location:</p>
+                            <p class="text-red-600">{{ .files.File  }}</p>
+                        </div>
+                        <div class="flex text-sm">
+                            <p class="w-40">Type:</p>
+                            <p>{{ .files.Type }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Actions -->
+                <div class="flex flex-col justify-end">
+                    <div class="flex gap-4 text-sm">
+                        <button class="rounded bg-red-900 px-3 py-1 text-white hover:bg-red-700">Edit Student</button>
+                        <button class="rounded bg-teal-900 px-3 py-1 text-white hover:bg-teal-700">New File</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Student Files -->
+            <div class="mt-4">
+                <h2>Files</h2>
+                <table class="w-full border text-xs">
+                    <thead class="border bg-gray-100">
+                        <tr class="[&>*]:px-1 [&>*]:py-2">
+                            <td>Filename</td>
+                            <td>Remarks</td>
+                            <td>Actions</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{ template "birth-certificate" .files }}
+                        {{ template "NOAP" .files }}
+                        {{ template "Usepat" .files }}
+                        {{ template "TOR" .files }}
+                        {{ template "GoodMoral" .files }}
+                        {{ template "form138" .files }}
+                        {{ template "PDS" .files }}
+                        {{ template "DPP" .files }}
+                        {{ template "HD" .files }}
+                        {{ template "MarriageCert" .files }}
+                        {{ template "Promise" .files }}
+                        {{ template "HSD" .files }}
+                        {{ template "MedCert" .files }}
+                        {{ template "form137" .files }}
+                        {{ template "approval" .files }}
+                        {{ template "AFG" .files }}
+                        {{ template "LowIncome" .files }}
+                        {{ template "clearance" .files }}
+                        {{ template "undertaking" .files }}
+                        {{ template "LOA" .files }}
+                        {{ template "AdvancedCredit" .files }}
+                        {{ template "INC" .files }}
+                        {{ template "SubjectValidation" .files }}
+                        {{ template "Substitution" .files }}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-4">
+                <h2>Other</h2>
+                <table class="w-full border text-xs">
+                    <thead class="border bg-gray-100">
+                        <tr class="[&>*]:px-1 [&>*]:py-2">
+                            <td>Filename</td>
+                            <td>Remarks</td>
+                            <td>Actions</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{ if not .files.Other }}
+                        <tr class="[&>*]:py-3">
+                            <td colspan="5" align="center">No Other Files</td>
+                        </tr>
+                        {{ else }}
+                        {{ range .files.Other }}
+                        <tr class="hover:bg-gray-100 [&>*]:px-1 [&>*]:py-2">
+                            <td>{{ .Filename }}</td>
+                            <td>
+                                <span class="badge-active">Existing</span>
+                            </td>
+                            <td>
+                                <a 
+                                    href="{{ .Location }}" 
+                                    target="_blank"
+                                    class="rounded bg-teal-900 px-3 py-1 text-white hover:bg-teal-700"
+                                    >
+                                    View
+                                </a>
+                            </td>
+                        </tr>
+                        {{ end }}
+                        {{ end }}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </body>
+</html>

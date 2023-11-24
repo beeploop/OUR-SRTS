@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+    {{ template "head" }}
+
+    <body>
+        {{ template "header" .user }}
+    
+        <div class="grid grid-cols-10">
+            {{ template "sidebar" }}
+
+            <div class="col-span-7 border">
+                <h1 class="mb-4 text-xl">Add Student</h1>
+
+                <div id="successNotif" class="absolute right-0 top-0 hidden items-center gap-2 rounded border border-green-400 bg-green-100 px-4 py-3 text-green-700" role="alert">
+                    <strong class="font-bold">Success!</strong>
+                    <span class="block sm:inline">Successfully saved student.</span>
+                    <span class="px-4 py-1">
+                        <svg class="h-6 w-6 fill-current text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
+                    </span>
+                </div>
+
+                <div id="failedNotif" class="absolute right-0 top-0 hidden items-center gap-2 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700" role="alert">
+                    <strong class="font-bold">Failed!</strong>
+                    <span class="block sm:inline">An error occurred while saving student.</span>
+                    <span class="px-4 py-1">
+                        <svg class="h-6 w-6 fill-current text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
+                    </span>
+                </div>
+
+                <form action="/admin/add-student" method="POST" class="grid gap-4">
+                    <div class="flex gap-4">
+                        <div class="w-full">
+                            <label for="lastname">Lastname</label>
+                            <br>
+                            <input id="lastname" type="text" required autofocus autocomplete="off" name="lastname" placeholder="lastname" 
+                            class="w-full rounded-md border border-gray-700 p-1">
+                        </div>
+
+                        <div class="w-full">
+                            <label for="firstname">Firstname</label>
+                            <br>
+                            <input id="firstname" type="text" required autocomplete="off" name="firstname" placeholder="firstname" 
+                            class="w-full rounded-md border border-gray-700 p-1">
+                        </div>
+
+                        <div class="w-full">
+                            <label for="middlename">Middlename</label>
+                            <br>
+                            <input id="middlename" type="text" required autocomplete="off" name="middlename" placeholder="middlename" 
+                            class="w-full rounded-md border border-gray-700 p-1">
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="w-full">
+                            <label for="controlNumber">File Control Number</label>
+                            <br>
+                            <input id="controlNumber" type="text" required autocomplete="off" name="controlNumber" placeholder="xxxxx" 
+                            class="w-full rounded-md border border-gray-700 p-1">
+                        </div>
+                        <div class="w-full">
+                            <label for="fileLocation">File Location</label>
+                            <br>
+                            <input id="fileLocation" type="text" required autocomplete="off" name="fileLocation" placeholder="xxxxx" 
+                            class="w-full rounded-md border border-gray-700 p-1">
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="w-full">
+                            <label for="type">Student Type</label>
+                            <br>
+                            <select id="type" name="type" class="w-full rounded-md border border-black bg-white p-2">
+                                <option selected value="NonTransferee">Non-Transferee</option>
+                                <option value="Transferee">Transferee</option>
+                            </select>
+                        </div>
+
+                        <div class="w-full">
+                            <label for="civilStatus">Civil Status</label>
+                            <br>
+                            <select id="civilStatus" name="civilStatus" class="w-full rounded-md border border-black bg-white p-2">
+                                <option selected value="single">Single</option>
+                                <option value="married">Married</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="w-full">
+                            <label for="program">Program</label>
+                            <br>
+                            <select id="program" name="program" onchange="updateMajor()" class="w-full rounded-md border border-black bg-white p-2">
+                                <option value="">Select a program</option>
+                            </select>
+                        </div>
+
+                        <div class="w-full">
+                            <label for="major">Major</label>
+                            <br>
+                            <select id="major" name="major" class="w-full rounded-md border border-black bg-white p-2">
+                                <option value="">Select a major</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="">
+                        <button type="submit" class="rounded-md bg-red-900 px-3 py-1 text-white">Save Student</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </body>
+    <script>
+        const programs = {{ .programs }}
+        console.log({programs})
+        // Function to update the majors dropdown based on the selected program
+        function updateMajor() {
+            const programSelect = document.getElementById("program");
+            const majorSelect = document.getElementById("major");
+
+            // Get the selected program
+            const selectedProgram = programSelect.value;
+
+            // Find the selected program in the array
+            const program = programs.find(p => p.Program === selectedProgram);
+
+            // Clear previous options
+            majorSelect.innerHTML = '<option value="">Select a Major</option>';
+
+            // Populate majors dropdown if a program is selected
+            if (program) {
+                program.Majors.forEach(major => {
+                    const option = document.createElement("option");
+                    option.value = major;
+                    option.textContent = major;
+                    majorSelect.appendChild(option);
+                });
+            }
+        }
+
+        // Populate programs dropdown initially
+        const programSelect = document.getElementById("program");
+        programs.forEach(program => {
+            const option = document.createElement("option");
+            option.value = program.Program;
+            option.textContent = program.Program;
+            programSelect.appendChild(option);
+        });
+    </script>
+    <script src="/scripts/notification.js"></script>
+</html>

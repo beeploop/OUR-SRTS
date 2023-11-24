@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    {{ template "head" }}
+
+    <body>
+        {{ template "header" }}
+    
+        <div class="mx-auto my-0 mt-8 max-w-sm text-center">
+            <div class="mb-8">
+                <div class="mb-4 flex justify-center">
+                    <img src="/public/logo.png" alt="University logo" class="aspect-square w-20">
+                </div>
+
+                <div class="">
+                    <h2 class="text-2xl">Welcome OUR Personnel!</h2>
+                    <p>Please login to get started</p>
+                </div>
+            </div>
+
+            <form action="/auth/login" method="POST" class="">
+                <div class="mb-4">
+                    <input type="text" autofocus autocomplete="off" name="username" placeholder="username" class="w-full rounded-md p-2 outline outline-1 outline-gray-300">
+                </div>
+
+                <div class="mb-4">
+                    <input type="password" name="password" placeholder="password" class="w-full rounded-md p-2 outline outline-1 outline-gray-300">
+                </div>
+
+                <button type="sumit" class="rounded-md bg-red-900 px-3 py-1 text-white hover:bg-red-700">Login</button>
+            </form>
+            <a href="#" class="text-xs text-red-900 hover:underline">Request password reset</a>
+        </div>
+
+        <div class="absolute bottom-4 left-0 right-0 text-center">
+            <p class="text-xs text-gray-500">Office of the University Registrar © 2023</p>
+        </div>
+    </body>
+</html>

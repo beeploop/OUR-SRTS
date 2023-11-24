@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+    {{ template "head" }}
+
+    <body>
+        {{ template "header" .user }}
+
+        <div class="grid grid-cols-10">
+
+            {{ template "sidebar" }}
+
+            {{ template "search-page" . }}
+
+        </div>
+    
+    </body>
+</html>

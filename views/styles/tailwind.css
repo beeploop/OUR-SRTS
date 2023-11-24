@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.highlight {
+    @apply bg-red-300;
+}
+
+.badge-admin {
+    @apply block text-center w-14 items-center gap-x-1.5 py-1 px-2 rounded-full text-xs font-medium bg-red-500 text-white;
+}
+
+.badge-staff {
+    @apply block text-center w-14 items-center gap-x-1.5 py-1 px-2 rounded-full text-xs font-medium bg-yellow-500 text-white;
+}
+
+.badge-inactive {
+    @apply block text-center w-20 items-center gap-x-1.5 py-1 px-2 rounded-full text-xs font-medium bg-red-100 text-red-800;
+}
+
+.badge-active {
+    @apply block text-center w-20 items-center gap-x-1.5 py-1 px-2 rounded-full text-xs font-medium bg-teal-100 text-teal-800;
+}

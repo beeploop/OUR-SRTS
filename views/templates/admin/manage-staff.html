@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    {{ template "head" }}
+
+    <body>
+        {{ template "header" .user }}
+    
+        <div class="grid grid-cols-10">
+            {{ template "sidebar" }}
+
+            <div class="col-span-7">
+                <h1 class="mb-4 text-xl">manage staff</h1>
+
+                {{ template "add-staff" }}
+                <table class="mt-4 w-full border">
+                    <thead>
+                        <tr>
+                            <td>Fullname</td>
+                            <td>Username</td>
+                            <td>Role</td>
+                            <td>Status</td>
+                            <td>Actions</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{ if .users }}
+                        {{ range .users }}
+                        <tr class="border hover:bg-gray-100">
+                            <td>{{ .Fullname }}</td>
+                            <td>{{ .Username }}</td>
+                            <td>
+                                {{ if eq .Role "admin" }}
+                                <span class="badge-admin">
+                                    {{ .Role }}
+                                </span>
+                                {{ else }}
+                                <span class="badge-staff">
+                                    {{ .Role }}
+                                </span>
+                                {{ end }}
+                            </td>
+                            <td>
+                                {{ if eq .Status "active" }}
+                                <span class="badge-active">
+                                    {{ .Status }}
+                                </span>
+                                {{ else }}
+                                <span class="badge-inactive">
+                                    {{ .Status }}
+                                </span>
+                                {{ end }}
+                            </td>
+                            <td>
+                                <button class="rounded-sm bg-green-400 p-1">
+                                    Action
+                                </button>
+                            </td>
+                        </tr>
+                        {{ end }}
+                        {{ end }}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </body>
+</html>
