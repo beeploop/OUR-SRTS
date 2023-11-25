@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/registrar/store"
@@ -10,11 +11,14 @@ import (
 )
 
 func HandleUpload(c *gin.Context) {
+	referer := c.Request.Header.Get("Referer")
+	url := strings.Split(referer, "?")[0]
+
 	form, err := c.MultipartForm()
 	if err != nil {
 		fmt.Println("err binding form: ", err)
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, "/admin/search?status=failed")
+		c.Redirect(http.StatusSeeOther, url+"?status=failed")
 		return
 	}
 
@@ -30,13 +34,13 @@ func HandleUpload(c *gin.Context) {
 			file, location, err := utils.SaveOtherFile(filename, lastname, controlNumber, key, file, c)
 			if err != nil {
 				c.Request.Method = "GET"
-				c.Redirect(http.StatusSeeOther, "/student/"+controlNumber+"?status=failed")
+				c.Redirect(http.StatusSeeOther, url+"?status=failed")
 				return
 			}
 			err = store.SaveOtherFile(file, location, controlNumber, key)
 			if err != nil {
 				c.Request.Method = "GET"
-				c.Redirect(http.StatusSeeOther, "/student/"+controlNumber+"?status=failed")
+				c.Redirect(http.StatusSeeOther, url+"?status=failed")
 				return
 			}
 
@@ -44,13 +48,13 @@ func HandleUpload(c *gin.Context) {
 			location, err := utils.FileSaver(c, file, lastname, controlNumber, key)
 			if err != nil {
 				c.Request.Method = "GET"
-				c.Redirect(http.StatusSeeOther, "/student/"+controlNumber+"?status=failed")
+				c.Redirect(http.StatusSeeOther, url+"?status=failed")
 				return
 			}
 			err = store.SaveFile(location, controlNumber, key)
 			if err != nil {
 				c.Request.Method = "GET"
-				c.Redirect(http.StatusSeeOther, "/student/"+controlNumber+"?status=failed")
+				c.Redirect(http.StatusSeeOther, url+"?status=failed")
 				return
 			}
 		}
@@ -58,6 +62,6 @@ func HandleUpload(c *gin.Context) {
 	}
 
 	c.Request.Method = "GET"
-	c.Redirect(http.StatusSeeOther, "/student/"+controlNumber+"?status=success")
+	c.Redirect(http.StatusSeeOther, url+"?status=success")
 	return
 }
