@@ -27,5 +27,7 @@ func NewServer() {
 
 	Router.Static("/public", "assets/public/")
 
+	Router.Static("/documents", "documents/")
+
 	RegisterRoutes()
 }

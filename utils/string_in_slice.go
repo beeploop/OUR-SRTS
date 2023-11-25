@@ -5,7 +5,7 @@ func StringInSlice(a string) bool {
 		"Clearance",
 		"AffidavitOfUndertaking",
 		"LeaveOfAbsence",
-		"AdvanceCreditForm",
+		"AdvancedCreditForm",
 		"IncompleteForm",
 		"SubjectValidationForm",
 		"Substitution",

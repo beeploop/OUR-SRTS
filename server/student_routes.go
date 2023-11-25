@@ -55,6 +55,9 @@ func HandleStudentRoutes(student *gin.RouterGroup) {
 			return
 		}
 
+		// c.JSON(http.StatusOK, gin.H{"files": files})
+		//         return
+
 		html.Execute(c.Writer, gin.H{
 			"user":  user,
 			"files": files,

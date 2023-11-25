@@ -20,6 +20,7 @@ func GetStudentFiles(controlNumber string) (*models.StudentFiles, error) {
             bc.location as birthCertificate,
             noap.location as noap,
             usepat.location as usepat,
+            tor.location as tor,
             gm.location as goodMoral,
             form138.location as form138,
             pds.location as pds,
@@ -42,6 +43,7 @@ func GetStudentFiles(controlNumber string) (*models.StudentFiles, error) {
             LEFT JOIN BirthCertificate bc on stdnt.controlNumber = bc.owner
             LEFT JOIN NoticeOfAdmission noap on stdnt.controlNumber = noap.owner
             LEFT JOIN Usepat usepat on stdnt.controlNumber = usepat.owner
+            LEFT JOIN TOR tor on stdnt.controlNumber = tor.owner
             LEFT JOIN GoodMoral gm on stdnt.controlNumber = gm.owner
             LEFT JOIN Form138 form138 on stdnt.controlNumber = form138.owner
             LEFT JOIN PersonalDataSheet pds on stdnt.controlNumber = pds.owner
@@ -225,7 +227,7 @@ func getOthers(files *models.StudentFiles, controlNumber string) error {
         SELECT filename, location FROM Other WHERE owner = ?
     `
 
-    var results []models.Other
+	var results []models.Other
 	err := Db_Conn.Select(&results, query, controlNumber)
 	if err != nil {
 		return err
