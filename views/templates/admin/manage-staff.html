@@ -12,9 +12,9 @@
                 <h1 class="mb-4 text-xl">manage staff</h1>
 
                 {{ template "add-staff" }}
-                <table class="mt-4 w-full border">
+                <table class="mt-4 w-full border text-sm">
                     <thead>
-                        <tr>
+                        <tr class="border bg-gray-100 [&>*]:p-2">
                             <td>Fullname</td>
                             <td>Username</td>
                             <td>Role</td>
@@ -25,7 +25,7 @@
                     <tbody>
                         {{ if .users }}
                         {{ range .users }}
-                        <tr class="border hover:bg-gray-100">
+                        <tr class="border hover:bg-gray-100 [&>*]:p-2">
                             <td>{{ .Fullname }}</td>
                             <td>{{ .Username }}</td>
                             <td>
@@ -51,7 +51,7 @@
                                 {{ end }}
                             </td>
                             <td>
-                                <button class="rounded-sm bg-green-400 p-1">
+                                <button class="rounded-md bg-teal-900 px-2 py-1 text-white hover:bg-teal-700">
                                     Action
                                 </button>
                             </td>
