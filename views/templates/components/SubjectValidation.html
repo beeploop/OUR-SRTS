@@ -10,7 +10,14 @@
     </td>
     <td>
         <div class="flex gap-2">
-            <button id="expandSVF" class="w-16 rounded bg-teal-900 px-3 py-1 text-white hover:bg-teal-700">
+            <button id="expandSVF" 
+                {{ if not .SubjectValidationForm }}
+                disabled
+                class="w-16 rounded bg-gray-400 px-3 py-1 text-white"
+                {{ else }}
+                class="w-16 rounded bg-teal-900 px-3 py-1 text-white hover:bg-teal-700"
+                {{ end }}
+                >
                 Open
             </button>
             <button id="addSubjectValidation" class="w-16 rounded bg-red-900 px-3 py-1 text-white hover:bg-red-700">

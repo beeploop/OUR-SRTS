@@ -18,6 +18,7 @@ func HandleStudentRoutes(student *gin.RouterGroup) {
 			"data.html",
 			"components/header.html",
 			"components/editStudent.html",
+            "components/update-file.html",
 			"components/birth-certificate.html",
 			"components/clearance.html",
 			"components/NOAP.html",

@@ -31,6 +31,8 @@ func HandleAdminRoutes(admin *gin.RouterGroup) {
 
 	admin.POST("/upload", HandleUpload)
 
+    admin.POST("/update", HandleUpdateFile)
+
 	admin.GET("/programs", HandleGetPrograms)
 
 }

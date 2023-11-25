@@ -19,13 +19,14 @@
                 class="pointer-events-none w-16 rounded bg-gray-400 px-3 py-1 text-center text-white"
                 {{ end }}
                 >
-                Open
+                View
             </a>
 
             {{ if eq .Form138.Valid true }}
-            <button class="w-16 rounded bg-red-900 px-3 py-1 text-white hover:bg-red-700">
-                Update 
-            </button>
+                {{ template "update-file" "Form138" }}
+            <!-- <button class="w-16 rounded bg-red-900 px-3 py-1 text-white hover:bg-red-700"> -->
+            <!--     Update  -->
+            <!-- </button> -->
             {{ else }}
             <button id="addForm138" class="w-16 rounded bg-red-900 px-3 py-1 text-white hover:bg-red-700">
                 Add
