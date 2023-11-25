@@ -12,7 +12,7 @@
                 <div class="p-4">
                     <h2 class="text-bold text-lg">Edit Student</h2>
 
-                    <form class="mt-4 grid gap-4">
+                    <form action="/admin/update-student" method="POST" class="mt-4 grid gap-4">
 
                         <div class="flex gap-4">
                             <div class="">
@@ -54,14 +54,17 @@
                             <div class="w-full">
                                 <label for="controlNumber">File Control Number</label>
                                 <br>
-                                <input id="controlNumber" type="text" required autocomplete="off" name="controlNumber" placeholder="xxxxx" 
+                                <input id="controlNumber" type="text" required autocomplete="off" 
+                                name="controlNumber" placeholder="xxxxx" 
                                 value="{{ .ControlNumber }}"
-                                class="w-full rounded-md border border-gray-400 p-2 focus:border-red-700 focus:outline-none">
+                                readonly
+                                class="w-full rounded-md border border-gray-400 p-2 text-gray-400 focus:border-red-700 focus:outline-none">
                             </div>
                             <div class="w-full">
                                 <label for="fileLocation">File Location</label>
                                 <br>
-                                <input id="fileLocation" type="text" required autocomplete="off" name="fileLocation" placeholder="xxxxx" 
+                                <input id="fileLocation" type="text" required autocomplete="off"
+                                name="fileLocation" placeholder="xxxxx" 
                                 value="{{ .File }}"
                                 class="w-full rounded-md border border-gray-400 p-2 focus:border-red-700 focus:outline-none">
                             </div>
@@ -125,7 +128,7 @@
                         </div>
 
                         <div class="flex justify-end gap-2">
-                            <button type="button" class="w-20 rounded-md bg-red-900 px-3 py-1 text-white hover:bg-red-700">
+                            <button type="submit" class="w-20 rounded-md bg-red-900 px-3 py-1 text-white hover:bg-red-700">
                                 Save
                             </button>
                             <button id="cancelEditStudent" type="button" class="w-20 rounded-md border border-gray-400 px-3 py-1 hover:bg-gray-100">

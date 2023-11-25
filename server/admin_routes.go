@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/registrar/store"
 )
 
 func HandleAdminRoutes(admin *gin.RouterGroup) {
@@ -20,6 +19,8 @@ func HandleAdminRoutes(admin *gin.RouterGroup) {
 
 	admin.POST("/add-student", HandlePostAddStudent)
 
+    admin.POST("/update-student", HandleUpdateStudent)
+
 	admin.GET("/manage-staff", HandleManageStaff)
 
 	admin.POST("/add-staff", HandlePostAddStaff)
@@ -30,14 +31,6 @@ func HandleAdminRoutes(admin *gin.RouterGroup) {
 
 	admin.POST("/upload", HandleUpload)
 
-	admin.GET("/programs", func(c *gin.Context) {
-		list, err := store.GetProgramsAndMajors()
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err, "data": nil})
-			return
-		}
-
-		c.JSON(http.StatusOK, gin.H{"data": list})
-	})
+	admin.GET("/programs", HandleGetPrograms)
 
 }
