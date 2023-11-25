@@ -87,9 +87,12 @@
     </div>
 </div>
 <script>
-    document.getElementById('addPromiseNote').addEventListener('click', () => {
-        document.getElementById('modalPromissoryNote').classList.toggle('hidden')
-    })
+    const pnBtn = document.getElementById('addPromiseNote')
+    if (pnBtn){
+        pnBtn.addEventListener('click', () => {
+            document.getElementById('modalPromissoryNote').classList.toggle('hidden')
+        })
+    }
     document.getElementById('cancelPromiseNote').addEventListener('click', () => {
         document.getElementById('modalPromissoryNote').classList.toggle('hidden')
     })

@@ -10,7 +10,7 @@
     </td>
     <td>
         <div class="flex gap-2">
-            <button class="w-16 rounded bg-teal-900 px-3 py-1 text-white hover:bg-teal-700">
+            <button id="expandLOA" class="w-16 rounded bg-teal-900 px-3 py-1 text-white hover:bg-teal-700">
                 Open
             </button>
             <button id="addLOA" class="w-16 rounded bg-red-900 px-3 py-1 text-white hover:bg-red-700">
@@ -23,22 +23,29 @@
 
 {{ if not .LeaveOfAbsence }}
 {{ else }}
-    {{ range $index, $element := .LeaveOfAbsence }}
-    <tr class="hover:bg-gray-100 [&>*]:p-2">
-        <td>LOA Form {{ $index }}</td>
-        <td>
-            <span class="badge-active">Existing</span>
-        </td>
-        <td>
-            <a  href="{{ $element }}"
-                target="_blank"
-                class="rounded bg-teal-900 px-3 py-1 text-white hover:bg-teal-700"
-                >
-                Open
-            </a>
-        </td>
-    </tr>
-    {{ end }}
+<tr id="loaContent" class="hidden">
+    <td colspan="3">
+        {{ range $index, $element := .LeaveOfAbsence }}
+        <div class="flex justify-between border bg-red-50 p-2 pl-4 pr-60 hover:bg-red-100">
+            <div>
+                LOA Form {{ $index }}
+            </div>
+            <!-- <td> -->
+            <!--     <span class="badge-active">Existing</span> -->
+            <!-- </td> -->
+            <div>
+                <a  href="{{ $element }}"
+                    target="_blank"
+                    class="rounded bg-teal-900 px-3 py-1 text-white hover:bg-teal-700"
+                    >
+                    Open
+                </a>
+            </div>
+
+        </div>
+        {{ end }}
+    </td>
+</tr>
 {{ end }}
 
 <div id="modalLOA" class="relative z-10 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
@@ -96,6 +103,13 @@
     </div>
 </div>
 <script>
+    const expandLOA = document.getElementById('expandLOA')
+    const loaContent = document.getElementById('loaContent')
+
+    expandLOA.addEventListener('click', () => {
+        loaContent.classList.toggle('hidden')
+    })
+
     document.getElementById('addLOA').addEventListener('click', () => {
         document.getElementById('modalLOA').classList.toggle('hidden')
     })

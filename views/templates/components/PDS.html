@@ -87,9 +87,12 @@
     </div>
 </div>
 <script>
-    document.getElementById('addPDS').addEventListener('click', () => {
-        document.getElementById('modalPDS').classList.toggle('hidden')
-    })
+    const pdsBtn = document.getElementById('addPDS')
+    if (pdsBtn) {
+        pdsBtn.addEventListener('click', () => {
+            document.getElementById('modalPDS').classList.toggle('hidden')
+        })
+    }
     document.getElementById('cancelPDS').addEventListener('click', () => {
         document.getElementById('modalPDS').classList.toggle('hidden')
     })

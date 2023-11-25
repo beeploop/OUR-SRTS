@@ -10,7 +10,7 @@
     </td>
     <td>
         <div class="flex gap-2">
-            <button class="w-16 rounded bg-teal-900 px-3 py-1 text-white hover:bg-teal-700">
+            <button id="expandClearance" class="w-16 rounded bg-teal-900 px-3 py-1 text-white hover:bg-teal-700">
                 Open
             </button>
             <button id="addClearance" class="w-16 rounded bg-red-900 px-3 py-1 text-white hover:bg-red-700">
@@ -20,25 +20,31 @@
     </td>
 </tr>
 
-
 {{ if not .Clearance }}
 {{ else }}
-    {{ range $index, $element := .Clearance }}
-    <tr class="hover:bg-gray-100 [&>*]:p-2">
-        <td>Clearance Form {{ $index }}</td>
-        <td>
-            <span class="badge-active">Existing</span>
-        </td>
-        <td>
-            <a  href="{{ $element }}"
-                target="_blank"
-                class="rounded bg-teal-900 px-3 py-1 text-white hover:bg-teal-700"
-                >
-                Open
-            </a>
-        </td>
-    </tr>
-    {{ end }}
+<tr id="clearance-content" class="hidden">
+    <td colspan="3">
+        {{ range $index, $element := .Clearance }}
+        <div class="flex justify-between border bg-red-50 p-2 pl-4 pr-60 hover:bg-red-100">
+            <div>
+                Clearance Form {{ $index }}
+            </div>
+            <!-- <td> -->
+            <!--     <span class="badge-active">Existing</span> -->
+            <!-- </td> -->
+            <div>
+                <a  href="{{ $element }}"
+                    target="_blank"
+                    class="rounded bg-teal-900 px-3 py-1 text-white hover:bg-teal-700"
+                    >
+                    Open
+                </a>
+            </div>
+
+        </div>
+        {{ end }}
+    </td>
+</tr>
 {{ end }}
 
 <div id="modalClearance" class="relative z-10 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
@@ -96,6 +102,13 @@
     </div>
 </div>
 <script>
+    const expandClearance = document.getElementById('expandClearance')
+    const clearanceContent = document.getElementById('clearance-content')
+
+    expandClearance.addEventListener('click', () => {
+        clearanceContent.classList.toggle('hidden')
+    })
+
     document.getElementById('addClearance').addEventListener('click', () => {
         document.getElementById('modalClearance').classList.toggle('hidden')
     })

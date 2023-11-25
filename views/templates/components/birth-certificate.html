@@ -88,9 +88,12 @@
     </div>
 </div>
 <script>
-    document.getElementById('addBirthCertificate').addEventListener('click', () => {
-        document.getElementById('modalBirthCertificate').classList.toggle('hidden')
-    })
+    const birthBtn = document.getElementById('addBirthCertificate')
+    if (birthBtn) {
+        birthBtn.addEventListener('click', () => {
+            document.getElementById('modalBirthCertificate').classList.toggle('hidden')
+        })
+    }
     document.getElementById('cancelBirthCertificate').addEventListener('click', () => {
         document.getElementById('modalBirthCertificate').classList.toggle('hidden')
     })

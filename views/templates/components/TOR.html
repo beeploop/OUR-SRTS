@@ -87,9 +87,12 @@
     </div>
 </div>
 <script>
-    document.getElementById('addTOR').addEventListener('click', () => {
-        document.getElementById('modalTOR').classList.toggle('hidden')
-    })
+    const torBtn = document.getElementById('addTOR')
+    if (torBtn) {
+        torBtn.addEventListener('click', () => {
+            document.getElementById('modalTOR').classList.toggle('hidden')
+        })
+    }
     document.getElementById('cancelTOR').addEventListener('click', () => {
         document.getElementById('modalTOR').classList.toggle('hidden')
     })

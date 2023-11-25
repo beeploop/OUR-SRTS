@@ -10,7 +10,7 @@
     </td>
     <td>
         <div class="flex gap-2">
-            <button class="w-16 rounded bg-teal-900 px-3 py-1 text-white hover:bg-teal-700">
+            <button id="expandSVF" class="w-16 rounded bg-teal-900 px-3 py-1 text-white hover:bg-teal-700">
                 Open
             </button>
             <button id="addSubjectValidation" class="w-16 rounded bg-red-900 px-3 py-1 text-white hover:bg-red-700">
@@ -23,22 +23,29 @@
 
 {{ if not .SubjectValidationForm }}
 {{ else }}
-    {{ range $index, $element := .SubjectValidationForm }}
-    <tr class="hover:bg-gray-100 [&>*]:p-2">
-        <td>Subject Validation Form {{ $index }}</td>
-        <td>
-            <span class="badge-active">Existing</span>
-        </td>
-        <td>
-            <a  href="{{ $element }}"
-                target="_blank"
-                class="rounded bg-teal-900 px-3 py-1 text-white hover:bg-teal-700"
-                >
-                Open
-            </a>
-        </td>
-    </tr>
-    {{ end }}
+<tr id="svfContent" class="hidden">
+    <td colspan="3">
+        {{ range $index, $element := .SubjectValidationForm }}
+        <div class="flex justify-between border bg-red-50 p-2 pl-4 pr-60 hover:bg-red-100">
+            <div>
+                Incomplete Form {{ $index }}
+            </div>
+            <!-- <td> -->
+            <!--     <span class="badge-active">Existing</span> -->
+            <!-- </td> -->
+            <div>
+                <a  href="{{ $element }}"
+                    target="_blank"
+                    class="rounded bg-teal-900 px-3 py-1 text-white hover:bg-teal-700"
+                    >
+                    Open
+                </a>
+            </div>
+
+        </div>
+        {{ end }}
+    </td>
+</tr>
 {{ end }}
 
 <div id="modalSubjectValidation" class="relative z-10 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
@@ -96,6 +103,13 @@
     </div>
 </div>
 <script>
+    const expandSVF = document.getElementById('expandSVF')
+    const svfContent = document.getElementById('svfContent')
+
+    expandSVF.addEventListener('click', () => {
+        svfContent.classList.toggle('hidden')
+    })
+
     document.getElementById('addSubjectValidation').addEventListener('click', () => {
         document.getElementById('modalSubjectValidation').classList.toggle('hidden')
     })

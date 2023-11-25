@@ -87,9 +87,12 @@
     </div>
 </div>
 <script>
-    document.getElementById('addMedCert').addEventListener('click', () => {
-        document.getElementById('modalMedCert').classList.toggle('hidden')
-    })
+    const medcertBtn = document.getElementById('addMedCert')
+    if (medcertBtn) {
+        medcertBtn.addEventListener('click', () => {
+            document.getElementById('modalMedCert').classList.toggle('hidden')
+        })
+    }
     document.getElementById('cancelMedCert').addEventListener('click', () => {
         document.getElementById('modalMedCert').classList.toggle('hidden')
     })

@@ -87,9 +87,12 @@
     </div>
 </div>
 <script>
-    document.getElementById('addForm137').addEventListener('click', () => {
-        document.getElementById('modalForm137').classList.toggle('hidden')
-    })
+    const form137Btn = document.getElementById('addForm137')
+    if (form137Btn) {
+        form137Btn.addEventListener('click', () => {
+            document.getElementById('modalForm137').classList.toggle('hidden')
+        })
+    }
     document.getElementById('cancelForm137').addEventListener('click', () => {
         document.getElementById('modalForm137').classList.toggle('hidden')
     })

@@ -87,9 +87,12 @@
     </div>
 </div>
 <script>
-    document.getElementById('addMarriageCert').addEventListener('click', () => {
-        document.getElementById('modalMarriageCert').classList.toggle('hidden')
-    })
+    const marriageCertBtn = document.getElementById('marriageCert')
+    if (marriageCertBtn) {
+        marriageCertBtn.addEventListener('click', () => {
+            document.getElementById('modalMarriageCert').classList.toggle('hidden')
+        })
+    }
     document.getElementById('cancelMarriageCert').addEventListener('click', () => {
         document.getElementById('modalMarriageCert').classList.toggle('hidden')
     })

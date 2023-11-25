@@ -87,9 +87,12 @@
     </div>
 </div>
 <script>
-    document.getElementById('addApprovalSheet').addEventListener('click', () => {
-        document.getElementById('modalApprovalSheet').classList.toggle('hidden')
-    })
+    const approvalBtn = document.getElementById('addApprovalSheet')
+    if (approvalBtn) {
+        approvalBtn.addEventListener('click', () => {
+            document.getElementById('modalApprovalSheet').classList.toggle('hidden')
+        })
+    }
     document.getElementById('cancelApprovalSheet').addEventListener('click', () => {
         document.getElementById('modalApprovalSheet').classList.toggle('hidden')
     })

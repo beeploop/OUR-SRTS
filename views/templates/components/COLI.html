@@ -87,9 +87,12 @@
     </div>
 </div>
 <script>
-    document.getElementById('addLowIncome').addEventListener('click', () => {
-        document.getElementById('modalLowIncome').classList.toggle('hidden')
-    })
+    const lowincomeBtn = document.getElementById('addLowIncome')
+    if (lowincomeBtn) {
+        lowincomeBtn.addEventListener('click', () => {
+            document.getElementById('modalLowIncome').classList.toggle('hidden')
+        })
+    }
     document.getElementById('cancelLowIncome').addEventListener('click', () => {
         document.getElementById('modalLowIncome').classList.toggle('hidden')
     })

@@ -87,9 +87,12 @@
     </div>
 </div>
 <script>
-    document.getElementById('addNOAP').addEventListener('click', () => {
-        document.getElementById('modalNOAP').classList.toggle('hidden')
-    })
+    const noapBtn = document.getElementById('addNOAP')
+    if (noapBtn) {
+        noapBtn.addEventListener('click', () => {
+            document.getElementById('modalNOAP').classList.toggle('hidden')
+        })
+    }
     document.getElementById('cancelNOAP').addEventListener('click', () => {
         document.getElementById('modalNOAP').classList.toggle('hidden')
     })

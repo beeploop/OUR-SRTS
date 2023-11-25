@@ -87,9 +87,12 @@
     </div>
 </div>
 <script>
-    document.getElementById('addUsepat').addEventListener('click', () => {
-        document.getElementById('modalUsepat').classList.toggle('hidden')
-    })
+    const usepatBtn = document.getElementById('addUsepat')
+    if (usepatBtn) {
+        usepatBtn.addEventListener('click', () => {
+            document.getElementById('modalUsepat').classList.toggle('hidden')
+        })
+    }
     document.getElementById('cancelUsepat').addEventListener('click', () => {
         document.getElementById('modalUsepat').classList.toggle('hidden')
     })

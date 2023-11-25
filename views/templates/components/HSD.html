@@ -87,9 +87,12 @@
     </div>
 </div>
 <script>
-    document.getElementById('addHSD').addEventListener('click', () => {
-        document.getElementById('modalHSD').classList.toggle('hidden')
-    })
+    const hsdBtn = document.getElementById('addHSD')
+    if (hsdBtn) {
+        hsdBtn.addEventListener('click', () => {
+            document.getElementById('modalHSD').classList.toggle('hidden')
+        })
+    }
     document.getElementById('cancelHSD').addEventListener('click', () => {
         document.getElementById('modalHSD').classList.toggle('hidden')
     })

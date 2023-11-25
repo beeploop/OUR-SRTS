@@ -87,9 +87,12 @@
     </div>
 </div>
 <script>
-    document.getElementById('addAFG').addEventListener('click', () => {
-        document.getElementById('modalAFG').classList.toggle('hidden')
-    })
+    const afgBtn = document.getElementById('addAFG')
+    if (afgBtn) {
+        afgBtn.addEventListener('click', () => {
+            document.getElementById('modalAFG').classList.toggle('hidden')
+        })
+    }
     document.getElementById('cancelAFG').addEventListener('click', () => {
         document.getElementById('modalAFG').classList.toggle('hidden')
     })

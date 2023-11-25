@@ -87,9 +87,12 @@
     </div>
 </div>
 <script>
-    document.getElementById('addDPP').addEventListener('click', () => {
-        document.getElementById('modalDPP').classList.toggle('hidden')
-    })
+    const dppBtn = document.getElementById('addDPP')
+    if (dppBtn) {
+        dppBtn.addEventListener('click', () => {
+            document.getElementById('modalDPP').classList.toggle('hidden')
+        })
+    }
     document.getElementById('cancelDPP').addEventListener('click', () => {
         document.getElementById('modalDPP').classList.toggle('hidden')
     })

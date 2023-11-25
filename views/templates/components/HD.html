@@ -87,9 +87,12 @@
     </div>
 </div>
 <script>
-    document.getElementById('addHD').addEventListener('click', () => {
-        document.getElementById('modalHD').classList.toggle('hidden')
-    })
+    const hdBtn = document.getElementById('addHD')
+    if (hdBtn) {
+        hdBtn.addEventListener('click', () => {
+            document.getElementById('modalHD').classList.toggle('hidden')
+        })
+    }
     document.getElementById('cancelHD').addEventListener('click', () => {
         document.getElementById('modalHD').classList.toggle('hidden')
     })

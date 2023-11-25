@@ -87,9 +87,12 @@
     </div>
 </div>
 <script>
-    document.getElementById('addGoodMoral').addEventListener('click', () => {
-        document.getElementById('modalGoodMoral').classList.toggle('hidden')
-    })
+    const goodMoralBtn = document.getElementById('addGoodMoral')
+    if (goodMoralBtn) {
+        goodMoralBtn.addEventListener('click', () => {
+            document.getElementById('modalGoodMoral').classList.toggle('hidden')
+        })
+    }
     document.getElementById('cancelGoodMoral').addEventListener('click', () => {
         document.getElementById('modalGoodMoral').classList.toggle('hidden')
     })
