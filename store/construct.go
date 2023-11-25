@@ -171,8 +171,8 @@ func UserTable() error {
             fullname varchar(255) NOT NULL,
             username varchar(255) NOT NULL, 
             password varchar(255) NOT NULL,
-            role enum('admin', 'staff') NOT NULL,
-            status enum('active', 'disabled') NOT NULL,
+            role enum('admin', 'staff') DEFAULT 'staff' NOT NULL,
+            status enum('active', 'disabled') DEFAULT 'active' NOT NULL,
             PRIMARY KEY (id),
             INDEX (username)
         )
