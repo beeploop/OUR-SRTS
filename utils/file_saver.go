@@ -7,10 +7,9 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/registrar/config"
 	"github.com/registrar/store"
 )
-
-const BASE_FOLDER = "documents/"
 
 func FileSaver(c *gin.Context, file *multipart.FileHeader, lastname, controlNumber, filetype string) (string, error) {
 	ext := filepath.Ext(file.Filename)
@@ -24,7 +23,7 @@ func FileSaver(c *gin.Context, file *multipart.FileHeader, lastname, controlNumb
 
 		strCount := strconv.Itoa(count)
 		filename := lastname + "_" + controlNumber + "_" + filetype + "_" + strCount + ext
-		path := BASE_FOLDER + filename
+		path := config.BASE_FOLDER + filename
 
 		err = c.SaveUploadedFile(file, path)
 		if err != nil {
@@ -35,7 +34,7 @@ func FileSaver(c *gin.Context, file *multipart.FileHeader, lastname, controlNumb
 	}
 
 	filename := lastname + "_" + controlNumber + "_" + filetype + ext
-	path := BASE_FOLDER + filename
+	path := config.BASE_FOLDER + filename
 
 	err := c.SaveUploadedFile(file, path)
 	if err != nil {
