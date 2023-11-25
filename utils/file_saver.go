@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"mime/multipart"
 	"path/filepath"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/registrar/store"
@@ -15,14 +16,14 @@ func FileSaver(c *gin.Context, file *multipart.FileHeader, lastname, controlNumb
 	ext := filepath.Ext(file.Filename)
 
 	if StringInSlice(filetype) {
-		fmt.Println("multiple entries")
 		count, err := store.CountFilesInMultiEntry(filetype, controlNumber)
 		if err != nil {
 			fmt.Println("err counting: ", err)
+			return "", err
 		}
-		fmt.Println("count: ", count)
 
-		filename := fmt.Sprintf("%v_%v_%v_%v%v", lastname, controlNumber, filetype, count, ext)
+		strCount := strconv.Itoa(count)
+		filename := lastname + "_" + controlNumber + "_" + filetype + "_" + strCount + ext
 		path := BASE_FOLDER + filename
 
 		err = c.SaveUploadedFile(file, path)
@@ -33,7 +34,7 @@ func FileSaver(c *gin.Context, file *multipart.FileHeader, lastname, controlNumb
 		return path, nil
 	}
 
-	filename := fmt.Sprintf("%v_%v_%v%v", lastname, controlNumber, filetype, ext)
+	filename := lastname + "_" + controlNumber + "_" + filetype + ext
 	path := BASE_FOLDER + filename
 
 	err := c.SaveUploadedFile(file, path)

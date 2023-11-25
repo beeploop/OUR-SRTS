@@ -2,8 +2,8 @@ package store
 
 import "fmt"
 
-func SaveFile(location, ownerNumber, filetype string) error {
-	query := fmt.Sprintf("INSERT INTO %s (location, owner) VALUES (?, ?)", filetype)
+func SaveFile(location, ownerNumber, table string) error {
+	query := fmt.Sprintf("INSERT INTO %s (location, owner) VALUES (?, ?)", table)
 
 	stmt, err := Db_Conn.Preparex(query)
 	if err != nil {

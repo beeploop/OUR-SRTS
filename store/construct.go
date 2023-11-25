@@ -825,13 +825,14 @@ func OthersTable() error {
 	query := `
         CREATE TABLE IF NOT EXISTS Other (
             id Int NOT NULL AUTO_INCREMENT,
-            filename varchar(255) NOT NULL UNIQUE,
+            filename varchar(255) NOT NULL,
             location varchar(255) NOT NULL,
             owner varchar(255) NOT NULL,
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
-            FOREIGN KEY (owner) REFERENCES Student (controlNumber)
+            FOREIGN KEY (owner) REFERENCES Student (controlNumber),
+            UNIQUE KEY (filename, owner)
         )
     `
 
