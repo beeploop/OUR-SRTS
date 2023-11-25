@@ -19,11 +19,15 @@
 
             <form action="/auth/login" method="POST" class="">
                 <div class="mb-4">
-                    <input type="text" autofocus autocomplete="off" name="username" placeholder="username" class="w-full rounded-md p-2 outline outline-1 outline-gray-300">
+                    <input type="text" autofocus autocomplete="off"
+                    name="username" placeholder="username" 
+                    class="w-full rounded-md border border-gray-400 p-2 focus:border-red-700 focus:outline-none">
                 </div>
 
                 <div class="mb-4">
-                    <input type="password" name="password" placeholder="password" class="w-full rounded-md p-2 outline outline-1 outline-gray-300">
+                    <input type="password" name="password" 
+                    placeholder="password" 
+                    class="w-full rounded-md border border-gray-400 p-2 focus:border-red-700 focus:outline-none">
                 </div>
 
                 <button type="sumit" class="rounded-md bg-red-900 px-3 py-1 text-white hover:bg-red-700">Login</button>
