@@ -11,6 +11,7 @@ type StudentFiles struct {
 	Major                    sql.NullString   `db:"major"`
 	File                     string           `db:"fileLocation"`
 	Type                     string           `db:"type"`
+	CivilStatus              string           `db:"civilStatus"`
 	BirthCertificate         sql.NullString   `db:"birthCertificate"`
 	TOR                      sql.NullString   `db:"tor"`
 	NoticeOfAdmission        sql.NullString   `db:"noap"`

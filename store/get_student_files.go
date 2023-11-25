@@ -17,6 +17,7 @@ func GetStudentFiles(controlNumber string) (*models.StudentFiles, error) {
             mjr.major as major,
             stdnt.fileLocation as fileLocation,
             stdnt.type as type,
+            stdnt.civilStatus as civilStatus,
             bc.location as birthCertificate,
             noap.location as noap,
             usepat.location as usepat,

@@ -57,9 +57,10 @@
                 <!-- Info Actions -->
                 <div class="flex flex-col justify-end">
                     <div class="flex gap-4 text-sm">
-                        <button class="rounded bg-red-900 px-3 py-1 text-white hover:bg-red-700">
-                            Edit Student
-                        </button>
+                        <!-- <button class="rounded bg-red-900 px-3 py-1 text-white hover:bg-red-700"> -->
+                        <!--     Edit Student -->
+                        <!-- </button> -->
+                        {{ template "editStudent" .files }}
                         <button id="addNewOther" class="rounded bg-teal-900 px-3 py-1 text-white hover:bg-teal-700">
                             New File
                         </button>

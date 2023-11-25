@@ -17,6 +17,7 @@ func HandleStudentRoutes(student *gin.RouterGroup) {
 		html := utils.HtmlParser(
 			"data.html",
 			"components/header.html",
+			"components/editStudent.html",
 			"components/birth-certificate.html",
 			"components/clearance.html",
 			"components/NOAP.html",
