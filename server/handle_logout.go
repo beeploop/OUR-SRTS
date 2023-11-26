@@ -1,7 +1,9 @@
 package server
 
 import (
+	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -9,6 +11,10 @@ import (
 )
 
 func HandleLogout(c *gin.Context) {
+	fmt.Println("logout route hit")
+	referer := c.Request.Header.Get("Referer")
+	_ = strings.Split(referer, "?")[0]
+
 	session := sessions.Default(c)
 	session.Clear()
 	session.Save()

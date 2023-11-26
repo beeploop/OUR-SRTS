@@ -1,12 +1,21 @@
 package server
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
 
 func HandleAuthRoutes(auth *gin.RouterGroup) {
 
-    auth.GET("/login", HandleGetLogin)
+	auth.GET("/", func(c *gin.Context) {
+		c.Request.Method = "GET"
+		c.Redirect(http.StatusSeeOther, "/auth/login")
+	})
 
-    auth.POST("/login", HandlePostLogin)
+	auth.GET("/login", HandleGetLogin)
 
-    auth.POST("/logout", HandleLogout)
+	auth.POST("/login", HandlePostLogin)
+
+	auth.POST("/logout", HandleLogout)
 }

@@ -17,7 +17,7 @@ func RegisterRoutes() {
 	admin := Router.Group("/admin", middleware.RoleChecker)
 	HandleAdminRoutes(admin)
 
-	student := Router.Group("/student")
+	student := Router.Group("/student", middleware.SessionChecker)
 	HandleStudentRoutes(student)
 
 }

@@ -47,8 +47,11 @@
     </div>
 </div>
 <script>
-    document.getElementById('profile').addEventListener('click', () => {
-        document.getElementById('dropdown').classList.toggle('hidden')
-    })
+    const profileBtn = document.getElementById('profile')
+    if (profileBtn) {
+        profileBtn.addEventListener('click', () => {
+            document.getElementById('dropdown').classList.toggle('hidden')
+        })
+    }
 </script>
 {{ end }}
