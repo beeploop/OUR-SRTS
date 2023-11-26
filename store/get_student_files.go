@@ -40,7 +40,7 @@ func GetStudentFiles(controlNumber string) (*models.StudentFiles, error) {
         FROM
             Student stdnt
             LEFT JOIN Program prog on stdnt.programId = prog.id
-            LEFT JOIN Major mjr on stdnt.programId = mjr.id
+            LEFT JOIN Major mjr on stdnt.majorId= mjr.id
             LEFT JOIN Photo pic on stdnt.controlNumber = pic.owner
             LEFT JOIN BirthCertificate bc on stdnt.controlNumber = bc.owner
             LEFT JOIN NoticeOfAdmission noap on stdnt.controlNumber = noap.owner
