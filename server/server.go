@@ -2,6 +2,9 @@ package server
 
 import (
 	"encoding/gob"
+	"io"
+	"log"
+	"os"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -15,10 +18,17 @@ func NewServer() {
 	gob.Register(types.User{})
 	gob.Register([]types.Student{})
 
+    myFile, err := os.Create("server.log")
+    if err != nil {
+        log.Fatal("Error creating log file: ", err)
+    }
+    gin.DefaultWriter = io.MultiWriter(myFile, os.Stdout)
+
 	Router = gin.Default()
 
 	sessionStore := InitSession()
 
+    Router.Use(gin.Recovery())
 	Router.Use(middleware.MimeType)
 	Router.Use(sessions.Sessions("user", sessionStore))
 
