@@ -9,7 +9,7 @@
         <div class="mx-auto my-4 max-w-5xl rounded-md border p-4">
 
             <div class="py-2">
-                <button id="backBtn" class="rounded-md bg-yellow-400 px-3 py-1 hover:bg-yellow-200">Back</button>
+                <a href="/admin/search" class="rounded-md bg-yellow-400 px-3 py-1 hover:bg-yellow-200">Back</a>
             </div>
 
             <!-- Student Information Part -->
@@ -230,13 +230,6 @@
             </div>
         </div>
         <script>
-            const backBtn = document.getElementById('backBtn')
-            if (backBtn) {
-                backBtn.addEventListener('click', () => {
-                    window.history.back()
-                })
-            }
-
             document.getElementById('addNewOther').addEventListener('click', () => {
                 document.getElementById('modalOther').classList.toggle('hidden')
             })
