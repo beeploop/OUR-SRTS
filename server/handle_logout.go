@@ -20,7 +20,7 @@ func HandleLogout(c *gin.Context) {
 	session.Save()
 
 	cookie, _ := c.Cookie("user")
-	c.SetCookie("user", cookie, -1, "/", config.Env.Ip, false, true)
+	c.SetCookie("user", cookie, -1, "/", config.Env.LocalAddr, false, true)
 
 	c.Request.Method = "GET"
 	c.Redirect(http.StatusSeeOther, "/")

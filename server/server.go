@@ -8,6 +8,7 @@ import (
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"github.com/registrar/config"
 	"github.com/registrar/middleware"
 	"github.com/registrar/types"
 )
@@ -24,11 +25,14 @@ func NewServer() {
     }
     gin.DefaultWriter = io.MultiWriter(myFile, os.Stdout)
 
+    if config.Env.GinMode == "release" {
+        gin.SetMode(gin.ReleaseMode)
+    }
+
 	Router = gin.Default()
 
 	sessionStore := InitSession()
 
-    Router.Use(gin.Recovery())
 	Router.Use(middleware.MimeType)
 	Router.Use(sessions.Sessions("user", sessionStore))
 

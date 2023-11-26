@@ -7,10 +7,11 @@ import (
 )
 
 type Config struct {
-	Ip         string
+	LocalAddr  string
 	Port       string
 	DSN        string
 	BaseFolder string
+	GinMode    string
 }
 
 var Env *Config
@@ -30,10 +31,11 @@ func Initialize() error {
 	}
 
 	Env = &Config{
-		Ip:         localAddr,
+		LocalAddr:  localAddr,
 		Port:       envFile["PORT"],
 		DSN:        envFile["DB_DSN"],
 		BaseFolder: envFile["BASE_FOLDER"],
+		GinMode:    envFile["GIN_MODE"],
 	}
 
 	return nil

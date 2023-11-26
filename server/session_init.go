@@ -12,7 +12,7 @@ func InitSession() cookie.Store {
 		HttpOnly: true,
 		Secure:   false,
 		Path:     "/",
-		Domain:   config.Env.Ip,
+		Domain:   config.Env.LocalAddr,
 		MaxAge:   60 * 60 * 24,
 	})
 
