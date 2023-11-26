@@ -1,6 +1,6 @@
 package store
 
-import "github.com.BeepLoop/registrar-digitized/types"
+import "github.com/BeepLoop/registrar-digitized/types"
 
 func AddStudent(student types.StudentInfo) error {
 	query := `

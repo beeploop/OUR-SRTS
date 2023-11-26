@@ -3,7 +3,7 @@ package server
 import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
-	"github.com.BeepLoop/registrar-digitized/config"
+	"github.com/BeepLoop/registrar-digitized/config"
 )
 
 func InitSession() cookie.Store {

@@ -3,7 +3,7 @@ package store
 import (
 	"database/sql"
 
-	"github.com.BeepLoop/registrar-digitized/models"
+	"github.com/BeepLoop/registrar-digitized/models"
 )
 
 func GetStudentFiles(controlNumber string) (*models.StudentFiles, error) {

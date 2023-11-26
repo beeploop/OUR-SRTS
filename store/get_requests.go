@@ -3,7 +3,7 @@ package store
 import (
 	"fmt"
 
-	"github.com.BeepLoop/registrar-digitized/models"
+	"github.com/BeepLoop/registrar-digitized/models"
 )
 
 func GetRequests() ([]models.Request, error) {

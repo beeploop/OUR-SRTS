@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
-	"github.com.BeepLoop/registrar-digitized/types"
+	"github.com/BeepLoop/registrar-digitized/types"
 )
 
 func SessionChecker(c *gin.Context) {

@@ -7,8 +7,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
-	"github.com.BeepLoop/registrar-digitized/store"
-	"github.com.BeepLoop/registrar-digitized/types"
+	"github.com/BeepLoop/registrar-digitized/store"
+	"github.com/BeepLoop/registrar-digitized/types"
 )
 
 func HandleUpdateStudent(c *gin.Context) {

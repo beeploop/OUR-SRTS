@@ -4,9 +4,9 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
-	"github.com.BeepLoop/registrar-digitized/store"
-	"github.com.BeepLoop/registrar-digitized/types"
-	"github.com.BeepLoop/registrar-digitized/utils"
+	"github.com/BeepLoop/registrar-digitized/store"
+	"github.com/BeepLoop/registrar-digitized/types"
+	"github.com/BeepLoop/registrar-digitized/utils"
 )
 
 func HandleManageStaff(c *gin.Context) {

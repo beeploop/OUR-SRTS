@@ -3,7 +3,7 @@ package store
 import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
-	"github.com.BeepLoop/registrar-digitized/config"
+	"github.com/BeepLoop/registrar-digitized/config"
 )
 
 var Db_Conn *sqlx.DB

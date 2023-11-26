@@ -3,7 +3,7 @@ package store
 import (
 	"fmt"
 
-	"github.com.BeepLoop/registrar-digitized/types"
+	"github.com/BeepLoop/registrar-digitized/types"
 )
 
 func GetInitialStudents() []types.Student {

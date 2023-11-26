@@ -3,7 +3,7 @@ package store
 import (
 	"strconv"
 
-	"github.com.BeepLoop/registrar-digitized/types"
+	"github.com/BeepLoop/registrar-digitized/types"
 )
 
 func SearchStudent(searchTerm, program string) ([]types.Student, error) {

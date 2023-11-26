@@ -3,8 +3,8 @@ package server
 import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
-	"github.com.BeepLoop/registrar-digitized/store"
-	"github.com.BeepLoop/registrar-digitized/utils"
+	"github.com/BeepLoop/registrar-digitized/store"
+	"github.com/BeepLoop/registrar-digitized/utils"
 )
 
 func HandleAdminSearchPage(c *gin.Context) {
