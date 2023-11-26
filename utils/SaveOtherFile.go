@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/registrar/config"
+	"github.com/BeepLoop/registrar-digitized/config"
 )
 
 func SaveOtherFile(filename, lastname, controlNumber, key string, file *multipart.FileHeader, c *gin.Context) (string, string, error) {

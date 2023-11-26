@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
-	"github.com/registrar/store"
-	"github.com/registrar/utils"
+	"github.com.BeepLoop/registrar-digitized/store"
+	"github.com.BeepLoop/registrar-digitized/utils"
 )
 
 func HandleGetAddStudent(c *gin.Context) {

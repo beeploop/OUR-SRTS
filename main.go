@@ -4,9 +4,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/registrar/config"
-	"github.com/registrar/server"
-	"github.com/registrar/store"
+	"github.com/BeepLoop/registrar-digitized/config"
+	"github.com/BeepLoop/registrar-digitized/server"
+	"github.com/BeepLoop/registrar-digitized/store"
 )
 
 func main() {

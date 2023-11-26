@@ -9,9 +9,9 @@ import (
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
-	"github.com/registrar/config"
-	"github.com/registrar/middleware"
-	"github.com/registrar/types"
+	"github.com.BeepLoop/registrar-digitized/config"
+	"github.com.BeepLoop/registrar-digitized/middleware"
+	"github.com.BeepLoop/registrar-digitized/types"
 )
 
 var Router *gin.Engine

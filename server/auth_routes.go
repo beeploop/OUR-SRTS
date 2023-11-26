@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/registrar/utils"
+	"github.com.BeepLoop/registrar-digitized/utils"
 )
 
 func HandleAuthRoutes(auth *gin.RouterGroup) {

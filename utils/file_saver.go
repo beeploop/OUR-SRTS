@@ -7,8 +7,8 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/registrar/config"
-	"github.com/registrar/store"
+	"github.com/BeepLoop/registrar-digitized/config"
+	"github.com/BeepLoop/registrar-digitized/store"
 )
 
 func FileSaver(c *gin.Context, file *multipart.FileHeader, lastname, controlNumber, filetype string) (string, error) {

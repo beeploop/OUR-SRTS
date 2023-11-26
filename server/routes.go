@@ -1,7 +1,7 @@
 package server
 
 import (
-	"github.com/registrar/middleware"
+	"github.com.BeepLoop/registrar-digitized/middleware"
 )
 
 func RegisterRoutes() {

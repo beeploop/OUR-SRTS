@@ -1,4 +1,4 @@
-module github.com/registrar
+module github.com/BeepLoop/registrar-digitized
 
 go 1.21.3
 

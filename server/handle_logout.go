@@ -7,7 +7,7 @@ import (
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
-	"github.com/registrar/config"
+	"github.com.BeepLoop/registrar-digitized/config"
 )
 
 func HandleLogout(c *gin.Context) {

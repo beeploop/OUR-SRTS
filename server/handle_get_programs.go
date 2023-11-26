@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/registrar/store"
+	"github.com.BeepLoop/registrar-digitized/store"
 )
 
 func HandleGetPrograms(c *gin.Context) {

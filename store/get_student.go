@@ -1,7 +1,7 @@
 package store
 
 import (
-	"github.com/registrar/types"
+	"github.com.BeepLoop/registrar-digitized/types"
 )
 
 func GetStudent(controlNumber string) (types.Student, error) {

@@ -7,9 +7,9 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
-	"github.com/registrar/store"
-	"github.com/registrar/types"
-	"github.com/registrar/utils"
+	"github.com.BeepLoop/registrar-digitized/store"
+	"github.com.BeepLoop/registrar-digitized/types"
+	"github.com.BeepLoop/registrar-digitized/utils"
 )
 
 func HandleStudentRoutes(student *gin.RouterGroup) {
