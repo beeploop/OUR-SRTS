@@ -34,17 +34,9 @@
                                     <td>{{ $element.Requestor }}</td>
                                     <td>
                                         <div class="flex gap-2">
-                                            <button id="fulfillBtn{{ $element.Id }}" class="w-16 rounded-md bg-teal-900 px-3 py-1 text-white hover:bg-teal-700">
-                                                Fulfill
-                                            </button>
+                                            {{ template "fulfill-request" $element }}
 
-                                            <form action="/admin/reject" method="POST">
-                                                <input type="hidden" name="requestId" value="{{ $element.Id }}">
-
-                                                <button type="submit" class="w-16 rounded-md bg-red-900 px-3 py-1 text-white hover:bg-red-700">
-                                                    Reject
-                                                </button>
-                                            </form>
+                                            {{ template "reject-request" $element }}
                                         </div>
                                     </td>
                                 </tr>
@@ -55,5 +47,6 @@
                 </div>
             </div>
         </div>
+
     </body>
 </html>

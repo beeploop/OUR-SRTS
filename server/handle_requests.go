@@ -1,9 +1,9 @@
 package server
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/BeepLoop/registrar-digitized/store"
 	"github.com/BeepLoop/registrar-digitized/utils"
+	"github.com/gin-gonic/gin"
 )
 
 func HandleRequests(c *gin.Context) {
@@ -13,6 +13,8 @@ func HandleRequests(c *gin.Context) {
 		"admin/requests.html",
 		"components/header.html",
 		"components/sidebar.html",
+		"components/fulfill-request-modal.html",
+		"components/reject-request-modal.html",
 	)
 
 	requests, err := store.GetRequests()
