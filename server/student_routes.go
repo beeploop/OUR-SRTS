@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -52,7 +51,6 @@ func HandleStudentRoutes(student *gin.RouterGroup) {
 
 		files, err := store.GetStudentFiles(id)
 		if err != nil {
-			fmt.Println("err getting files: ", err)
 			html.Execute(c.Writer, gin.H{
 				"user":  user,
 				"files": files,
@@ -79,8 +77,6 @@ func HandleStudentRoutes(student *gin.RouterGroup) {
 			return
 		}
 
-		fmt.Println("\033[35m input: ", input)
-
 		if input.Search == "" {
 			c.Request.Method = "GET"
 			c.Redirect(http.StatusMovedPermanently, redirectUrl)
@@ -93,8 +89,6 @@ func HandleStudentRoutes(student *gin.RouterGroup) {
 			c.Redirect(http.StatusMovedPermanently, redirectUrl+"?term="+input.Search)
 			return
 		}
-
-		fmt.Println("\033[35m result: ", students)
 
 		session := sessions.Default(c)
 		session.Set("search-result", students)
