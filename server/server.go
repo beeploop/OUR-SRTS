@@ -5,6 +5,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"time"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -19,15 +20,18 @@ func NewServer() {
 	gob.Register(types.User{})
 	gob.Register([]types.Student{})
 
-    myFile, err := os.Create("server.log")
-    if err != nil {
-        log.Fatal("Error creating log file: ", err)
-    }
-    gin.DefaultWriter = io.MultiWriter(myFile, os.Stdout)
+	datetime := time.Now().Format("2006-01-02_15:04:05")
+	logFile := "logs/server-log_" + datetime + ".log"
 
-    if config.Env.GinMode == "release" {
-        gin.SetMode(gin.ReleaseMode)
-    }
+	myFile, err := os.Create(logFile)
+	if err != nil {
+		log.Fatal("Error creating log file: ", err)
+	}
+	gin.DefaultWriter = io.MultiWriter(myFile, os.Stdout)
+
+	if config.Env.GinMode == "release" {
+		gin.SetMode(gin.ReleaseMode)
+	}
 
 	Router = gin.Default()
 
