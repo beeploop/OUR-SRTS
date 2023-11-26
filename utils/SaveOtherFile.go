@@ -13,7 +13,7 @@ func SaveOtherFile(filename, lastname, controlNumber, key string, file *multipar
 	transformedFilename := strings.ReplaceAll(filename, " ", "-")
 	ext := filepath.Ext(file.Filename)
 	newFilename := transformedFilename + ext
-	path := config.BASE_FOLDER + newFilename
+	path := config.Env.BaseFolder + newFilename
 
 	err := c.SaveUploadedFile(file, path)
 	if err != nil {

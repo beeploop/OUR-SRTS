@@ -23,7 +23,7 @@ func FileSaver(c *gin.Context, file *multipart.FileHeader, lastname, controlNumb
 
 		strCount := strconv.Itoa(count)
 		filename := lastname + "_" + controlNumber + "_" + filetype + "_" + strCount + ext
-		path := config.BASE_FOLDER + filename
+		path := config.Env.BaseFolder + filename
 
 		err = c.SaveUploadedFile(file, path)
 		if err != nil {
@@ -34,7 +34,7 @@ func FileSaver(c *gin.Context, file *multipart.FileHeader, lastname, controlNumb
 	}
 
 	filename := lastname + "_" + controlNumber + "_" + filetype + ext
-	path := config.BASE_FOLDER + filename
+	path := config.Env.BaseFolder + filename
 
 	err := c.SaveUploadedFile(file, path)
 	if err != nil {
