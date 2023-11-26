@@ -14,6 +14,7 @@ func GetRequests() ([]models.Request, error) {
             u.username as requestor
         FROM Request r
         LEFT JOIN User u on r.requestorId = u.id
+        WHERE r.status = 'active'
     `
 
 	var requests []models.Request
