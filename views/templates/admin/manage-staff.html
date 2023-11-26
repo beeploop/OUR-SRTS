@@ -24,45 +24,45 @@
                     </thead>
                     <tbody>
                         {{ if .users }}
-                        {{ range .users }}
-                        <tr class="border hover:bg-gray-100 [&>*]:p-2">
-                            <td>{{ .Fullname }}</td>
-                            <td>{{ .Username }}</td>
-                            <td>
-                                {{ if eq .Role "admin" }}
-                                <span class="badge-admin">
-                                    {{ .Role }}
-                                </span>
-                                {{ else }}
-                                <span class="badge-staff">
-                                    {{ .Role }}
-                                </span>
-                                {{ end }}
-                            </td>
-                            <td>
-                                {{ if eq .Status "active" }}
-                                <span class="badge-active">
-                                    {{ .Status }}
-                                </span>
-                                {{ else }}
-                                <span class="badge-inactive">
-                                    {{ .Status }}
-                                </span>
-                                {{ end }}
-                            </td>
-                            <td>
-                                <div class="flex gap-2 [&>button]:w-16">
-                                    {{ if eq .Status "active" }}
-                                    {{ template "disable-staff" . }}
-                                    {{ else }}
-                                    {{ template "enable-staff" . }}
-                                    {{ end }}
+                            {{ range .users }}
+                                <tr class="border hover:bg-gray-100 [&>*]:p-2">
+                                    <td>{{ .Fullname }}</td>
+                                    <td>{{ .Username }}</td>
+                                    <td>
+                                        {{ if eq .Role "admin" }}
+                                        <span class="badge-admin">
+                                            {{ .Role }}
+                                        </span>
+                                        {{ else }}
+                                        <span class="badge-staff">
+                                            {{ .Role }}
+                                        </span>
+                                        {{ end }}
+                                    </td>
+                                    <td>
+                                        {{ if eq .Status "active" }}
+                                        <span class="badge-active">
+                                            {{ .Status }}
+                                        </span>
+                                        {{ else }}
+                                        <span class="badge-inactive">
+                                            {{ .Status }}
+                                        </span>
+                                        {{ end }}
+                                    </td>
+                                    <td>
+                                        <div class="flex gap-2 [&>button]:w-16">
+                                            {{ if eq .Status "active" }}
+                                                {{ template "disable-staff" . }}
+                                            {{ else }}
+                                                {{ template "enable-staff" . }}
+                                            {{ end }}
 
-                                    {{ template "delete-staff" . }}
-                                </div>
-                            </td>
-                        </tr>
-                        {{ end }}
+                                            {{ template "delete-staff" . }}
+                                        </div>
+                                    </td>
+                                </tr>
+                            {{ end }}
                         {{ end }}
                     </tbody>
                 </table>

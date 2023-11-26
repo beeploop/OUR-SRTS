@@ -21,8 +21,6 @@ func HandleAdminRoutes(admin *gin.RouterGroup) {
 
     admin.POST("/update-student", HandleUpdateStudent)
 
-	admin.GET("/manage-staff", HandleManageStaff)
-
 	admin.POST("/add-staff", HandlePostAddStaff)
 
 	admin.GET("/manage-program", HandleManageProgram)
@@ -33,5 +31,8 @@ func HandleAdminRoutes(admin *gin.RouterGroup) {
 
     request := admin.Group("/request")
     HandleRequestRoutes(request)
+
+    manageStaff := admin.Group("/manage-staff")
+    HandleManageStaffRoutes(manageStaff)
 
 }
