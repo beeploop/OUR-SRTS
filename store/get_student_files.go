@@ -35,7 +35,8 @@ func GetStudentFiles(controlNumber string) (*models.StudentFiles, error) {
             aprvl.location as approval,
             afg.location as afg,
             sf.location as sf,
-            col.location as col
+            col.location as col,
+            pic.location as pic
         FROM
             Student stdnt
             LEFT JOIN Program prog on stdnt.programId = prog.id

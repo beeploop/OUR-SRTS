@@ -19,7 +19,7 @@ func HandlePostLogin(c *gin.Context) {
 	if err != nil {
 		log.Println("login error: ", err)
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, "/auth/login")
+		c.Redirect(http.StatusSeeOther, "/auth/login?status=failed?reason=can't_bind_form")
 		return
 	}
 
@@ -27,18 +27,20 @@ func HandlePostLogin(c *gin.Context) {
 	if err != nil {
 		fmt.Println("can't get credentials: ", err)
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, "/auth/login?status=failed")
+		c.Redirect(http.StatusSeeOther, "/auth/login?status=failed?reason=wrong_credentials")
 	}
 
 	if res.Status == "disabled" {
+        fmt.Println("account disabled")
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, "/auth/login?status=failed")
+		c.Redirect(http.StatusSeeOther, "/auth/login?status=failed?reason=disabled")
 		return
 	}
 
 	if input.Username != res.Username || input.Password != res.Password {
+        fmt.Println("wrong credentials")
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, "/auth/login?status=failed")
+		c.Redirect(http.StatusSeeOther, "/auth/login?status=failed?reason=wrong_credentials")
 		return
 	}
 
@@ -51,5 +53,9 @@ func HandlePostLogin(c *gin.Context) {
 	session.Save()
 
 	c.Request.Method = "GET"
-	c.Redirect(http.StatusSeeOther, "/admin/search")
+	if res.Role == "admin" {
+		c.Redirect(http.StatusSeeOther, "/admin/search")
+	} else if res.Role == "staff" {
+		c.Redirect(http.StatusSeeOther, "/staff/search")
+	}
 }

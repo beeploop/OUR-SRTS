@@ -30,11 +30,13 @@ func HandleUpload(c *gin.Context) {
 	for key := range form.File {
 		file := form.File[key][0]
 
-		// Only allow pdf files
-		if utils.IsFilePdf(file) == false {
-			c.Request.Method = "GET"
-			c.Redirect(http.StatusSeeOther, url+"?status=failed?reason=not_pdf")
-			return
+		if key != "Photo" {
+			// Only allow pdf files
+			if utils.IsFilePdf(file) == false {
+				c.Request.Method = "GET"
+				c.Redirect(http.StatusSeeOther, url+"?status=failed?reason=not_pdf")
+				return
+			}
 		}
 
 		// Separate method for handling Other files

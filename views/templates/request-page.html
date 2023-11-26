@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    {{ template "head" }}
+
+    <body>
+        {{ template "header" }}
+    
+        <div class="mx-auto mt-4 max-w-sm border p-4 shadow-lg">
+            <form action="/request" method="POST">
+                <h2 class="text-bold text-lg">Request Password Reset</h2>
+
+                <div class="mt-4 grid gap-4">
+                    <div class="">
+                        <label for="username">Username</label>
+                        <br>
+                        <input type="text" name="username" 
+                        autofocus autocomplete="off" required
+                        class="w-full rounded-md border border-gray-400 p-2 focus:border-red-700 focus:outline-none"
+                        id="username" placeholder="username">   
+                    </div>
+
+                    <div class="flex justify-end gap-2">
+                        <a href="/auth/login" class="w-20 rounded-md border border-gray-400 px-3 py-1 text-center hover:bg-gray-100">
+                            Cancel
+                        </a>
+                        <button type="submit" class="w-20 rounded-md bg-red-900 px-3 py-1 text-white hover:bg-red-700">
+                            Save
+                        </button>
+                    </div>
+
+                </div>
+
+            </form>   
+        </div>
+    </body>
+</html>

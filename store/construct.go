@@ -257,7 +257,7 @@ func MajorTable() error {
 func RequestTable() error {
 	query := `
         CREATE TABLE IF NOT EXISTS Request (
-            id Int NOT NULL AUTO_INCREMENT,
+            id varchar(255) NOT NULL,
             status enum('active', 'fulfilled', 'rejected') NOT NULL DEFAULT 'active',
             requestorId Int NOT NULL,
             PRIMARY KEY (id),

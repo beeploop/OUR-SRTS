@@ -29,11 +29,13 @@ func HandleUpdateFile(c *gin.Context) {
 	for key := range form.File {
 		file := form.File[key][0]
 
-		// Only allow pdf File
-		if utils.IsFilePdf(file) == false {
-			c.Request.Method = "GET"
-			c.Redirect(http.StatusBadRequest, url+"?status=failed?reason=not_pdf")
-			return
+		if key != "Photo" {
+			// Only allow pdf File
+			if utils.IsFilePdf(file) == false {
+				c.Request.Method = "GET"
+				c.Redirect(http.StatusBadRequest, url+"?status=failed?reason=not_pdf")
+				return
+			}
 		}
 
 		student, err := store.GetStudent(controlNumber)

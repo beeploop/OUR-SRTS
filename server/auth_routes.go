@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/registrar/utils"
 )
 
 func HandleAuthRoutes(auth *gin.RouterGroup) {
@@ -18,4 +19,14 @@ func HandleAuthRoutes(auth *gin.RouterGroup) {
 	auth.POST("/login", HandlePostLogin)
 
 	auth.POST("/logout", HandleLogout)
+
+	auth.GET("/request", func(c *gin.Context) {
+		html := utils.HtmlParser(
+			"request-page.html",
+			"components/header.html",
+			// "components/request.html",
+		)
+
+		html.Execute(c.Writer, gin.H{})
+	})
 }

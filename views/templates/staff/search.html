@@ -5,7 +5,9 @@
     <body>
         {{ template "header" .user }}
 
-        {{ template "search-page" .students }}
+        <div class="mx-auto mt-4 max-w-5xl">
+            {{ template "search-page" . }}
+        </div>
     
     </body>
 </html>

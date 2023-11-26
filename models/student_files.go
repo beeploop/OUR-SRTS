@@ -12,6 +12,7 @@ type StudentFiles struct {
 	File                     string           `db:"fileLocation"`
 	Type                     string           `db:"type"`
 	CivilStatus              string           `db:"civilStatus"`
+	Photo                    sql.NullString   `db:"pic"`
 	BirthCertificate         sql.NullString   `db:"birthCertificate"`
 	TOR                      sql.NullString   `db:"tor"`
 	NoticeOfAdmission        sql.NullString   `db:"noap"`

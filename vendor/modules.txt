@@ -68,6 +68,9 @@ github.com/goccy/go-json/internal/encoder/vm_color_indent
 github.com/goccy/go-json/internal/encoder/vm_indent
 github.com/goccy/go-json/internal/errors
 github.com/goccy/go-json/internal/runtime
+# github.com/google/uuid v1.4.0
+## explicit
+github.com/google/uuid
 # github.com/gorilla/context v1.1.1
 ## explicit
 github.com/gorilla/context
@@ -90,6 +93,9 @@ github.com/klauspost/cpuid/v2
 # github.com/leodido/go-urn v1.2.4
 ## explicit; go 1.16
 github.com/leodido/go-urn
+# github.com/lithammer/shortuuid/v4 v4.0.0
+## explicit; go 1.13
+github.com/lithammer/shortuuid/v4
 # github.com/mattn/go-isatty v0.0.19
 ## explicit; go 1.15
 github.com/mattn/go-isatty
