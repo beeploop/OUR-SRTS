@@ -2,6 +2,7 @@ package config
 
 import (
 	"net"
+	"strings"
 
 	"github.com/joho/godotenv"
 )
@@ -31,7 +32,7 @@ func Initialize() error {
 	}
 
 	Env = &Config{
-		LocalAddr:  localAddr,
+		LocalAddr:  strings.Split(localAddr, ":")[0],
 		Port:       envFile["PORT"],
 		DSN:        envFile["DB_DSN"],
 		BaseFolder: envFile["BASE_FOLDER"],
