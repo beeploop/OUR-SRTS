@@ -677,6 +677,10 @@ video {
   height: 100vh;
 }
 
+.h-40 {
+  height: 10rem;
+}
+
 .max-h-\[4rem\] {
   max-height: 4rem;
 }
@@ -731,22 +735,6 @@ video {
 
 .max-w-sm {
   max-width: 24rem;
-}
-
-.max-w-md {
-  max-width: 28rem;
-}
-
-.max-w-xl {
-  max-width: 36rem;
-}
-
-.max-w-3xl {
-  max-width: 48rem;
-}
-
-.max-w-4xl {
-  max-width: 56rem;
 }
 
 .flex-1 {
@@ -988,6 +976,21 @@ video {
 
 .fill-current {
   fill: currentColor;
+}
+
+.object-contain {
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.object-cover {
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.object-fill {
+  -o-object-fit: fill;
+     object-fit: fill;
 }
 
 .p-0 {
@@ -1429,12 +1432,12 @@ video {
   padding-bottom: 0.75rem;
 }
 
-.\[\&\>\*\]\:py-6>* {
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-}
-
 .\[\&\>\*\]\:py-4>* {
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+.\[\&\>\*\]\:py-6>* {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
