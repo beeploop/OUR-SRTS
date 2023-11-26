@@ -970,6 +970,11 @@ video {
   background-color: rgb(250 204 21 / var(--tw-bg-opacity));
 }
 
+.bg-yellow-900 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(113 63 18 / var(--tw-bg-opacity));
+}
+
 .bg-opacity-75 {
   --tw-bg-opacity: 0.75;
 }
@@ -1341,6 +1346,11 @@ video {
   background-color: rgb(254 240 138 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-yellow-700:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(161 98 7 / var(--tw-bg-opacity));
+}
+
 .hover\:underline:hover {
   text-decoration-line: underline;
 }
@@ -1430,4 +1440,8 @@ video {
 .\[\&\>\*\]\:py-6>* {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
+}
+
+.\[\&\>button\]\:w-16>button {
+  width: 4rem;
 }
