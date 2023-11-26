@@ -24,7 +24,7 @@ func main() {
 
 	server.NewServer()
 
-	log.Printf("Server listening on addr: %s: %s\n", config.Env.LocalAddr, config.Env.Port)
+	log.Printf("Server listening on addr: %s port: %s\n", config.Env.LocalAddr, config.Env.Port)
 	err = http.ListenAndServe(config.Env.Port, server.Router)
 	if err != nil {
 		log.Fatal(err)
