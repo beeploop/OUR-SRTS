@@ -3,7 +3,8 @@ package config
 import "net"
 
 type Config struct {
-	Ip string
+	Ip   string
+	Port string
 }
 
 var Env *Config
@@ -21,6 +22,7 @@ func Initialize() error {
 
 	Env = &Config{
 		Ip: localAddr,
+        Port: ":3000",
 	}
 
 	return nil

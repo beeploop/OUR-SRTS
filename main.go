@@ -24,7 +24,7 @@ func main() {
 
 	server.NewServer()
 
-	err = http.ListenAndServe(":3000", server.Router)
+	err = http.ListenAndServe(config.Env.Port, server.Router)
 	if err != nil {
 		log.Fatal(err)
 	}
