@@ -33,4 +33,6 @@ func HandleAdminRoutes(admin *gin.RouterGroup) {
 
 	admin.GET("/programs", HandleGetPrograms)
 
+    admin.POST("/reject", HandleRequestReject)
+
 }
