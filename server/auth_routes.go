@@ -24,7 +24,6 @@ func HandleAuthRoutes(auth *gin.RouterGroup) {
 		html := utils.HtmlParser(
 			"request-page.html",
 			"components/header.html",
-			// "components/request.html",
 		)
 
 		html.Execute(c.Writer, gin.H{})
