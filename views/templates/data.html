@@ -19,7 +19,7 @@
                     <!-- Student Image -->
                     <div class="aspect-square h-40 w-40 border border-gray-400">
                         {{ if eq .files.Photo.Valid true }}
-                        <img src="http://localhost:3000/{{ .files.Photo.String }}" alt="profile picture" class="h-40 w-40 object-cover">
+                        <img src="{{ .files.Photo.String }}" alt="profile picture" class="h-40 w-40 object-cover">
                         {{ else }}
                         <img src="/public/placeholder.jpg" alt="profile picture" class="h-40 w-40 object-cover">
                         {{ end }}
