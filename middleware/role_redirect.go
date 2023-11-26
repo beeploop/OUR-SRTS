@@ -16,7 +16,7 @@ func RoleChecker(c *gin.Context) {
 	user, ok := userSession.(types.User)
 	if !ok {
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, "/auth/login")
+		c.Redirect(http.StatusSeeOther, "/auth/login?reason=session_expired")
 		return
 	}
 
