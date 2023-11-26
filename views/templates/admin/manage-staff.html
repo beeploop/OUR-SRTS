@@ -51,9 +51,15 @@
                                 {{ end }}
                             </td>
                             <td>
-                                <button class="rounded-md bg-teal-900 px-2 py-1 text-white hover:bg-teal-700">
-                                    Action
-                                </button>
+                                <div class="flex gap-2 [&>button]:w-16">
+                                    {{ if eq .Status "active" }}
+                                    {{ template "disable-staff" . }}
+                                    {{ else }}
+                                    {{ template "enable-staff" . }}
+                                    {{ end }}
+
+                                    {{ template "delete-staff" . }}
+                                </div>
                             </td>
                         </tr>
                         {{ end }}
