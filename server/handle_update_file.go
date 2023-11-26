@@ -24,8 +24,17 @@ func HandleUpdateFile(c *gin.Context) {
 
 	controlNumber := form.Value["controlNumber"][0]
 
+	// Use loop for getting file even though it will always be one file
+	// because I'm too lazy to check what file is being uploaded
 	for key := range form.File {
 		file := form.File[key][0]
+
+		// Only allow pdf File
+		if utils.IsFilePdf(file) == false {
+			c.Request.Method = "GET"
+			c.Redirect(http.StatusBadRequest, url+"?status=failed?reason=not_pdf")
+			return
+		}
 
 		student, err := store.GetStudent(controlNumber)
 		if err != nil {
