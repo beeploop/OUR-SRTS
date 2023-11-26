@@ -16,6 +16,9 @@ func HandleManageStaff(c *gin.Context) {
 		"components/header.html",
 		"components/sidebar.html",
 		"components/add-staff.html",
+        "components/enable-staff-modal.html",
+        "components/disable-staff-modal.html",
+        "components/delete-staff-modal.html",
 	)
 
 	user := utils.GetUserInSession(c)
