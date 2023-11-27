@@ -36,7 +36,7 @@
     </td>
 </tr>
 
-<div id="modalBirthCertificate" class="relative z-10 hidden">
+<div id="modalAddPhoto" class="relative z-10 hidden">
     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
     <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
@@ -87,11 +87,11 @@
     const photoBtn = document.getElementById('addPhoto')
     if (photoBtn) {
         photoBtn.addEventListener('click', () => {
-            document.getElementById('modalBirthCertificate').classList.toggle('hidden')
+            document.getElementById('modalAddPhoto').classList.toggle('hidden')
         })
     }
     document.getElementById('cancelPhoto').addEventListener('click', () => {
-        document.getElementById('modalBirthCertificate').classList.toggle('hidden')
+        document.getElementById('modalAddPhoto').classList.toggle('hidden')
     })
 </script>
 {{ end }}

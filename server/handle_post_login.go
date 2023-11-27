@@ -27,6 +27,7 @@ func HandlePostLogin(c *gin.Context) {
 	if err != nil {
 		c.Request.Method = "GET"
 		c.Redirect(http.StatusSeeOther, "/auth/login?status=failed&reason=wrong_credentials")
+        return
 	}
 
 	if res.Status == "disabled" {
