@@ -24,33 +24,33 @@ func HandleEnableStaff(c *gin.Context) {
 	err := c.ShouldBindWith(&input, binding.Form)
 	if err != nil {
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusBadRequest, url+"?status=failed?reason=invalid_input")
+		c.Redirect(http.StatusMovedPermanently, url+"?status=failed?reason=invalid_input")
 		return
 	}
 
 	if input.Staff == user.Username {
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusBadRequest, url+"?status=failed?reason=invalid_input")
+		c.Redirect(http.StatusMovedPermanently, url+"?status=failed?reason=invalid_input")
 		return
 	}
 
 	credential, err := store.GetCredentials(user.Username)
 	if err != nil {
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusBadRequest, url+"?status=failed?reason=invalid_input")
+		c.Redirect(http.StatusMovedPermanently, url+"?status=failed?reason=invalid_input")
 		return
 	}
 
 	if credential.Password != input.Password {
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusBadRequest, url+"?status=failed?reason=invalid_password")
+		c.Redirect(http.StatusMovedPermanently, url+"?status=failed?reason=invalid_password")
 		return
 	}
 
 	err = store.EnableStaff(input.Staff)
 	if err != nil {
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusBadRequest, url+"?status=failed?reason=invalid_input")
+		c.Redirect(http.StatusMovedPermanently, url+"?status=failed?reason=invalid_input")
 		return
 	}
 
