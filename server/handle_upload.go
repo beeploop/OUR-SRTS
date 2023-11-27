@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/gin-gonic/gin"
 	"github.com/BeepLoop/registrar-digitized/store"
 	"github.com/BeepLoop/registrar-digitized/utils"
+	"github.com/gin-gonic/gin"
 )
 
 func HandleUpload(c *gin.Context) {
@@ -56,7 +56,7 @@ func HandleUpload(c *gin.Context) {
 			}
 
 		} else {
-			location, err := utils.FileSaver(c, file, lastname, controlNumber, key)
+			location, _, err := utils.FileSaver(c, file, lastname, controlNumber, key)
 			if err != nil {
 				c.Request.Method = "GET"
 				c.Redirect(http.StatusSeeOther, url+"?status=failed")

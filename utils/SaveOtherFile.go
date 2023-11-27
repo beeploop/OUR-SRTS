@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/gin-gonic/gin"
 	"github.com/BeepLoop/registrar-digitized/config"
+	"github.com/gin-gonic/gin"
 )
 
 func SaveOtherFile(filename, lastname, controlNumber, key string, file *multipart.FileHeader, c *gin.Context) (string, string, error) {
@@ -14,11 +14,12 @@ func SaveOtherFile(filename, lastname, controlNumber, key string, file *multipar
 	ext := filepath.Ext(file.Filename)
 	newFilename := transformedFilename + ext
 	path := config.Env.BaseFolder + newFilename
+	location := "http://" + config.Env.LocalAddr + config.Env.Port + "/" + path
 
 	err := c.SaveUploadedFile(file, path)
 	if err != nil {
-		return newFilename, path, err
+		return newFilename, location, err
 	}
 
-	return newFilename, path, nil
+	return newFilename, location, nil
 }

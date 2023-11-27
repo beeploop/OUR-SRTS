@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/gin-gonic/gin"
 	"github.com/BeepLoop/registrar-digitized/store"
 	"github.com/BeepLoop/registrar-digitized/utils"
+	"github.com/gin-gonic/gin"
 )
 
 func HandleUpdateFile(c *gin.Context) {
@@ -46,7 +46,7 @@ func HandleUpdateFile(c *gin.Context) {
 			return
 		}
 
-		location, err := utils.FileSaver(c, file, student.Lastname, controlNumber, key)
+		location, _, err := utils.FileSaver(c, file, student.Lastname, controlNumber, key)
 		if err != nil {
 			fmt.Println("err saving file: ", err)
 			c.Request.Method = "GET"
