@@ -20,7 +20,7 @@ func HandleUpdateStudent(c *gin.Context) {
 	if err != nil {
 		fmt.Println("err binding: ", err)
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, url+"?status=failed")
+		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_form")
 		return
 	}
 
@@ -28,7 +28,7 @@ func HandleUpdateStudent(c *gin.Context) {
 	if err != nil {
         fmt.Println("err update: ", err)
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, url+"?status=failed")
+		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=unknown_student")
 		return
 	}
 

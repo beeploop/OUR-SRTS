@@ -4,10 +4,10 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gin-gonic/gin"
-	"github.com/gin-gonic/gin/binding"
 	"github.com/BeepLoop/registrar-digitized/store"
 	"github.com/BeepLoop/registrar-digitized/types"
+	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 )
 
 func HandlePostAddStaff(c *gin.Context) {
@@ -17,7 +17,7 @@ func HandlePostAddStaff(c *gin.Context) {
 	if err != nil {
 		log.Println("err binding: ", err)
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusMovedPermanently, "/admin/manage-staff?status=failed")
+		c.Redirect(http.StatusMovedPermanently, "/admin/manage-staff?status=failed&reason=invalid_form")
 		return
 	}
 
@@ -25,7 +25,7 @@ func HandlePostAddStaff(c *gin.Context) {
 	if err != nil {
 		log.Println("err adding user: ", err)
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusMovedPermanently, "/admin/manage-staff?status=failed")
+		c.Redirect(http.StatusMovedPermanently, "/admin/manage-staff?status=failed&reason=invalid_staff_info")
 		return
 	}
 

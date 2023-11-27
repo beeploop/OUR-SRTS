@@ -5,11 +5,11 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/BeepLoop/registrar-digitized/store"
+	"github.com/BeepLoop/registrar-digitized/types"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
-	"github.com/BeepLoop/registrar-digitized/store"
-	"github.com/BeepLoop/registrar-digitized/types"
 )
 
 func HandlePostLogin(c *gin.Context) {
@@ -19,28 +19,26 @@ func HandlePostLogin(c *gin.Context) {
 	if err != nil {
 		log.Println("login error: ", err)
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, "/auth/login?status=failed?reason=can't_bind_form")
+		c.Redirect(http.StatusSeeOther, "/auth/login?status=failed&reason=invalid_form")
 		return
 	}
 
 	res, err := store.GetCredentials(input.Username)
 	if err != nil {
-		fmt.Println("can't get credentials: ", err)
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, "/auth/login?status=failed?reason=wrong_credentials")
+		c.Redirect(http.StatusSeeOther, "/auth/login?status=failed&reason=wrong_credentials")
 	}
 
 	if res.Status == "disabled" {
-        fmt.Println("account disabled")
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, "/auth/login?status=failed?reason=disabled")
+		c.Redirect(http.StatusSeeOther, "/auth/login?status=failed&reason=account_disabled")
 		return
 	}
 
 	if input.Username != res.Username || input.Password != res.Password {
-        fmt.Println("wrong credentials")
+		fmt.Println("wrong credentials")
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, "/auth/login?status=failed?reason=wrong_credentials")
+		c.Redirect(http.StatusSeeOther, "/auth/login?status=failed&reason=wrong_credentials")
 		return
 	}
 

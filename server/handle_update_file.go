@@ -18,7 +18,7 @@ func HandleUpdateFile(c *gin.Context) {
 	if err != nil {
 		fmt.Println("err binding form: ", err)
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusBadRequest, url+"?status=failed")
+		c.Redirect(http.StatusBadRequest, url+"?status=failed&reason=invalid_form")
 		return
 	}
 
@@ -33,7 +33,7 @@ func HandleUpdateFile(c *gin.Context) {
 			// Only allow pdf File
 			if utils.IsFilePdf(file) == false {
 				c.Request.Method = "GET"
-				c.Redirect(http.StatusBadRequest, url+"?status=failed?reason=not_pdf")
+				c.Redirect(http.StatusBadRequest, url+"?status=failed&reason=not_pdf")
 				return
 			}
 		}
@@ -42,7 +42,7 @@ func HandleUpdateFile(c *gin.Context) {
 		if err != nil {
 			fmt.Println("err getting student: ", err)
 			c.Request.Method = "GET"
-			c.Redirect(http.StatusBadRequest, url+"?status=failed")
+			c.Redirect(http.StatusBadRequest, url+"?status=failed&reason=unknown_student")
 			return
 		}
 
@@ -50,7 +50,7 @@ func HandleUpdateFile(c *gin.Context) {
 		if err != nil {
 			fmt.Println("err saving file: ", err)
 			c.Request.Method = "GET"
-			c.Redirect(http.StatusBadRequest, url+"?status=failed")
+			c.Redirect(http.StatusBadRequest, url+"?status=failed&reason=invalid_form")
 			return
 		}
 
@@ -58,7 +58,7 @@ func HandleUpdateFile(c *gin.Context) {
 		if err != nil {
 			fmt.Println("err updating file: ", err)
 			c.Request.Method = "GET"
-			c.Redirect(http.StatusBadRequest, url+"?status=failed")
+			c.Redirect(http.StatusBadRequest, url+"?status=failed&reason=invalid_form")
 			return
 		}
 	}

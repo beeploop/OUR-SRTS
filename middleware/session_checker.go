@@ -14,7 +14,7 @@ func SessionChecker(c *gin.Context) {
 	_, ok := userSession.(types.User)
 	if !ok {
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, "/auth/login?reason=session_expired")
+		c.Redirect(http.StatusSeeOther, "/auth/login?status=failed&reason=session_expired")
 		return
 	}
 

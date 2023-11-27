@@ -27,13 +27,13 @@ func HandleDeleteStaff(c *gin.Context) {
 	if err != nil {
 		fmt.Println("err binding: ", err)
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusMovedPermanently, url+"?status=failed?reason=invalid_input")
+		c.Redirect(http.StatusMovedPermanently, url+"?status=failed&reason=invalid_input")
 		return
 	}
 
 	if input.Staff == user.Username {
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusMovedPermanently, url+"?status=failed?reason=invalid_input")
+		c.Redirect(http.StatusMovedPermanently, url+"?status=failed&reason=invalid_input")
 		return
 	}
 
@@ -41,13 +41,13 @@ func HandleDeleteStaff(c *gin.Context) {
 	if err != nil {
 		fmt.Println("err getting credential: ", err)
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusMovedPermanently, url+"?status=failed?reason=invalid_input")
+		c.Redirect(http.StatusMovedPermanently, url+"?status=failed&reason=invalid_input")
 		return
 	}
 
 	if credential.Password != input.Password {
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusMovedPermanently, url+"?status=failed?reason=invalid_password")
+		c.Redirect(http.StatusMovedPermanently, url+"?status=failed&reason=invalid_password")
 		return
 	}
 
@@ -55,7 +55,7 @@ func HandleDeleteStaff(c *gin.Context) {
 	if err != nil {
 		fmt.Println("err deleting staff: ", err)
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusMovedPermanently, url+"?status=failed?reason=invalid_input")
+		c.Redirect(http.StatusMovedPermanently, url+"?status=failed&reason=invalid_input")
 		return
 	}
 

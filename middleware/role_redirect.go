@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/BeepLoop/registrar-digitized/types"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
-	"github.com/BeepLoop/registrar-digitized/types"
 )
 
 func RoleChecker(c *gin.Context) {
@@ -16,7 +16,7 @@ func RoleChecker(c *gin.Context) {
 	user, ok := userSession.(types.User)
 	if !ok {
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, "/auth/login?reason=session_expired")
+		c.Redirect(http.StatusSeeOther, "/auth/login?status=failed&reason=session_expired")
 		return
 	}
 

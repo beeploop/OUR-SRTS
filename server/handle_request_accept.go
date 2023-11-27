@@ -26,16 +26,16 @@ func HandleRequestFulfill(c *gin.Context) {
 	var accept Accept
 	err := c.ShouldBindWith(&accept, binding.Form)
 	if err != nil {
-        fmt.Println("err binding: ", err)
+		fmt.Println("err binding: ", err)
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, url+"?status=failed?reason=invalid_request")
+		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_request")
 		return
 	}
 
 	credential, err := store.GetCredentials(user.Username)
 	if err != nil {
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, url+"?status=failed?reason=database_error")
+		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=cant_get_credentials")
 		return
 	}
 
@@ -44,14 +44,14 @@ func HandleRequestFulfill(c *gin.Context) {
 
 	if credential.Password != accept.Password {
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, url+"?status=failed?reason=invalid_password")
+		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_password")
 		return
 	}
 
 	err = store.FulfillRequest(accept.RequestId, accept.NewPassword)
 	if err != nil {
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, url+"?status=failed?reason=database_error")
+		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=database_error")
 		return
 	}
 

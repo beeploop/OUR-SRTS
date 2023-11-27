@@ -22,17 +22,17 @@ func HandlePostRequest(c *gin.Context) {
 	err := c.ShouldBindWith(&request, binding.Form)
 	if err != nil {
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, url+"?status=failed")
+		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_form")
 		return
 	}
 
 	err = store.NewRequest(request.Username)
 	if err != nil {
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, url+"?status=failed")
+		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=unknown_user")
 		return
 	}
 
 	c.Request.Method = "GET"
-	c.Redirect(http.StatusSeeOther, "/auth/login?status=request_sent")
+	c.Redirect(http.StatusSeeOther, "/auth/login?status=success")
 }

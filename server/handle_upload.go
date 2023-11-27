@@ -18,7 +18,7 @@ func HandleUpload(c *gin.Context) {
 	if err != nil {
 		fmt.Println("err binding form: ", err)
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, url+"?status=failed")
+		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_form")
 		return
 	}
 
@@ -34,7 +34,7 @@ func HandleUpload(c *gin.Context) {
 			// Only allow pdf files
 			if utils.IsFilePdf(file) == false {
 				c.Request.Method = "GET"
-				c.Redirect(http.StatusSeeOther, url+"?status=failed?reason=not_pdf")
+				c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=not_pdf")
 				return
 			}
 		}
@@ -45,13 +45,13 @@ func HandleUpload(c *gin.Context) {
 			file, location, err := utils.SaveOtherFile(filename, lastname, controlNumber, key, file, c)
 			if err != nil {
 				c.Request.Method = "GET"
-				c.Redirect(http.StatusSeeOther, url+"?status=failed")
+				c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_form")
 				return
 			}
 			err = store.SaveOtherFile(file, location, controlNumber, key)
 			if err != nil {
 				c.Request.Method = "GET"
-				c.Redirect(http.StatusSeeOther, url+"?status=failed")
+				c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_form")
 				return
 			}
 
@@ -59,13 +59,13 @@ func HandleUpload(c *gin.Context) {
 			location, _, err := utils.FileSaver(c, file, lastname, controlNumber, key)
 			if err != nil {
 				c.Request.Method = "GET"
-				c.Redirect(http.StatusSeeOther, url+"?status=failed")
+				c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_form")
 				return
 			}
 			err = store.SaveFile(location, controlNumber, key)
 			if err != nil {
 				c.Request.Method = "GET"
-				c.Redirect(http.StatusSeeOther, url+"?status=failed")
+				c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_form")
 				return
 			}
 		}

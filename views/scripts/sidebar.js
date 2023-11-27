@@ -5,7 +5,6 @@ path = paths.pop()
 if (path === '') {
     path = paths.pop()
 }
-console.log({ path })
 
 for (const e of items.children) {
     if (e.id === path) {

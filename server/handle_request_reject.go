@@ -25,27 +25,27 @@ func HandleRequestReject(c *gin.Context) {
 	err := c.ShouldBindWith(&reject, binding.Form)
 	if err != nil {
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, url+"?status=failed?reason=invalid_request")
+		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_request")
 		return
 	}
 
 	credential, err := store.GetCredentials(user.Username)
 	if err != nil {
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, url+"?status=failed?reason=database_error")
+		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=cant_get_credentials")
 		return
 	}
 
-    if credential.Password != reject.Password {
-        c.Request.Method = "GET"
-        c.Redirect(http.StatusSeeOther, url+"?status=failed?reason=invalid_password")
-        return
-    }
+	if credential.Password != reject.Password {
+		c.Request.Method = "GET"
+		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_password")
+		return
+	}
 
 	err = store.RejectRequest(reject.RequestId)
 	if err != nil {
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, url+"?status=failed?reason=database_error")
+		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_request")
 		return
 	}
 

@@ -1,8 +1,6 @@
 const urlParams = new URLSearchParams(window.location.search);
 const notifStatus = urlParams.get('status');
-
-const successNotif = document.getElementById('successNotif')
-const failedNotif = document.getElementById('failedNotif')
+const reason = urlParams.get('reason');
 
 const timeout = 5000
 
