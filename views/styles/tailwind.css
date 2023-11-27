@@ -19,9 +19,9 @@ body {
 }
 
 .badge-inactive {
-    @apply block text-center w-20 items-center gap-x-1.5 py-1 px-2 rounded-full text-sm font-medium bg-red-100 text-red-800;
+    @apply block text-center w-24 items-center gap-x-1.5 py-1 px-2 rounded-full text-sm font-medium bg-red-100 text-red-800;
 }
 
 .badge-active {
-    @apply block text-center w-20 items-center gap-x-1.5 py-1 px-2 rounded-full text-sm font-medium bg-teal-100 text-teal-800;
+    @apply block text-center w-24 items-center gap-x-1.5 py-1 px-2 rounded-full text-sm font-medium bg-teal-100 text-teal-800;
 }

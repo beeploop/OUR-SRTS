@@ -1,5 +1,5 @@
 {{ define "update-file" }}
-<button id="updateBtn{{.}}" class="w-16 rounded bg-red-900 px-3 py-1 text-white hover:bg-red-700">
+<button id="updateBtn{{.}}" class="w-20 rounded bg-red-900 px-3 py-1 text-white hover:bg-red-700">
     Update 
 </button>
 
@@ -27,7 +27,13 @@
                                     <div class="text-bold">Click to upload a file</div>
                                     <p class="text-sm text-gray-500">Only accepts PDF files</p>
                                 </div>
-                                <input name="{{ . }}" type="file" class="sr-only" accept="application/pdf" />
+                                <input name="{{ . }}" type="file" class="sr-only" 
+                                {{ if eq . "Photo" }}
+                                accept="image/*"
+                                {{ else }}
+                                accept="application/pdf"
+                                {{ end }}
+                                />
                             </label>
                         </div>
 
