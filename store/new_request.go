@@ -1,9 +1,32 @@
 package store
 
-import "github.com/lithammer/shortuuid/v4"
+import (
+	"errors"
+
+	"github.com/lithammer/shortuuid/v4"
+)
 
 func NewRequest(username string) error {
-	uuid := shortuuid.New()
+
+	query1 := `
+        SELECT 
+            COUNT(*)
+        FROM 
+            Request r
+        WHERE 
+            r.status = 'active'
+        AND 
+            r.requestorId = (SELECT id FROM User WHERE username = ?)
+    `
+
+	var count int
+	err := Db_Conn.Get(&count, query1, username)
+	if err != nil {
+		return err
+	}
+	if count > 0 {
+		return errors.New("User have an active request")
+	}
 
 	query := `
         INSERT INTO 
@@ -14,7 +37,8 @@ func NewRequest(username string) error {
         )
     `
 
-	_, err := Db_Conn.Exec(query, uuid, username)
+	uuid := shortuuid.New()
+	_, err = Db_Conn.Exec(query, uuid, username)
 	if err != nil {
 		return err
 	}

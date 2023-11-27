@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/BeepLoop/registrar-digitized/store"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
-	"github.com/BeepLoop/registrar-digitized/store"
 )
 
 func HandlePostRequest(c *gin.Context) {
