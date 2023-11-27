@@ -261,7 +261,7 @@ func RequestTable() error {
             status enum('active', 'fulfilled', 'rejected') NOT NULL DEFAULT 'active',
             requestorId Int NOT NULL,
             PRIMARY KEY (id),
-            FOREIGN KEY (requestorId) REFERENCES User (id)
+            FOREIGN KEY (requestorId) REFERENCES User (id) ON DELETE CASCADE
         )
     `
 
