@@ -6,7 +6,7 @@ func EnableStaff(username string) error {
         UPDATE 
             User 
         SET 
-            status = 'active'
+            status = 'enabled'
         WHERE 
             username = ?
     `

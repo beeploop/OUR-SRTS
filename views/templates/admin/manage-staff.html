@@ -23,7 +23,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{ if .users }}
+                        {{ if eq (len .users) 1 }}
+                        <tr class="[&>*]:py-4">
+                            <td colspan="5" align="center">No staff found</td>
+                        </tr>
+                        {{ else }}
                             {{ range .users }}
                                 {{ if eq .Username $.user.Username }}
                                 {{ else }}
@@ -42,7 +46,7 @@
                                         {{ end }}
                                     </td>
                                     <td>
-                                        {{ if eq .Status "active" }}
+                                        {{ if eq .Status "enabled" }}
                                         <span class="badge-active">
                                             {{ .Status }}
                                         </span>
@@ -54,7 +58,7 @@
                                     </td>
                                     <td>
                                         <div class="flex gap-2 [&>button]:w-16">
-                                            {{ if eq .Status "active" }}
+                                            {{ if eq .Status "enabled" }}
                                                 {{ template "disable-staff" . }}
                                             {{ else }}
                                                 {{ template "enable-staff" . }}

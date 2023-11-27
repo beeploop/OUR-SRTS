@@ -23,8 +23,8 @@
                         </thead>
                         <tbody>
                             {{ if not .requests }}
-                            <tr class="hover:bg-gray-100 [&>*]:py-4">
-                                <td colspan="3" class="text-center">No requests</td>
+                            <tr class="[&>*]:py-4">
+                                <td colspan="4" class="text-center">No requests</td>
                             </tr>
                             {{ else }}
                                 {{ range $index, $element := .requests }}

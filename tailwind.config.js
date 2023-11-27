@@ -2,7 +2,11 @@
 module.exports = {
     content: ["./views/templates/**/*.html"],
     theme: {
-        extend: {},
+        extend: {
+            fontFamily: {
+                quicksand: ["Quicksand", "sans-serif"],
+            },
+        },
     },
     plugins: [],
 }

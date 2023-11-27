@@ -7,11 +7,11 @@ import (
 	"os"
 	"time"
 
-	"github.com/gin-contrib/sessions"
-	"github.com/gin-gonic/gin"
 	"github.com/BeepLoop/registrar-digitized/config"
 	"github.com/BeepLoop/registrar-digitized/middleware"
 	"github.com/BeepLoop/registrar-digitized/types"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-gonic/gin"
 )
 
 var Router *gin.Engine
@@ -42,10 +42,9 @@ func NewServer() {
 
 	Router.Static("/styles", "views/styles/")
 	Router.Static("/scripts", "views/scripts/")
-
 	Router.Static("/public", "assets/public/")
-
 	Router.Static("/documents", "documents/")
+	Router.Static("/fonts", "webfonts/")
 
 	RegisterRoutes()
 }

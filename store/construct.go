@@ -172,7 +172,7 @@ func UserTable() error {
             username varchar(255) NOT NULL, 
             password varchar(255) NOT NULL,
             role enum('admin', 'staff') DEFAULT 'staff' NOT NULL,
-            status enum('active', 'disabled') DEFAULT 'active' NOT NULL,
+            status enum('enabled', 'disabled') DEFAULT 'enabled' NOT NULL,
             PRIMARY KEY (id),
             INDEX (username)
         )
@@ -222,7 +222,8 @@ func ProgramTable() error {
             id Int NOT NULL AUTO_INCREMENT,
             program varchar(255) NOT NULL UNIQUE,
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            PRIMARY KEY (id)
+            PRIMARY KEY (id),
+            INDEX (program, id)
         )
     `
 
@@ -242,6 +243,7 @@ func MajorTable() error {
             programId Int NOT NULL,
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (major, id),
             FOREIGN KEY (programId) REFERENCES Program (id)
         )
     `
@@ -283,6 +285,7 @@ func PhotoTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -304,6 +307,7 @@ func BirthCertificateTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -325,6 +329,7 @@ func NoticeOfAdmissionTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -346,6 +351,7 @@ func UsepatTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -367,6 +373,7 @@ func GoodMoralTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -388,6 +395,7 @@ func Form138Table() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -409,6 +417,7 @@ func PersonalDataSheetTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -430,6 +439,7 @@ func DataPrivacyProvisionTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -451,6 +461,7 @@ func HonorableDismissalTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -472,6 +483,7 @@ func MarriageCertificateTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -493,6 +505,7 @@ func PromissoryNoteTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -514,6 +527,7 @@ func HealthStateDeclarationTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -535,6 +549,7 @@ func MedicalCertificateTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -556,6 +571,7 @@ func Form137Table() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -577,6 +593,7 @@ func ApprovalSheetTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -598,6 +615,7 @@ func ApplicationForGraduationTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -619,6 +637,7 @@ func ShiftersFormTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -640,6 +659,7 @@ func CertificateOfLowIncomeTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -661,6 +681,7 @@ func TorTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -683,6 +704,7 @@ func ClearanceTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -704,6 +726,7 @@ func LeaveOfAbsenceTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -725,6 +748,7 @@ func AdvanceCreditFormTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -746,6 +770,7 @@ func IncompleteFormTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -767,6 +792,7 @@ func SubjectValidationFormTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -788,6 +814,7 @@ func SubstitutionTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -809,6 +836,7 @@ func AffidavitOfUndertakingTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber)
         )
     `
@@ -831,6 +859,7 @@ func OthersTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            INDEX (owner),
             FOREIGN KEY (owner) REFERENCES Student (controlNumber),
             UNIQUE KEY (filename, owner)
         )
