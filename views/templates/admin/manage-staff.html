@@ -25,6 +25,8 @@
                     <tbody>
                         {{ if .users }}
                             {{ range .users }}
+                                {{ if eq .Username $.user.Username }}
+                                {{ else }}
                                 <tr class="border hover:bg-gray-100 [&>*]:p-2">
                                     <td>{{ .Fullname }}</td>
                                     <td>{{ .Username }}</td>
@@ -62,6 +64,7 @@
                                         </div>
                                     </td>
                                 </tr>
+                                {{ end }}
                             {{ end }}
                         {{ end }}
                     </tbody>
