@@ -169,7 +169,7 @@ func UserTable() error {
         CREATE TABLE IF NOT EXISTS User (
             id Int NOT NULL AUTO_INCREMENT,
             fullname varchar(255) NOT NULL,
-            username varchar(255) NOT NULL, 
+            username varchar(255) NOT NULL UNIQUE, 
             password varchar(255) NOT NULL,
             role enum('admin', 'staff') DEFAULT 'staff' NOT NULL,
             status enum('enabled', 'disabled') DEFAULT 'enabled' NOT NULL,
