@@ -1,10 +1,12 @@
 {{ define "search-page" }}
-<div class="col-span-7">
+<div class="col-span-7 py-4">
     <h1 class="mb-4 text-xl">Search student</h1>
 
     <form action="/student/search" method="POST" class="flex w-full justify-between gap-4">
-        <input type="text" id="search-bar" autocomplete="off" autofocus name="search" class="flex-1 rounded-sm p-1 outline outline-1" placeholder="Search lastname or File Control Number">
-        <select id="programs" name="program" class="w-20 rounded-sm bg-white px-2 outline outline-1">
+        <input type="text" id="search-bar" autocomplete="off" autofocus name="search" 
+        class="w-full rounded-md border border-gray-400 px-2 focus:border-red-700 focus:outline-none" 
+        placeholder="Search lastname or File Control Number">
+        <select id="programs" name="program" class="w-20 rounded-md bg-white px-2 outline outline-1">
             <option value="all">All</option>
         </select>
         <button type="submit" class="flex items-center gap-2 rounded-md bg-red-900 px-3 py-1 text-white hover:bg-red-700">
