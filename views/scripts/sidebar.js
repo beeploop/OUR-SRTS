@@ -1,6 +1,6 @@
 const items = document.getElementById('sidebar-ul')
 
-paths = window.location.href.split('/')
+paths = window.location.href.split('?')[0].split('/')
 path = paths.pop()
 if (path === '') {
     path = paths.pop()
