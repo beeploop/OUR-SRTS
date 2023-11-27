@@ -20,7 +20,9 @@ func RegisterRoutes() {
 	student := Router.Group("/student", middleware.SessionChecker)
 	HandleStudentRoutes(student)
 
-	Router.POST("/upload", HandleUpload)
+	Router.POST("/upload", middleware.SessionChecker, HandleUpload)
+
+	Router.POST("/update", middleware.SessionChecker, HandleUpdateFile)
 
 	Router.POST("/request", HandlePostRequest)
 }
