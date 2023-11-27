@@ -191,7 +191,7 @@ func StudentTable() error {
         CREATE TABLE IF NOT EXISTS Student (
             id Int NOT NULL AUTO_INCREMENT,
             controlNumber varchar(255) NOT NULL UNIQUE,
-            lastname varchar(255) NOT NULL,
+            lastname varchar(255) COLLATE utf8mb4_0900_ai_ci NOT NULL,
             firstname varchar(255) NOT NULL,
             middlename varchar(255) NOT NULL,
             type enum('NonTransferee', 'Transferee', 'Graduate') DEFAULT 'NonTransferee' NOT NULL,
