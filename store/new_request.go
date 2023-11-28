@@ -8,6 +8,16 @@ import (
 
 func NewRequest(username string) error {
 
+	var userCount int
+	err := Db_Conn.Get(&userCount, "SELECT COUNT(*) FROM User WHERE username = ?", username)
+	if err != nil {
+		return err
+	}
+
+	if userCount == 0 {
+		return errors.New("User not found")
+	}
+
 	query1 := `
         SELECT 
             COUNT(*)
@@ -20,7 +30,7 @@ func NewRequest(username string) error {
     `
 
 	var count int
-	err := Db_Conn.Get(&count, query1, username)
+	err = Db_Conn.Get(&count, query1, username)
 	if err != nil {
 		return err
 	}
