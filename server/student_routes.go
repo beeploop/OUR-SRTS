@@ -4,12 +4,12 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/gin-contrib/sessions"
-	"github.com/gin-gonic/gin"
-	"github.com/gin-gonic/gin/binding"
 	"github.com/BeepLoop/registrar-digitized/store"
 	"github.com/BeepLoop/registrar-digitized/types"
 	"github.com/BeepLoop/registrar-digitized/utils"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 )
 
 func HandleStudentRoutes(student *gin.RouterGroup) {
@@ -45,6 +45,8 @@ func HandleStudentRoutes(student *gin.RouterGroup) {
 			"components/INC.html",
 			"components/SubjectValidation.html",
 			"components/Substitution.html",
+			"components/nmat.html",
+			"components/indigency.html",
 		)
 
 		id := c.Params.ByName("id")

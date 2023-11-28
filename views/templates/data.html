@@ -32,7 +32,7 @@
                                 Name:
                             </h2>
                             <h2>
-                                {{ .files.Lastname }}, {{ .files.Firstname }} {{ .files.Middlename }}
+                                {{ .files.Lastname }}, &nbsp;{{ .files.Firstname }} &nbsp; {{ .files.Middlename }}
                             </h2>
                         </div>
                         <div class="flex text-sm">
@@ -99,7 +99,17 @@
                         {{ template "PDS" .files }}
                         {{ template "DPP" .files }}
                         {{ template "HD" .files }}
+
+                        {{ if eq .files.Type "Graduate" }}
+                        {{ template "NMAT" .files }}
+                        {{ template "Indigency" .files }}
+                        {{ end }}
+
+
+                        {{ if eq .files.CivilStatus "married"}}
                         {{ template "MarriageCert" .files }}
+                        {{ end }}
+
                         {{ template "Promise" .files }}
                         {{ template "HSD" .files }}
                         {{ template "MedCert" .files }}

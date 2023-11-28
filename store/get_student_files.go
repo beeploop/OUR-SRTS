@@ -36,7 +36,9 @@ func GetStudentFiles(controlNumber string) (*models.StudentFiles, error) {
             afg.location as afg,
             sf.location as sf,
             col.location as col,
-            pic.location as pic
+            pic.location as pic,
+            nmat.location as nmat,
+            idgcy.location as indigency
         FROM
             Student stdnt
             LEFT JOIN Program prog on stdnt.programId = prog.id
@@ -60,6 +62,8 @@ func GetStudentFiles(controlNumber string) (*models.StudentFiles, error) {
             LEFT JOIN ApplicationForGraduation afg on stdnt.controlNumber = afg.owner
             LEFT JOIN ShiftersForm sf on stdnt.controlNumber = sf.owner
             LEFT JOIN CertificateOfLowIncome col on stdnt.controlNumber = col.owner
+            LEFT JOIN NMAT nmat on stdnt.controlNumber = nmat.owner
+            LEFT JOIN Indigency idgcy on stdnt.controlNumber = idgcy.owner
         WHERE stdnt.controlNumber = ?
     `
 

@@ -43,6 +43,16 @@ func InitializeTables() {
 		log.Fatal(err)
 	}
 
+	err = IndegencyTable()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = NmatTable()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	err = PhotoTable()
 	if err != nil {
 		log.Fatal(err)
@@ -675,6 +685,50 @@ func CertificateOfLowIncomeTable() error {
 func TorTable() error {
 	query := `
         CREATE TABLE IF NOT EXISTS TOR (
+            id Int NOT NULL AUTO_INCREMENT,
+            location varchar(255) NOT NULL,
+            owner varchar(255) NOT NULL UNIQUE,
+            createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY (id),
+            INDEX (owner),
+            FOREIGN KEY (owner) REFERENCES Student (controlNumber)
+        )
+    `
+
+	_, err := Db_Conn.Exec(query)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func NmatTable() error {
+	query := `
+        CREATE TABLE IF NOT EXISTS NMAT (
+            id Int NOT NULL AUTO_INCREMENT,
+            location varchar(255) NOT NULL,
+            owner varchar(255) NOT NULL UNIQUE,
+            createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY (id),
+            INDEX (owner),
+            FOREIGN KEY (owner) REFERENCES Student (controlNumber)
+        )
+    `
+
+	_, err := Db_Conn.Exec(query)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func IndegencyTable() error {
+	query := `
+        CREATE TABLE IF NOT EXISTS Indigency (
             id Int NOT NULL AUTO_INCREMENT,
             location varchar(255) NOT NULL,
             owner varchar(255) NOT NULL UNIQUE,

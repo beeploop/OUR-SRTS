@@ -31,6 +31,8 @@ type StudentFiles struct {
 	ApplicationForGraduation sql.NullString   `db:"afg"`
 	ShiftersForm             sql.NullString   `db:"sf"`
 	CertificateOfLowIncome   sql.NullString   `db:"col"`
+	NMAT                     sql.NullString   `db:"nmat"`
+	Indigency                sql.NullString   `db:"indigency"`
 	Clearance                []sql.NullString `db:"clearance"`
 	AffidavitOfUndertaking   []sql.NullString `db:"aou"`
 	LeaveOfAbsence           []sql.NullString `db:"loa"`
