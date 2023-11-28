@@ -1,12 +1,12 @@
 package server
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/BeepLoop/registrar-digitized/store"
 	"github.com/BeepLoop/registrar-digitized/types"
+	"github.com/BeepLoop/registrar-digitized/utils"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
@@ -27,7 +27,7 @@ func HandlePostLogin(c *gin.Context) {
 	if err != nil {
 		c.Request.Method = "GET"
 		c.Redirect(http.StatusSeeOther, "/auth/login?status=failed&reason=wrong_credentials")
-        return
+		return
 	}
 
 	if res.Status == "disabled" {
@@ -36,8 +36,8 @@ func HandlePostLogin(c *gin.Context) {
 		return
 	}
 
-	if input.Username != res.Username || input.Password != res.Password {
-		fmt.Println("wrong credentials")
+	err = utils.ValidateCredentials(input, res)
+	if err != nil {
 		c.Request.Method = "GET"
 		c.Redirect(http.StatusSeeOther, "/auth/login?status=failed&reason=wrong_credentials")
 		return
