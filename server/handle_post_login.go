@@ -36,7 +36,7 @@ func HandlePostLogin(c *gin.Context) {
 		return
 	}
 
-	err = utils.ValidateCredentials(input, res)
+	err = utils.ValidateCredentials(input.Password, res.Password)
 	if err != nil {
 		c.Request.Method = "GET"
 		c.Redirect(http.StatusSeeOther, "/auth/login?status=failed&reason=wrong_credentials")

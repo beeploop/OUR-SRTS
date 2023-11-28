@@ -39,14 +39,12 @@ func HandleRequestFulfill(c *gin.Context) {
 		return
 	}
 
-	fmt.Println("credential: ", credential)
-	fmt.Println("accept: ", accept)
-
-	if credential.Password != accept.Password {
-		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_password")
-		return
-	}
+	err = utils.ValidateCredentials(accept.Password, credential.Password)
+    if err != nil {
+        c.Request.Method = "GET"
+        c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_password")
+        return
+    }
 
 	err = store.FulfillRequest(accept.RequestId, accept.NewPassword)
 	if err != nil {

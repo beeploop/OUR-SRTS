@@ -36,7 +36,8 @@ func HandleRequestReject(c *gin.Context) {
 		return
 	}
 
-	if credential.Password != reject.Password {
+	err = utils.ValidateCredentials(reject.Password, credential.Password)
+	if err != nil {
 		c.Request.Method = "GET"
 		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_password")
 		return

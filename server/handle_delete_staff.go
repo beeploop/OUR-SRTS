@@ -45,7 +45,8 @@ func HandleDeleteStaff(c *gin.Context) {
 		return
 	}
 
-	if credential.Password != input.Password {
+	err = utils.ValidateCredentials(input.Password, credential.Password)
+	if err != nil {
 		c.Request.Method = "GET"
 		c.Redirect(http.StatusMovedPermanently, url+"?status=failed&reason=invalid_password")
 		return
