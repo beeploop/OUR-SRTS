@@ -14,4 +14,6 @@ func HandleStaffRoutes(staff *gin.RouterGroup) {
 	})
 
 	staff.GET("/search", HandleStaffSearchPage)
+
+	staff.POST("/search", HandleStaffPostSearch)
 }

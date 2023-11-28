@@ -1,10 +1,10 @@
 package server
 
 import (
-	"github.com/gin-contrib/sessions"
-	"github.com/gin-gonic/gin"
 	"github.com/BeepLoop/registrar-digitized/store"
 	"github.com/BeepLoop/registrar-digitized/utils"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-gonic/gin"
 )
 
 func HandleAdminSearchPage(c *gin.Context) {
@@ -12,7 +12,6 @@ func HandleAdminSearchPage(c *gin.Context) {
 		"admin/search.html",
 		"components/header.html",
 		"components/sidebar.html",
-		"components/search.html",
 	)
 
 	user := utils.GetUserInSession(c)

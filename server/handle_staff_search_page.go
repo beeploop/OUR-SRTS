@@ -15,7 +15,6 @@ func HandleStaffSearchPage(c *gin.Context) {
 	html := utils.HtmlParser(
 		"staff/search.html",
 		"components/header.html",
-		"components/search.html",
 	)
 
 	programs, _ := store.GetPrograms()

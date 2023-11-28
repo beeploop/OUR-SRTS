@@ -15,6 +15,8 @@ func HandleAdminRoutes(admin *gin.RouterGroup) {
 
 	admin.GET("/search", HandleAdminSearchPage)
 
+	admin.POST("/search", HandleAdminPostSearch)
+
 	admin.GET("/add-student", HandleGetAddStudent)
 
 	admin.POST("/add-student", HandlePostAddStudent)
