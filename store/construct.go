@@ -191,9 +191,9 @@ func StudentTable() error {
         CREATE TABLE IF NOT EXISTS Student (
             id Int NOT NULL AUTO_INCREMENT,
             controlNumber varchar(255) NOT NULL UNIQUE,
-            lastname varchar(255) COLLATE utf8mb4_0900_ai_ci NOT NULL,
-            firstname varchar(255) NOT NULL,
-            middlename varchar(255) NOT NULL,
+            lastname varchar(255) NOT NULL,
+            firstname varchar(255),
+            middlename varchar(255),
             type enum('NonTransferee', 'Transferee', 'Graduate') DEFAULT 'NonTransferee' NOT NULL,
             civilStatus enum('single', 'married') DEFAULT 'single' NOT NULL,
             fileLocation varchar(255) NOT NULL,
@@ -244,7 +244,7 @@ func MajorTable() error {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
             INDEX (major, id),
-            FOREIGN KEY (programId) REFERENCES Program (id)
+            FOREIGN KEY (programId) REFERENCES Program (id) ON DELETE CASCADE
         )
     `
 
@@ -261,9 +261,9 @@ func RequestTable() error {
         CREATE TABLE IF NOT EXISTS Request (
             id varchar(255) NOT NULL,
             status enum('active', 'fulfilled', 'rejected') NOT NULL DEFAULT 'active',
-            requestorId Int NOT NULL,
+            requestorId Int,
             PRIMARY KEY (id),
-            FOREIGN KEY (requestorId) REFERENCES User (id) ON DELETE CASCADE
+            FOREIGN KEY (requestorId) REFERENCES User (id) ON DELETE SET NULL
         )
     `
 
