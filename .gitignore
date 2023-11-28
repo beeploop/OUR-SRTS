@@ -5,3 +5,5 @@ registrar*
 
 *.log
 .env
+.release.env
+.debug.env
