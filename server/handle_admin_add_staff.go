@@ -6,6 +6,7 @@ import (
 
 	"github.com/BeepLoop/registrar-digitized/store"
 	"github.com/BeepLoop/registrar-digitized/types"
+	"github.com/BeepLoop/registrar-digitized/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 )
@@ -20,6 +21,14 @@ func HandlePostAddStaff(c *gin.Context) {
 		c.Redirect(http.StatusMovedPermanently, "/admin/manage-staff?status=failed&reason=invalid_form")
 		return
 	}
+
+	hash, err := utils.HashPassword(input.Password)
+	if err != nil {
+		c.Request.Method = "GET"
+		c.Redirect(http.StatusMovedPermanently, "/admin/manage-staff?status=failed&reason=server_error")
+		return
+	}
+	input.Password = hash
 
 	err = store.AddUser(input)
 	if err != nil {
