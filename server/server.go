@@ -21,7 +21,7 @@ func NewServer() {
 	gob.Register([]types.Student{})
 
 	datetime := time.Now().Format("2006-01-02_15:04:05")
-	logFile := "logs/server-log_" + datetime + ".log"
+	logFile := "./logs/server-log_" + datetime + ".log"
 
 	myFile, err := os.Create(logFile)
 	if err != nil {
