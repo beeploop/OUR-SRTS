@@ -3,8 +3,13 @@ build:
 	@go build
 	@echo "build complete"
 
-css:
+watch-css:
 	@tailwindcss -i ./views/styles/tailwind.css -o ./views/styles/output.css --watch
+
+build-css:
+	@echo "building css..."
+	@tailwindcss -i ./views/styles/tailwind.css -o ./views/styles/output.css
+	@echo "build complete"
 
 run: build 
 	@./registrar-digitized
