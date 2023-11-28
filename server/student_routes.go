@@ -7,7 +7,7 @@ import (
 	"github.com/BeepLoop/registrar-digitized/store"
 	"github.com/BeepLoop/registrar-digitized/types"
 	"github.com/BeepLoop/registrar-digitized/utils"
-	"github.com/gin-contrib/sessions"
+	// "github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 )
@@ -92,12 +92,31 @@ func HandleStudentRoutes(student *gin.RouterGroup) {
 			return
 		}
 
-		session := sessions.Default(c)
-		session.Set("search-result", students)
-		session.Save()
+		html := utils.HtmlParser(
+			"admin/search.html",
+			"components/header.html",
+			"components/sidebar.html",
+			"components/search.html",
+		)
+
+		user := utils.GetUserInSession(c)
 
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusMovedPermanently, redirectUrl+"?term="+input.Search)
 
+		programs, err := store.GetPrograms()
+		if err != nil {
+			html.Execute(c.Writer, gin.H{
+				"user":     user,
+				"students": students,
+				"programs": []string{},
+			})
+			return
+		}
+
+		html.Execute(c.Writer, gin.H{
+			"user":     user,
+			"students": students,
+			"programs": programs,
+		})
 	})
 }
