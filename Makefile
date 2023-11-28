@@ -21,3 +21,11 @@ win:
 
 run-win: win
 	@./registrar-digitized.exe
+
+clean:
+	@echo "cleaning up..."
+	@rm -rf registrar-digitized
+	@rm -rf registrar-digitized.exe
+	@rm logs/*
+	@rm documents/*
+	@echo "clean complete"
