@@ -22,6 +22,12 @@ func HandlePostAddStaff(c *gin.Context) {
 		return
 	}
 
+	if !utils.ValidPassword(input.Password) {
+		c.Request.Method = "GET"
+		c.Redirect(http.StatusMovedPermanently, "/admin/manage-staff?status=failed&reason=Password_does_not_meet_requirements")
+		return
+	}
+
 	hash, err := utils.HashPassword(input.Password)
 	if err != nil {
 		c.Request.Method = "GET"

@@ -42,7 +42,13 @@ func HandleRequestFulfill(c *gin.Context) {
 	err = utils.ValidateCredentials(accept.Password, credential.Password)
 	if err != nil {
 		c.Request.Method = "GET"
-		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_password")
+		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=Invalid_admin_password")
+		return
+	}
+
+	if !utils.ValidPassword(accept.NewPassword) {
+		c.Request.Method = "GET"
+		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=Password_does_not_meet_requirements")
 		return
 	}
 

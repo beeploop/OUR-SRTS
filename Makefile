@@ -78,3 +78,6 @@ clean:
 	@echo "cleaning up..."
 	@rm -rf registrar-digitized*
 	@echo "clean complete"
+
+test:
+	@go test -v ./...
