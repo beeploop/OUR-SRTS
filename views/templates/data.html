@@ -89,41 +89,49 @@
                         </tr>
                     </thead>
                     <tbody class="[&>*]:border">
-                        {{ template "photo" .files }}
+                        {{ template "AdvancedCredit" .files }}
+                        {{ template "undertaking" .files }}
+                        {{ template "AFG" .files }}
+                        {{ template "approval" .files }}
                         {{ template "birth-certificate" .files }}
-                        {{ template "NOAP" .files }}
-                        {{ template "Usepat" .files }}
-                        {{ template "TOR" .files }}
-                        {{ template "GoodMoral" .files }}
-                        {{ template "form138" .files }}
-                        {{ template "PDS" .files }}
+                        {{ template "LowIncome" .files }}
+                        {{ template "clearance" .files }}
                         {{ template "DPP" .files }}
-                        {{ template "HD" .files }}
 
-                        {{ if eq .files.Type "Graduate" }}
-                        {{ template "NMAT" .files }}
+                        {{ if eq .files.Type "Transferee" }}
+                        {{ template "form137" .files }}
+                        {{ template "form138" .files }}
+                        {{ end }}
+
+                        {{ template "GoodMoral" .files }}
+                        {{ template "HSD" .files }}
+                        {{ template "HD" .files }}
+                        {{ template "INC" .files }}
+
+                        {{ if eq .files.Program.String "DOM" }}
                         {{ template "Indigency" .files }}
                         {{ end }}
 
+                        {{ template "LOA" .files }}
 
                         {{ if eq .files.CivilStatus "married"}}
                         {{ template "MarriageCert" .files }}
                         {{ end }}
 
-                        {{ template "Promise" .files }}
-                        {{ template "HSD" .files }}
                         {{ template "MedCert" .files }}
-                        {{ template "form137" .files }}
-                        {{ template "approval" .files }}
-                        {{ template "AFG" .files }}
-                        {{ template "LowIncome" .files }}
-                        {{ template "clearance" .files }}
-                        {{ template "undertaking" .files }}
-                        {{ template "LOA" .files }}
-                        {{ template "AdvancedCredit" .files }}
-                        {{ template "INC" .files }}
+
+                        {{ if eq .files.Program.String "DOM" }}
+                        {{ template "NMAT" .files }}
+                        {{ end }}
+
+                        {{ template "NOAP" .files }}
+                        {{ template "PDS" .files }}
+                        {{ template "photo" .files }}
+                        {{ template "Promise" .files }}
                         {{ template "SubjectValidation" .files }}
                         {{ template "Substitution" .files }}
+                        {{ template "TOR" .files }}
+                        {{ template "Usepat" .files }}
                     </tbody>
                 </table>
             </div>
@@ -149,7 +157,7 @@
                         <tr class="hover:bg-gray-100 [&>*]:px-1 [&>*]:py-2">
                             <td>{{ .Filename }}</td>
                             <td>
-                                <span class="badge-active">Existing</span>
+                                <span class="badge-active">On-File</span>
                             </td>
                             <td>
                                 <a 
