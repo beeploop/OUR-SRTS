@@ -19,7 +19,7 @@ func NewServer() {
 	gob.Register(types.User{})
 	gob.Register([]types.Student{})
 
-	myFile, err := os.Create("./server-logs.log")
+	myFile, err := os.Create("./server.log")
 	if err != nil {
 		log.Fatal("Error creating log file: ", err)
 	}

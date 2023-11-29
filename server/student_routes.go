@@ -41,6 +41,7 @@ func HandleStudentRoutes(student *gin.RouterGroup) {
 			"components/Substitution.html",
 			"components/nmat.html",
 			"components/indigency.html",
+			"components/update-other-file.html",
 		)
 
 		id := c.Params.ByName("id")

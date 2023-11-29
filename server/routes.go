@@ -24,5 +24,7 @@ func RegisterRoutes() {
 
 	Router.POST("/update", middleware.SessionChecker, HandleUpdateFile)
 
+    Router.POST("/update-other", middleware.SessionChecker, HandleUpdateOtherFile)
+
 	Router.POST("/request", HandlePostRequest)
 }

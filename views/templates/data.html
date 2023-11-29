@@ -160,6 +160,7 @@
                                 <span class="badge-active">On-File</span>
                             </td>
                             <td>
+                                <div class="flex gap-2">
                                 <a 
                                     href="{{ .Location }}" 
                                     target="_blank"
@@ -167,6 +168,8 @@
                                     >
                                     View
                                 </a>
+                                {{ template "update-other-file" . }}
+                                </div>
                             </td>
                         </tr>
                         {{ end }}
@@ -181,10 +184,10 @@
             <!--
                 Background backdrop, show/hide based on modal state.
 
-                Entering: "ease-out duration-300"
+                Entering: "duration-300 ease-out"
                 From: "opacity-0"
                 To: "opacity-100"
-                Leaving: "ease-in duration-200"
+                Leaving: "duration-200 ease-in"
                 From: "opacity-100"
                 To: "opacity-0"
             -->

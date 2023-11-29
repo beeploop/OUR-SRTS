@@ -13,7 +13,6 @@ import (
 
 func SaveFileToNas(filePath, fileType string) (string, error) {
 	nasUrl := config.Env.NasUrl + fileType + "/"
-	fmt.Println("nasUrl: ", nasUrl)
 
 	err := os.MkdirAll(nasUrl, os.ModePerm)
 	if err != nil {
@@ -35,7 +34,6 @@ func SaveFileToNas(filePath, fileType string) (string, error) {
 
 	_, filename := filepath.Split(filePath)
 	remoteFilename := filepath.Join(url.Path, filename)
-	fmt.Println("remoteFilename: ", remoteFilename)
 
 	remoteFile, err := os.Create(remoteFilename)
 	if err != nil {
