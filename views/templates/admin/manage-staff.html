@@ -23,27 +23,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{ if eq (len .users) 1 }}
+                        {{ if not .users }}
                         <tr class="[&>*]:py-4">
                             <td colspan="5" align="center">No staff found</td>
                         </tr>
                         {{ else }}
                             {{ range .users }}
-                                {{ if eq .Username $.user.Username }}
-                                {{ else }}
                                 <tr class="border hover:bg-gray-100 [&>*]:p-2">
                                     <td>{{ .Fullname }}</td>
                                     <td>{{ .Username }}</td>
                                     <td>
-                                        {{ if eq .Role "admin" }}
-                                        <span class="badge-admin">
-                                            {{ .Role }}
-                                        </span>
-                                        {{ else }}
                                         <span class="badge-staff">
                                             {{ .Role }}
                                         </span>
-                                        {{ end }}
                                     </td>
                                     <td>
                                         {{ if eq .Status "enabled" }}
@@ -68,7 +60,6 @@
                                         </div>
                                     </td>
                                 </tr>
-                                {{ end }}
                             {{ end }}
                         {{ end }}
                     </tbody>

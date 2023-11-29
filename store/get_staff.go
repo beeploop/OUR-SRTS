@@ -2,12 +2,14 @@ package store
 
 import "github.com/BeepLoop/registrar-digitized/types"
 
-func GetUsers() (*[]types.User, error) {
+func GetStaff() (*[]types.User, error) {
 	query := `
         SELECT
             fullname, username, role, status
         FROM
             User
+        WHERE
+            role = 'staff'
     `
 
 	var users []types.User

@@ -23,7 +23,7 @@ func HandleManageStaff(c *gin.Context) {
 
 	user := utils.GetUserInSession(c)
 
-	users, err := store.GetUsers()
+	users, err := store.GetStaff()
 	if err != nil {
 		fmt.Println("err getting users: ", err)
 
