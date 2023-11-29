@@ -5,7 +5,6 @@ import (
 	"io"
 	"log"
 	"os"
-	"time"
 
 	"github.com/BeepLoop/registrar-digitized/config"
 	"github.com/BeepLoop/registrar-digitized/middleware"
@@ -20,10 +19,7 @@ func NewServer() {
 	gob.Register(types.User{})
 	gob.Register([]types.Student{})
 
-	datetime := time.Now().Format("2006-01-02_15:04:05")
-	logFile := "./logs/server-log_" + datetime + ".log"
-
-	myFile, err := os.Create(logFile)
+	myFile, err := os.Create("./server-logs.log")
 	if err != nil {
 		log.Fatal("Error creating log file: ", err)
 	}
@@ -43,8 +39,9 @@ func NewServer() {
 	Router.Static("/styles", "views/styles/")
 	Router.Static("/scripts", "views/scripts/")
 	Router.Static("/public", "assets/public/")
-	Router.Static("/documents", "documents/")
 	Router.Static("/fonts", "webfonts/")
+
+	Router.Static("/download", "release/")
 
 	RegisterRoutes()
 }

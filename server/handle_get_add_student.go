@@ -16,8 +16,6 @@ func HandleGetAddStudent(c *gin.Context) {
 		fmt.Println("err getting programs: ", err)
 	}
 
-	fmt.Println("programs: ", programs)
-
 	html := utils.HtmlParser(
 		"admin/add-student.html",
 		"components/header.html",
