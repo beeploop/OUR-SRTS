@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/BeepLoop/registrar-digitized/store"
 	"github.com/BeepLoop/registrar-digitized/types"
@@ -24,6 +25,11 @@ func HandlePostAddStudent(c *gin.Context) {
 	if err != nil {
 		fmt.Println("error insert student to db: ", err)
 		c.Request.Method = "GET"
+
+		if strings.Contains(err.Error(), "Duplicate entry") {
+			c.Redirect(http.StatusSeeOther, "/admin/add-student?status=failed&reason=Control_number_already_exists")
+			return
+		}
 		c.Redirect(http.StatusSeeOther, "/admin/add-student?status=failed&reason=invalid_student_info")
 		return
 	}

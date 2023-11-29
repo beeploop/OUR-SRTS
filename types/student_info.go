@@ -9,5 +9,5 @@ type StudentInfo struct {
 	Type          string `form:"type" binding:"required"`
 	CivilStatus   string `form:"civilStatus" binding:"required"`
 	Program       string `form:"program" binding:"required"`
-	Major         string `form:"major" binding:"required"`
+	Major         string `form:"major" binding:""`
 }
