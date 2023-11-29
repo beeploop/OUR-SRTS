@@ -8,8 +8,16 @@ import (
 
 func NewRequest(username string) error {
 
+	user, err := GetUserInfo(username)
+	if err != nil {
+		return err
+	}
+	if user.Role == "admin" {
+		return errors.New("Admin cannot submit a request")
+	}
+
 	var userCount int
-	err := Db_Conn.Get(&userCount, "SELECT COUNT(*) FROM User WHERE username = ?", username)
+	err = Db_Conn.Get(&userCount, "SELECT COUNT(*) FROM User WHERE username = ?", username)
 	if err != nil {
 		return err
 	}

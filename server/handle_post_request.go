@@ -29,6 +29,10 @@ func HandlePostRequest(c *gin.Context) {
 	err = store.NewRequest(request.Username)
 	if err != nil {
 		c.Request.Method = "GET"
+		if strings.Contains(err.Error(), "Admin") {
+			c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=Admin_cannot_submit_a_request")
+			return
+		}
 		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=unknown_user")
 		return
 	}
