@@ -12,8 +12,12 @@
                 <div class="p-4">
 
                     <form action="/admin/manage-staff/delete" method="POST">
-                        <h2 class="text-bold text-lg text-red-700">Warning</h2>
-                        <p class="mt-4 text-sm">You are about to delete this staff account. This action cannot be undone. Are you sure about this?</p>
+                        <h2 class="text-bold text-lg text-red-700"><strong>Warning</strong></h2>
+                        <p class="mt-4 text-xs text-red-700">
+                            You are about to delete this staff account. 
+                            <strong>This action cannot be undone.</strong> 
+                            Are you sure about this?
+                        </p>
 
                         <div class="mt-4 grid gap-4">
                             <input type="hidden" name="staff" value="{{.Username}}">
