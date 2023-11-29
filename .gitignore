@@ -4,6 +4,8 @@ nas/
 
 registrar*
 
+release/*
+
 *.log
 .env
 .release.env
