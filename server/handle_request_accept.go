@@ -40,13 +40,20 @@ func HandleRequestFulfill(c *gin.Context) {
 	}
 
 	err = utils.ValidateCredentials(accept.Password, credential.Password)
-    if err != nil {
-        c.Request.Method = "GET"
-        c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_password")
-        return
-    }
+	if err != nil {
+		c.Request.Method = "GET"
+		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_password")
+		return
+	}
 
-	err = store.FulfillRequest(accept.RequestId, accept.NewPassword)
+	hash, err := utils.HashPassword(accept.NewPassword)
+	if err != nil {
+		c.Request.Method = "GET"
+		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=hashing_error")
+		return
+	}
+
+	err = store.FulfillRequest(accept.RequestId, hash)
 	if err != nil {
 		c.Request.Method = "GET"
 		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=database_error")
