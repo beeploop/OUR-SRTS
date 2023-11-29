@@ -5,13 +5,13 @@
     <body>
         {{ template "header" }}
     
-        <div class="mx-auto mt-4 max-w-sm border p-4 shadow-lg">
+        <div class="mx-auto mt-14 max-w-sm border p-4 shadow-lg">
             <form action="/request" method="POST">
-                <h2 class="text-bold text-lg">Request Password Reset</h2>
+                <h2 class="text-bold text-lg">Request password reset</h2>
 
                 <div class="mt-4 grid gap-4">
                     <div class="">
-                        <label for="username">Username</label>
+                        <label for="username">Staff username</label>
                         <br>
                         <input type="text" name="username" 
                         autofocus autocomplete="off" required
@@ -24,7 +24,7 @@
                             Cancel
                         </a>
                         <button type="submit" class="w-20 rounded-md bg-red-900 px-3 py-1 text-white hover:bg-red-700">
-                            Save
+                            Submit
                         </button>
                     </div>
 
