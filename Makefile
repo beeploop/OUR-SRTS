@@ -24,58 +24,57 @@ run-win: win
 
 win-zip: clean win
 	@echo "initializing release directory..."
-	@rm -rf ./release/registrar-release
-	@mkdir ./release/registrar-release
-	@mkdir ./release/registrar-release/logs 
-	@mkdir ./release/registrar-release/tempDir
-	@mkdir ./release/registrar-release/nas
+	@rm -rf ./release/registrar-windows-release
+	@mkdir ./release/registrar-windows-release
+	@mkdir ./release/registrar-windows-release/logs 
+	@mkdir ./release/registrar-windows-release/tempDir
+	@mkdir ./release/registrar-windows-release/nas
 	@echo "copying files to release directory..."
-	@cp -r .release.env assets/ views/ webfonts/ registrar-digitized.exe ./release/registrar-release
-	@mv ./release/registrar-release/.release.env ./release/registrar-release/.env
+	@cp -r .release.env assets/ views/ webfonts/ registrar-digitized.exe ./release/registrar-windows-release
+	@mv ./release/registrar-windows-release/.release.env ./release/registrar-windows-release/.env
 	@echo "zipping release directory..."
-	@zip -r ./release/registrar-digitized.zip ./release/registrar-release
+	@zip -r ./release/registrar-digitized-windows.zip ./release/registrar-windows-release
 	@echo "zip complete. zip file saved in go/ directory"
 
 linux-zip: clean build
 	@echo "initializing release directory..."
-	@rm -rf ./release/registrar-release
-	@mkdir ./release/registrar-release
-	@mkdir ./release/registrar-release/logs 
-	@mkdir ./release/registrar-release/tempDir
-	@mkdir ./release/registrar-release/nas
+	@rm -rf ./release/registrar-linux-release
+	@mkdir ./release/registrar-linux-release
+	@mkdir ./release/registrar-linux-release/logs 
+	@mkdir ./release/registrar-linux-release/tempDir
+	@mkdir ./release/registrar-linux-release/nas
 	@echo "copying files to release directory..."
-	@cp -r .release.env assets/ views/ webfonts/ registrar-digitized.exe ./release/registrar-release
-	@mv ./release/registrar-release/.release.env ./release/registrar-release/.env
+	@cp -r .release.env assets/ views/ webfonts/ registrar-digitized ./release/registrar-linux-release
+	@mv ./release/registrar-linux-release/.release.env ./release/registrar-linux-release/.env
 	@echo "zipping release directory..."
-	@zip -r ./release/registrar-digitized.zip ./release/registrar-release
+	@zip -r ./release/registrar-digitized-linux.zip ./release/registrar-linux-release
 	@echo "zip complete. zip file saved in go/ directory"
 
 win-release: clean win
 	@echo "initializing release directory..."
-	@rm -rf ./release/registrar-release
-	@mkdir ./release/registrar-release
-	@mkdir ./release/registrar-release/logs 
-	@mkdir ./release/registrar-release/tempDir
-	@mkdir ./release/registrar-release/nas
+	@rm -rf ./release/registrar-windows-release
+	@mkdir ./release/registrar-windows-release
+	@mkdir ./release/registrar-windows-release/logs 
+	@mkdir ./release/registrar-windows-release/tempDir
+	@mkdir ./release/registrar-windows-release/nas
 	@echo "copying files to release directory..."
-	@cp -r .release.env assets/ views/ webfonts/ registrar-digitized.exe ./release/registrar-release
-	@mv ./release/registrar-release/.release.env ./release/registrar-release/.env
+	@cp -r .release.env assets/ views/ webfonts/ registrar-digitized.exe ./release/registrar-windows-release
+	@mv ./release/registrar-windows-release/.release.env ./release/registrar-windows-release/.env
 	@echo "compiled release version. release files saved in go/ directory"
 
 linux-release: clean build 
 	@echo "initializing release directory..."
-	@rm -rf ./release/registrar-release
-	@mkdir ./release/registrar-release
-	@mkdir ./release/registrar-release/logs 
-	@mkdir ./release/registrar-release/tempDir
-	@mkdir ./release/registrar-release/nas
+	@rm -rf ./release/registrar-linux-release
+	@mkdir ./release/registrar-linux-release
+	@mkdir ./release/registrar-linux-release/logs 
+	@mkdir ./release/registrar-linux-release/tempDir
+	@mkdir ./release/registrar-linux-release/nas
 	@echo "copying files to release directory..."
-	@cp -r .release.env assets/ views/ webfonts/ registrar-digitized ./release/registrar-release
-	@mv ./release/registrar-release/.release.env ./release/registrar-release/.env
+	@cp -r .release.env assets/ views/ webfonts/ registrar-digitized ./release/registrar-linux-release
+	@mv ./release/registrar-linux-release/.release.env ./release/registrar-linux-release/.env
 	@echo "compiled release version. release files saved in go/ directory"
 
 clean:
 	@echo "cleaning up..."
-	@rm -rf registrar-digitized
-	@rm -rf registrar-digitized.exe
+	@rm -rf registrar-digitized*
 	@echo "clean complete"
