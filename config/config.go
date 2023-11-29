@@ -8,11 +8,12 @@ import (
 )
 
 type Config struct {
-	LocalAddr  string
-	Port       string
-	DSN        string
-	BaseFolder string
-	GinMode    string
+	LocalAddr string
+	Port      string
+	DSN       string
+	TempDir   string
+	NasUrl    string
+	GinMode   string
 }
 
 var Env *Config
@@ -32,11 +33,12 @@ func Initialize() error {
 	}
 
 	Env = &Config{
-		LocalAddr:  strings.Split(localAddr, ":")[0],
-		Port:       envFile["PORT"],
-		DSN:        envFile["DB_DSN"],
-		BaseFolder: envFile["BASE_FOLDER"],
-		GinMode:    envFile["GIN_MODE"],
+		LocalAddr: strings.Split(localAddr, ":")[0],
+		Port:      envFile["PORT"],
+		DSN:       envFile["DB_DSN"],
+		TempDir:   envFile["TEMP_DIR"],
+		NasUrl:    envFile["NAS_URL"],
+		GinMode:   envFile["GIN_MODE"],
 	}
 
 	return nil

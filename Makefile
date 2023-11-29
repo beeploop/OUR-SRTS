@@ -27,7 +27,8 @@ win-zip: clean win
 	@rm -rf ../registrar-release
 	@mkdir ../registrar-release
 	@mkdir ../registrar-release/logs 
-	@mkdir ../registrar-release/documents
+	@mkdir ../registrar-release/tempDir
+	@mkdir ../registrar-release/nas
 	@echo "copying files to release directory..."
 	@cp -r .release.env assets/ views/ webfonts/ registrar-digitized.exe ../registrar-release
 	@mv ../registrar-release/.release.env ../registrar-release/.env
@@ -40,7 +41,8 @@ linux-zip: clean build
 	@rm -rf ../registrar-release 
 	@mkdir ../registrar-release
 	@mkdir ../registrar-release/logs 
-	@mkdir ../registrar-release/documents
+	@mkdir ../registrar-release/tempDir
+	@mkdir ../registrar-release/nas
 	@echo "copying files to release directory..."
 	@cp -r .release.env assets/ views/ webfonts/ registrar-digitized ../registrar-release
 	@mv ../registrar-release/.release.env ../registrar-release/.env
@@ -53,7 +55,8 @@ win-release: clean win
 	@rm -rf ../registrar-release
 	@mkdir ../registrar-release
 	@mkdir ../registrar-release/logs 
-	@mkdir ../registrar-release/documents
+	@mkdir ../registrar-release/tempDir
+	@mkdir ../registrar-release/nas
 	@echo "copying files to release directory..."
 	@cp -r .release.env assets/ views/ webfonts/ registrar-digitized.exe ../registrar-release
 	@mv ../registrar-release/.release.env ../registrar-release/.env
@@ -64,7 +67,8 @@ linux-release: clean build
 	@rm -rf ../registrar-release 
 	@mkdir ../registrar-release
 	@mkdir ../registrar-release/logs 
-	@mkdir ../registrar-release/documents
+	@mkdir ../registrar-release/tempDir
+	@mkdir ../registrar-release/nas
 	@echo "copying files to release directory..."
 	@cp -r .release.env assets/ views/ webfonts/ registrar-digitized ../registrar-release
 	@mv ../registrar-release/.release.env ../registrar-release/.env

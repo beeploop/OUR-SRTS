@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"mime/multipart"
+	"os"
 	"path/filepath"
 	"strconv"
 
@@ -12,15 +13,16 @@ import (
 )
 
 /*
-		Returns location, diskpath, and an error.
+Returns location, diskpath, and an error.
 
-	    location = url of the file
-	    diskpath = path of the file in the disk
-	    error = error
+location = url of the file
+diskpath = path of the file in the disk
+error = error
 */
 func FileSaver(c *gin.Context, file *multipart.FileHeader, lastname, controlNumber, filetype string) (string, string, error) {
 	ext := filepath.Ext(file.Filename)
 
+	// check if file is a multi-entry file
 	if StringInSlice(filetype) {
 		count, err := store.CountFilesInMultiEntry(filetype, controlNumber)
 		if err != nil {
@@ -30,25 +32,47 @@ func FileSaver(c *gin.Context, file *multipart.FileHeader, lastname, controlNumb
 
 		strCount := strconv.Itoa(count)
 		filename := lastname + "_" + controlNumber + "_" + filetype + "_" + strCount + ext
-		path := config.Env.BaseFolder + filename
-		location := "http://" + config.Env.LocalAddr + config.Env.Port + "/" + path
+		path := config.Env.TempDir + filename
+		// location := "http://" + config.Env.LocalAddr + config.Env.Port + "/" + path
 
 		err = c.SaveUploadedFile(file, path)
 		if err != nil {
-			return location, path, err
+			return "", path, err
 		}
 
-		return location, path, nil
+		remoteFileLocation, err := SaveFileToNas(path, filetype)
+		if err != nil {
+			return "", path, err
+		}
+
+		// delete the file in the temp dir
+		err = os.Remove(path)
+		if err != nil {
+			return "", path, err
+		}
+
+		return remoteFileLocation, path, nil
 	}
 
 	filename := lastname + "_" + controlNumber + "_" + filetype + ext
-	path := config.Env.BaseFolder + filename
-	location := "http://" + config.Env.LocalAddr + config.Env.Port + "/" + path
+	path := config.Env.TempDir + filename
+	// location := "http://" + config.Env.LocalAddr + config.Env.Port + "/" + path
 
 	err := c.SaveUploadedFile(file, path)
 	if err != nil {
-		return location, path, err
+		return "", path, err
 	}
 
-	return location, path, nil
+	remoteFileLocation, err := SaveFileToNas(path, filetype)
+	if err != nil {
+		return "", path, err
+	}
+
+	// delete the file in the temp dir
+	err = os.Remove(path)
+	if err != nil {
+		return "", path, err
+	}
+
+	return remoteFileLocation, path, nil
 }

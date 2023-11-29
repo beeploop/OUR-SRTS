@@ -48,6 +48,7 @@ func HandleUpload(c *gin.Context) {
 				c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_form")
 				return
 			}
+
 			err = store.SaveOtherFile(file, location, controlNumber, key)
 			if err != nil {
 				c.Request.Method = "GET"
@@ -62,6 +63,7 @@ func HandleUpload(c *gin.Context) {
 				c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_form")
 				return
 			}
+
 			err = store.SaveFile(location, controlNumber, key)
 			if err != nil {
 				c.Request.Method = "GET"
