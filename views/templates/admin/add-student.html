@@ -128,8 +128,7 @@
             const program = programs.find(p => p.Program === selectedProgram);
 
             // Clear previous options
-            majorSelect.innerHTML = '<option value="" id="emptyMajor">Select a Major</option>';
-            majorSelect.getElementById('emeptyMajor').selected = true;
+            majorSelect.innerHTML = '<option value="" selected>Select a Major</option>';
 
             // Populate majors dropdown if a program is selected
             if (program) {
