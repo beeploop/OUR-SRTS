@@ -11,6 +11,7 @@ import (
 	"github.com/BeepLoop/registrar-digitized/types"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 var Router *gin.Engine
@@ -19,20 +20,28 @@ func NewServer() {
 	gob.Register(types.User{})
 	gob.Register([]types.Student{})
 
-	myFile, err := os.Create("./server.log")
+	logrus.SetLevel(logrus.TraceLevel)
+	logrus.SetFormatter(&logrus.JSONFormatter{
+		PrettyPrint:      true,
+	})
+
+	logFile, err := os.OpenFile("./server.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, os.ModePerm)
 	if err != nil {
 		log.Fatal("Error creating log file: ", err)
 	}
-	gin.DefaultWriter = io.MultiWriter(myFile, os.Stdout)
+	multiwriter := io.MultiWriter(logFile, os.Stdout)
+	logrus.SetOutput(multiwriter)
 
 	if config.Env.GinMode == "release" {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	Router = gin.Default()
+	Router = gin.New()
 
 	sessionStore := InitSession()
 
+	Router.Use(gin.Recovery())
+	Router.Use(middleware.LogrusMiddleware)
 	Router.Use(middleware.MimeType)
 	Router.Use(sessions.Sessions("user", sessionStore))
 
