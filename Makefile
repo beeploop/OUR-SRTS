@@ -26,7 +26,6 @@ win-zip: clean win
 	@echo "initializing release directory..."
 	@rm -rf ./release/registrar-windows-release
 	@mkdir ./release/registrar-windows-release
-	@mkdir ./release/registrar-windows-release/logs 
 	@mkdir ./release/registrar-windows-release/tempDir
 	@mkdir ./release/registrar-windows-release/nas
 	@echo "copying files to release directory..."
@@ -40,7 +39,6 @@ linux-zip: clean build
 	@echo "initializing release directory..."
 	@rm -rf ./release/registrar-linux-release
 	@mkdir ./release/registrar-linux-release
-	@mkdir ./release/registrar-linux-release/logs 
 	@mkdir ./release/registrar-linux-release/tempDir
 	@mkdir ./release/registrar-linux-release/nas
 	@echo "copying files to release directory..."
@@ -54,7 +52,6 @@ win-release: clean win
 	@echo "initializing release directory..."
 	@rm -rf ./release/registrar-windows-release
 	@mkdir ./release/registrar-windows-release
-	@mkdir ./release/registrar-windows-release/logs 
 	@mkdir ./release/registrar-windows-release/tempDir
 	@mkdir ./release/registrar-windows-release/nas
 	@echo "copying files to release directory..."
@@ -66,7 +63,6 @@ linux-release: clean build
 	@echo "initializing release directory..."
 	@rm -rf ./release/registrar-linux-release
 	@mkdir ./release/registrar-linux-release
-	@mkdir ./release/registrar-linux-release/logs 
 	@mkdir ./release/registrar-linux-release/tempDir
 	@mkdir ./release/registrar-linux-release/nas
 	@echo "copying files to release directory..."
