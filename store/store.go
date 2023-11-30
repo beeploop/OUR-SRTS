@@ -8,7 +8,7 @@ import (
 
 var Db_Conn *sqlx.DB
 
-func Init() error {
+func Initialize() error {
 	db, err := sqlx.Connect("mysql", config.Env.DSN)
 	if err != nil {
 		return err

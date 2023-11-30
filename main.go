@@ -9,23 +9,25 @@ import (
 	"github.com/BeepLoop/registrar-digitized/store"
 )
 
-func main() {
+func init() {
 	err := config.Initialize()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	err = store.Init()
+	err = store.Initialize()
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	store.InitializeTables()
+}
 
+func main() {
 	server.NewServer()
 
 	log.Printf("Server listening on %s%s\n", config.Env.LocalAddr, config.Env.Port)
-	err = http.ListenAndServe(config.Env.Port, server.Router)
+	err := http.ListenAndServe(config.Env.Port, server.Router)
 	if err != nil {
 		log.Fatal(err)
 	}
