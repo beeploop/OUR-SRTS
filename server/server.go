@@ -50,7 +50,5 @@ func NewServer() {
 	Router.Static("/public", "assets/public/")
 	Router.Static("/fonts", "webfonts/")
 
-	Router.Static("/download", "release/")
-
 	RegisterRoutes()
 }
