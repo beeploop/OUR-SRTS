@@ -14,6 +14,7 @@ type Config struct {
 	TempDir   string
 	NasUrl    string
 	GinMode   string
+	LogLevel  string
 }
 
 var Env *Config
@@ -39,6 +40,7 @@ func Initialize() error {
 		TempDir:   envFile["TEMP_DIR"],
 		NasUrl:    envFile["NAS_URL"],
 		GinMode:   envFile["GIN_MODE"],
+        LogLevel:  envFile["LOG_LEVEL"],
 	}
 
 	return nil

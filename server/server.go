@@ -20,9 +20,13 @@ func NewServer() {
 	gob.Register(types.User{})
 	gob.Register([]types.Student{})
 
-	logrus.SetLevel(logrus.TraceLevel)
+	logLevel, err := logrus.ParseLevel(config.Env.LogLevel)
+	if err != nil {
+		log.Fatal("Error parsing logrus level in the env: ", err)
+	}
+	logrus.SetLevel(logLevel)
 	logrus.SetFormatter(&logrus.JSONFormatter{
-		PrettyPrint:      true,
+		PrettyPrint: true,
 	})
 
 	logFile, err := os.OpenFile("./server.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, os.ModePerm)
