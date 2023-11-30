@@ -1,7 +1,6 @@
 package server
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/BeepLoop/registrar-digitized/store"
@@ -10,14 +9,16 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
+	"github.com/sirupsen/logrus"
 )
 
 func HandlePostLogin(c *gin.Context) {
+    logrus.Info("Hit Post login route")
 	var input types.Credentials
 
 	err := c.ShouldBindWith(&input, binding.Form)
 	if err != nil {
-		log.Println("login error: ", err)
+		logrus.Info("login error: ", err)
 		c.Request.Method = "GET"
 		c.Redirect(http.StatusSeeOther, "/auth/login?status=failed&reason=invalid_form")
 		return
@@ -25,6 +26,7 @@ func HandlePostLogin(c *gin.Context) {
 
 	res, err := store.GetCredentials(input.Username)
 	if err != nil {
+        logrus.Info("logged in with invalid credentials")
 		c.Request.Method = "GET"
 		c.Redirect(http.StatusSeeOther, "/auth/login?status=failed&reason=wrong_credentials")
 		return

@@ -3,13 +3,15 @@ package server
 import (
 	"net/http"
 
-	"github.com/gin-gonic/gin"
 	"github.com/BeepLoop/registrar-digitized/utils"
+	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 func HandleAuthRoutes(auth *gin.RouterGroup) {
 
 	auth.GET("/", func(c *gin.Context) {
+		logrus.Info("Hit admin route")
 		c.Request.Method = "GET"
 		c.Redirect(http.StatusSeeOther, "/auth/login")
 	})

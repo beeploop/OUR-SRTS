@@ -1,7 +1,6 @@
 package server
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/BeepLoop/registrar-digitized/store"
@@ -9,6 +8,7 @@ import (
 	"github.com/BeepLoop/registrar-digitized/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
+	"github.com/sirupsen/logrus"
 )
 
 func HandlePostAddStaff(c *gin.Context) {
@@ -16,7 +16,7 @@ func HandlePostAddStaff(c *gin.Context) {
 	var input types.StaffInfo
 	err := c.ShouldBindWith(&input, binding.Form)
 	if err != nil {
-		log.Println("err binding: ", err)
+		logrus.Info("err binding: ", err)
 		c.Request.Method = "GET"
 		c.Redirect(http.StatusMovedPermanently, "/admin/manage-staff?status=failed&reason=invalid_form")
 		return
@@ -38,7 +38,7 @@ func HandlePostAddStaff(c *gin.Context) {
 
 	err = store.AddUser(input)
 	if err != nil {
-		log.Println("err adding user: ", err)
+		logrus.Info("err adding user: ", err)
 		c.Request.Method = "GET"
 		c.Redirect(http.StatusMovedPermanently, "/admin/manage-staff?status=failed&reason=invalid_staff_info")
 		return

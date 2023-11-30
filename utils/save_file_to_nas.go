@@ -3,12 +3,12 @@ package utils
 import (
 	"fmt"
 	"io"
-	"log"
 	"net/url"
 	"os"
 	"path/filepath"
 
 	"github.com/BeepLoop/registrar-digitized/config"
+	"github.com/sirupsen/logrus"
 )
 
 func SaveFileToNas(filePath, fileType string) (string, error) {
@@ -46,6 +46,6 @@ func SaveFileToNas(filePath, fileType string) (string, error) {
 		return remoteFilename, nil
 	}
 
-	log.Println("File saved to NAS successfully")
+	logrus.Info("File saved to NAS successfully")
 	return remoteFilename, nil
 }

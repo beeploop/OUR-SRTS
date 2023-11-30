@@ -3,7 +3,6 @@ package server
 import (
 	"encoding/gob"
 	"io"
-	"log"
 	"os"
 
 	"github.com/BeepLoop/registrar-digitized/config"
@@ -22,7 +21,7 @@ func NewServer() {
 
 	logLevel, err := logrus.ParseLevel(config.Env.LogLevel)
 	if err != nil {
-		log.Fatal("Error parsing logrus level in the env: ", err)
+		logrus.Fatal("Error parsing logrus level in the env: ", err)
 	}
 	logrus.SetLevel(logLevel)
 	logrus.SetFormatter(&logrus.JSONFormatter{
@@ -31,7 +30,7 @@ func NewServer() {
 
 	logFile, err := os.OpenFile("./server.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, os.ModePerm)
 	if err != nil {
-		log.Fatal("Error creating log file: ", err)
+		logrus.Fatal("Error creating log file: ", err)
 	}
 	multiwriter := io.MultiWriter(logFile, os.Stdout)
 	logrus.SetOutput(multiwriter)
