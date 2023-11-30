@@ -13,12 +13,17 @@
                 <h1 class="mb-4 text-xl">Search student</h1>
 
                 <form action="/admin/search" method="POST" class="flex w-full justify-between gap-4">
-                    <input type="text" id="search-bar" autocomplete="off" autofocus name="search" 
-                    class="w-full rounded-md border border-gray-400 px-2 focus:border-red-700 focus:outline-none" 
-                    placeholder="Search lastname or File Control Number">
-                    <select id="programs" name="program" class="w-20 rounded-md bg-white px-2 outline outline-1">
-                        <option value="all">All</option>
-                    </select>
+                    <div class="flex flex-1 gap-4">
+                        <input type="text" id="search-bar" autocomplete="off" autofocus name="search" 
+                        class="w-full rounded-md border border-gray-400 px-2 focus:border-red-700 focus:outline-none" 
+                        placeholder="Search lastname or File Control Number">
+                        <select id="programs" name="program" 
+                            class="w-full rounded-md border border-gray-400 bg-white px-2 focus:border-red-700 focus:outline-none"
+                            >
+                            <option value="all">All</option>
+                        </select>
+                    </div>
+
                     <button type="submit" class="flex items-center gap-2 rounded-md bg-red-900 px-3 py-1 text-white hover:bg-red-700">
                         <svg fill="#FFFFFF" width="16px" height="16px" viewBox="-2.5 -2.5 24 24" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin" class="jam jam-search"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12zm6.32-1.094l3.58 3.58a1 1 0 1 1-1.415 1.413l-3.58-3.58a8 8 0 1 1 1.414-1.414z"></path></g></svg>
                         Search
