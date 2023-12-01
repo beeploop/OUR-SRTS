@@ -15,6 +15,8 @@ func GetProgramsAndMajors() ([]Program, error) {
         FROM
           Program p
           LEFT JOIN Major m ON m.programId = p.id
+        ORDER BY 
+            p.program
     `
 
 	programs := []Program{}
