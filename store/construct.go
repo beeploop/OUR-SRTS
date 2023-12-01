@@ -195,6 +195,7 @@ func UserTable() error {
 		return err
 	}
 
+	logrus.Info("User table initialized")
 	return nil
 }
 
@@ -215,8 +216,8 @@ func StudentTable() error {
             updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
             INDEX (controlNumber, lastname),
-            FOREIGN KEY (programId) REFERENCES Program (id),
-            FOREIGN KEY (majorId) REFERENCES Major (id)
+            FOREIGN KEY (programId) REFERENCES Program (id) ON DELETE SET NULL,
+            FOREIGN KEY (majorId) REFERENCES Major (id) ON DELETE SET NULL
         )
     `
 
@@ -225,6 +226,7 @@ func StudentTable() error {
 		return err
 	}
 
+	logrus.Info("Student table initialized")
 	return nil
 }
 
@@ -244,6 +246,7 @@ func ProgramTable() error {
 		return err
 	}
 
+	logrus.Info("Program table initialized")
 	return nil
 }
 
@@ -251,10 +254,11 @@ func MajorTable() error {
 	query := `
         CREATE TABLE IF NOT EXISTS Major (
             id Int NOT NULL AUTO_INCREMENT,
-            major varchar(255) NOT NULL UNIQUE,
+            major varchar(255) NOT NULL,
             programId Int NOT NULL,
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            UNIQUE KEY (major, programId),
             INDEX (major, id),
             FOREIGN KEY (programId) REFERENCES Program (id) ON DELETE CASCADE
         )
@@ -265,6 +269,7 @@ func MajorTable() error {
 		return err
 	}
 
+	logrus.Info("Major table initialized")
 	return nil
 }
 
@@ -284,6 +289,7 @@ func RequestTable() error {
 		return err
 	}
 
+	logrus.Info("Request table initialized")
 	return nil
 }
 
@@ -307,6 +313,7 @@ func PhotoTable() error {
 		return err
 	}
 
+	logrus.Info("Photo table initialized")
 	return nil
 }
 
@@ -329,6 +336,7 @@ func BirthCertificateTable() error {
 		return err
 	}
 
+	logrus.Info("BirthCertificate table initialized")
 	return nil
 }
 
@@ -351,6 +359,7 @@ func NoticeOfAdmissionTable() error {
 		return err
 	}
 
+	logrus.Info("NoticeOfAdmission table initialized")
 	return nil
 }
 
@@ -373,6 +382,7 @@ func UsepatTable() error {
 		return err
 	}
 
+	logrus.Info("Usepat table initialized")
 	return nil
 }
 
@@ -395,6 +405,7 @@ func GoodMoralTable() error {
 		return err
 	}
 
+	logrus.Info("GoodMoral table initialized")
 	return nil
 }
 
@@ -417,6 +428,7 @@ func Form138Table() error {
 		return err
 	}
 
+	logrus.Info("Form138 table initialized")
 	return nil
 }
 
@@ -439,6 +451,7 @@ func PersonalDataSheetTable() error {
 		return err
 	}
 
+	logrus.Info("PersonalDataSheet table initialized")
 	return nil
 }
 
@@ -461,6 +474,7 @@ func DataPrivacyProvisionTable() error {
 		return err
 	}
 
+	logrus.Info("DataPrivacyProvision table initialized")
 	return nil
 }
 
@@ -483,6 +497,7 @@ func HonorableDismissalTable() error {
 		return err
 	}
 
+	logrus.Info("HonorableDismissal table initialized")
 	return nil
 }
 
@@ -505,6 +520,7 @@ func MarriageCertificateTable() error {
 		return err
 	}
 
+	logrus.Info("MarriageCertificate table initialized")
 	return nil
 }
 
@@ -527,6 +543,7 @@ func PromissoryNoteTable() error {
 		return err
 	}
 
+	logrus.Info("PromissoryNote table initialized")
 	return nil
 }
 
@@ -549,6 +566,7 @@ func HealthStateDeclarationTable() error {
 		return err
 	}
 
+	logrus.Info("HealthStateDeclaration table initialized")
 	return nil
 }
 
@@ -571,6 +589,7 @@ func MedicalCertificateTable() error {
 		return err
 	}
 
+	logrus.Info("MedicalCertificate table initialized")
 	return nil
 }
 
@@ -593,6 +612,7 @@ func Form137Table() error {
 		return err
 	}
 
+	logrus.Info("Form137 table initialized")
 	return nil
 }
 
@@ -615,6 +635,7 @@ func ApprovalSheetTable() error {
 		return err
 	}
 
+	logrus.Info("ApprovalSheet table initialized")
 	return nil
 }
 
@@ -637,6 +658,7 @@ func ApplicationForGraduationTable() error {
 		return err
 	}
 
+	logrus.Info("ApplicationForGraduation table initialized")
 	return nil
 }
 
@@ -659,6 +681,7 @@ func ShiftersFormTable() error {
 		return err
 	}
 
+	logrus.Info("ShiftersForm table initialized")
 	return nil
 }
 
@@ -681,6 +704,7 @@ func CertificateOfLowIncomeTable() error {
 		return err
 	}
 
+	logrus.Info("CertificateOfLowIncome table initialized")
 	return nil
 }
 
@@ -703,6 +727,7 @@ func TorTable() error {
 		return err
 	}
 
+	logrus.Info("TOR table initialized")
 	return nil
 }
 
@@ -725,6 +750,7 @@ func NmatTable() error {
 		return err
 	}
 
+	logrus.Info("NMAT table initialized")
 	return nil
 }
 
@@ -747,6 +773,7 @@ func IndegencyTable() error {
 		return err
 	}
 
+	logrus.Info("Indigency table initialized")
 	return nil
 }
 
@@ -770,6 +797,7 @@ func ClearanceTable() error {
 		return err
 	}
 
+	logrus.Info("Clearance table initialized")
 	return nil
 }
 
@@ -792,6 +820,7 @@ func LeaveOfAbsenceTable() error {
 		return err
 	}
 
+	logrus.Info("LeaveOfAbsence table initialized")
 	return nil
 }
 
@@ -814,6 +843,7 @@ func AdvanceCreditFormTable() error {
 		return err
 	}
 
+	logrus.Info("AdvancedCreditForm table initialized")
 	return nil
 }
 
@@ -836,6 +866,7 @@ func IncompleteFormTable() error {
 		return err
 	}
 
+	logrus.Info("IncompleteForm table initialized")
 	return nil
 }
 
@@ -858,6 +889,7 @@ func SubjectValidationFormTable() error {
 		return err
 	}
 
+	logrus.Info("SubjectValidationForm table initialized")
 	return nil
 }
 
@@ -880,6 +912,7 @@ func SubstitutionTable() error {
 		return err
 	}
 
+	logrus.Info("Substitution table initialized")
 	return nil
 }
 
@@ -902,6 +935,7 @@ func AffidavitOfUndertakingTable() error {
 		return err
 	}
 
+	logrus.Info("AffidavitOfUndertaking table initialized")
 	return nil
 }
 
@@ -926,5 +960,6 @@ func OthersTable() error {
 		return err
 	}
 
+	logrus.Info("Other table initialized")
 	return nil
 }
