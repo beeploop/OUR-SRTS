@@ -1,11 +1,10 @@
 package server
 
 import (
-	"fmt"
-
-	"github.com/gin-gonic/gin"
 	"github.com/BeepLoop/registrar-digitized/store"
 	"github.com/BeepLoop/registrar-digitized/utils"
+	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 func HandleGetAddStudent(c *gin.Context) {
@@ -13,7 +12,7 @@ func HandleGetAddStudent(c *gin.Context) {
 
 	programs, err := store.GetProgramsAndMajors()
 	if err != nil {
-		fmt.Println("err getting programs: ", err)
+		logrus.Warn("err getting programs: ", err)
 	}
 
 	html := utils.HtmlParser(
@@ -23,7 +22,7 @@ func HandleGetAddStudent(c *gin.Context) {
 	)
 
 	html.Execute(c.Writer, gin.H{
-		"user": user,
-        "programs": programs,
+		"user":     user,
+		"programs": programs,
 	})
 }
