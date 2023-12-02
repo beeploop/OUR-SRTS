@@ -17,6 +17,7 @@
                 <table class="mt-4 w-full border text-sm">
                     <thead class="bg-gray-100">
                         <tr class="[&>*]:p-2">
+                            <td>#</td>
                             <td>Control Number</td>
                             <td>Lastname</td>
                             <td>Firstname</td>
@@ -26,15 +27,16 @@
                     </thead>
                     <tbody>
                         {{ if .students }}
-                        {{ range .students }}
+                        {{ range $index, $element :=  .students }}
                         <tr class="border py-2 hover:bg-gray-100 [&>*]:p-2">
-                            <td>{{ .Control_Number }}</td>
-                            <td>{{ .Lastname }}</td>
-                            <td>{{ .Firstname }}</td>
-                            <td>{{ .Middlename }}</td>
+                            <td>{{ $index }}</td>
+                            <td>{{ $element.Control_Number }}</td>
+                            <td>{{ $element.Lastname }}</td>
+                            <td>{{ $element.Firstname }}</td>
+                            <td>{{ $element.Middlename }}</td>
                             <td>
                                 <a 
-                                    href="/student/{{ .Control_Number }}" 
+                                    href="/student/{{ $element.Control_Number }}" 
                                     class="rounded bg-teal-900 px-3 py-1 text-white hover:bg-teal-700"
                                     >
                                     View
