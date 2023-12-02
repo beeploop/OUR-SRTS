@@ -578,6 +578,10 @@ video {
   right: 0px;
 }
 
+.right-\[-0\.65rem\] {
+  right: -0.65rem;
+}
+
 .top-0 {
   top: 0px;
 }
@@ -1010,6 +1014,11 @@ video {
 
 .p-6 {
   padding: 1.5rem;
+}
+
+.px-1 {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
 }
 
 .px-2 {

@@ -9,6 +9,7 @@ import (
 
 func HandleGetAddStudent(c *gin.Context) {
 	user := utils.GetUserInSession(c)
+    requestCount := store.CountActiveRequests()
 
 	programs, err := store.GetProgramsAndMajors()
 	if err != nil {
@@ -24,5 +25,6 @@ func HandleGetAddStudent(c *gin.Context) {
 	html.Execute(c.Writer, gin.H{
 		"user":     user,
 		"programs": programs,
+        "requestCount": requestCount,
 	})
 }

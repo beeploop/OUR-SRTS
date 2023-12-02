@@ -15,6 +15,7 @@ func HandleAdminSearchPage(c *gin.Context) {
 	)
 
 	user := utils.GetUserInSession(c)
+    requestCount := store.CountActiveRequests()
 
 	programs, err := store.GetPrograms()
 	if err != nil {
@@ -22,6 +23,7 @@ func HandleAdminSearchPage(c *gin.Context) {
 			"user":     user,
 			"students": []string{},
 			"programs": []string{},
+            "requestCount": requestCount,
 		})
 		return
 	}
@@ -30,5 +32,6 @@ func HandleAdminSearchPage(c *gin.Context) {
 		"user":     user,
 		"students": []string{},
 		"programs": programs,
+        "requestCount": requestCount,
 	})
 }

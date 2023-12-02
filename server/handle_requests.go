@@ -8,6 +8,7 @@ import (
 
 func HandleRequests(c *gin.Context) {
 	user := utils.GetUserInSession(c)
+    requestCount := store.CountActiveRequests()
 
 	html := utils.HtmlParser(
 		"admin/requests.html",
@@ -22,6 +23,7 @@ func HandleRequests(c *gin.Context) {
 		html.Execute(c.Writer, gin.H{
 			"user":     user,
 			"requests": requests,
+            "requestCount": requestCount,
 		})
 		return
 	}
@@ -29,5 +31,6 @@ func HandleRequests(c *gin.Context) {
 	html.Execute(c.Writer, gin.H{
 		"user":     user,
 		"requests": requests,
+        "requestCount": requestCount,
 	})
 }

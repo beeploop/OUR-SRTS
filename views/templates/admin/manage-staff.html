@@ -6,7 +6,8 @@
         {{ template "header" .user }}
     
         <div class="grid grid-cols-10">
-            {{ template "sidebar" }}
+
+            {{ template "sidebar" .requestCount }}
 
             <div class="col-span-7 py-4">
                 <h1 class="mb-4 text-xl">Staff Management</h1>
