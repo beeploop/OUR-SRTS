@@ -1,13 +1,13 @@
 package server
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
 	"github.com/BeepLoop/registrar-digitized/store"
 	"github.com/BeepLoop/registrar-digitized/utils"
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 func HandleUpload(c *gin.Context) {
@@ -16,7 +16,7 @@ func HandleUpload(c *gin.Context) {
 
 	form, err := c.MultipartForm()
 	if err != nil {
-		fmt.Println("err binding form: ", err)
+        logrus.Warn("err binding form: ", err)
 		c.Request.Method = "GET"
 		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_form")
 		return

@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -11,7 +10,6 @@ import (
 )
 
 func HandleLogout(c *gin.Context) {
-	fmt.Println("logout route hit")
 	referer := c.Request.Header.Get("Referer")
 	_ = strings.Split(referer, "?")[0]
 

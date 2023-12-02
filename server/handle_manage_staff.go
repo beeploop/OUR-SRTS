@@ -1,12 +1,11 @@
 package server
 
 import (
-	"fmt"
-
 	"github.com/BeepLoop/registrar-digitized/store"
 	"github.com/BeepLoop/registrar-digitized/types"
 	"github.com/BeepLoop/registrar-digitized/utils"
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 func HandleManageStaff(c *gin.Context) {
@@ -26,7 +25,7 @@ func HandleManageStaff(c *gin.Context) {
 
 	users, err := store.GetStaff()
 	if err != nil {
-		fmt.Println("err getting users: ", err)
+        logrus.Warn("err getting staff: ", err)
 
 		html.Execute(c.Writer, gin.H{
 			"user":         user.Fullname,

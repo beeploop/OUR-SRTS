@@ -1,14 +1,14 @@
 package server
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
-	"github.com/gin-gonic/gin"
-	"github.com/gin-gonic/gin/binding"
 	"github.com/BeepLoop/registrar-digitized/store"
 	"github.com/BeepLoop/registrar-digitized/types"
+	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
+	"github.com/sirupsen/logrus"
 )
 
 func HandleUpdateStudent(c *gin.Context) {
@@ -18,7 +18,7 @@ func HandleUpdateStudent(c *gin.Context) {
 	var student types.StudentInfo
 	err := c.ShouldBindWith(&student, binding.Form)
 	if err != nil {
-		fmt.Println("err binding: ", err)
+        logrus.Warn("err binding form: ", err)
 		c.Request.Method = "GET"
 		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_form")
 		return
@@ -26,7 +26,7 @@ func HandleUpdateStudent(c *gin.Context) {
 
 	err = store.UpdateStudent(student)
 	if err != nil {
-        fmt.Println("err update: ", err)
+        logrus.Warn("err updating student: ", err)
 		c.Request.Method = "GET"
 		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=unknown_student")
 		return

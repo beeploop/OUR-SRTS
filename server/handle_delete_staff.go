@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -9,6 +8,7 @@ import (
 	"github.com/BeepLoop/registrar-digitized/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
+	"github.com/sirupsen/logrus"
 )
 
 func HandleDeleteStaff(c *gin.Context) {
@@ -25,7 +25,7 @@ func HandleDeleteStaff(c *gin.Context) {
 	var input DeleteStaff
 	err := c.ShouldBindWith(&input, binding.Form)
 	if err != nil {
-		fmt.Println("err binding: ", err)
+        logrus.Warn("err binding form: ", err)
 		c.Request.Method = "GET"
 		c.Redirect(http.StatusMovedPermanently, url+"?status=failed&reason=invalid_input")
 		return
@@ -39,7 +39,7 @@ func HandleDeleteStaff(c *gin.Context) {
 
 	credential, err := store.GetCredentials(user.Username)
 	if err != nil {
-		fmt.Println("err getting credential: ", err)
+        logrus.Warn("err getting credential: ", err)
 		c.Request.Method = "GET"
 		c.Redirect(http.StatusMovedPermanently, url+"?status=failed&reason=invalid_input")
 		return
@@ -54,7 +54,7 @@ func HandleDeleteStaff(c *gin.Context) {
 
 	err = store.DeleteStaff(input.Staff)
 	if err != nil {
-		fmt.Println("err deleting staff: ", err)
+        logrus.Warn("err deleting staff: ", err)
 		c.Request.Method = "GET"
 		c.Redirect(http.StatusMovedPermanently, url+"?status=failed&reason=invalid_input")
 		return

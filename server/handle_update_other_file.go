@@ -1,13 +1,13 @@
 package server
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
 	"github.com/BeepLoop/registrar-digitized/store"
 	"github.com/BeepLoop/registrar-digitized/utils"
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 func HandleUpdateOtherFile(c *gin.Context) {
@@ -16,7 +16,7 @@ func HandleUpdateOtherFile(c *gin.Context) {
 
 	form, err := c.MultipartForm()
 	if err != nil {
-		fmt.Println("err binding form: ", err)
+        logrus.Warn("err binding form: ", err)
 		c.Request.Method = "GET"
 		c.Redirect(http.StatusBadRequest, url+"?status=failed&reason=invalid_form")
 		return
@@ -37,7 +37,7 @@ func HandleUpdateOtherFile(c *gin.Context) {
 
 		remoteLocation, err := utils.UpdateOtherFile(c, file, filename, location)
 		if err != nil {
-			fmt.Println("err saving updated file: ", err)
+            logrus.Warn("err saving updated file: ", err)
 			c.Request.Method = "GET"
 			c.Redirect(http.StatusBadRequest, url+"?status=failed&reason=upload_failed")
 			return
@@ -45,7 +45,7 @@ func HandleUpdateOtherFile(c *gin.Context) {
 
 		err = store.UpdateOtherFile(remoteLocation, filename)
 		if err != nil {
-			fmt.Println("err updating file: ", err)
+            logrus.Warn("err updating file: ", err)
 			c.Request.Method = "GET"
 			c.Redirect(http.StatusBadRequest, url+"?status=failed&reason=update_failed")
 			return

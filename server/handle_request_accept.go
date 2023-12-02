@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -9,6 +8,7 @@ import (
 	"github.com/BeepLoop/registrar-digitized/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
+	"github.com/sirupsen/logrus"
 )
 
 func HandleRequestFulfill(c *gin.Context) {
@@ -26,7 +26,7 @@ func HandleRequestFulfill(c *gin.Context) {
 	var accept Accept
 	err := c.ShouldBindWith(&accept, binding.Form)
 	if err != nil {
-		fmt.Println("err binding: ", err)
+		logrus.Warn("err binding form: ", err)
 		c.Request.Method = "GET"
 		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_request")
 		return

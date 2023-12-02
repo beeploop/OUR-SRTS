@@ -1,9 +1,8 @@
 package store
 
 import (
-	"fmt"
-
 	"github.com/BeepLoop/registrar-digitized/models"
+	"github.com/sirupsen/logrus"
 )
 
 func GetRequests() ([]models.Request, error) {
@@ -20,7 +19,7 @@ func GetRequests() ([]models.Request, error) {
 	var requests []models.Request
 	err := Db_Conn.Select(&requests, query)
 	if err != nil {
-		fmt.Println("err getting requests: ", err)
+		logrus.Warn("err getting requests: ", err)
 		return nil, err
 	}
 
