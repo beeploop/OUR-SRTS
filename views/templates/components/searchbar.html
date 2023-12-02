@@ -3,19 +3,20 @@
     <div class="flex flex-1 gap-4">
         <input type="text" id="search-bar" autocomplete="off" autofocus spellcheck="false"
         name="searchterm" 
-        class="w-full rounded-md border border-gray-400 px-2 focus:border-red-700 focus:outline-none" 
+        class="w-full rounded-md border border-gray-400 px-2 text-sm focus:border-red-700 focus:outline-none" 
         placeholder="Search lastname or File Control Number">
 
         <div class="flex w-full gap-4">
             <select name="type" id="search-type"
-                class="w-full rounded-md border border-gray-400 bg-white px-2 focus:border-red-700 focus:outline-none"
+                class="w-full rounded-md border border-gray-400 bg-white px-2 text-sm focus:border-red-700 focus:outline-none"
                 >
                 <option value="lastname">Lastname</option>
                 <option value="firstname">Firstname</option>
+                <option value="middlename">Middlename</option>
             </select>
 
             <select id="programs" name="program" 
-                class="w-full rounded-md border border-gray-400 bg-white px-2 focus:border-red-700 focus:outline-none"
+                class="w-full rounded-md border border-gray-400 bg-white px-2 text-sm focus:border-red-700 focus:outline-none"
                 >
                 <option value="all">All</option>
             </select>

@@ -25,6 +25,14 @@ func SearchStudent(data types.SearchData) ([]types.SearchResult, error) {
 			logrus.Info("search by firstname, with program")
 			return getByFilteredFirstname(data.SearchTerm, data.Program)
 		}
+    case "middlename":
+        if data.Program == "all" {
+			logrus.Info("search by middlename, no program")
+            return getByMiddlename(data.SearchTerm)
+        } else {
+            logrus.Info("search by middlename, with program")
+            return getByFilteredMiddlename(data.SearchTerm, data.Program)
+        }
 	default:
 		return nil, errors.New("invalid search type")
 	}
@@ -121,6 +129,55 @@ func getByFilteredFirstname(firstname, program string) ([]types.SearchResult, er
 
 	students := []types.SearchResult{}
 	err := Db_Conn.Select(&students, query, firstname+"%", program)
+	if err != nil {
+		return nil, err
+	}
+
+	return students, nil
+}
+
+func getByMiddlename(middlename string) ([]types.SearchResult, error) {
+	query := `
+        SELECT 
+            controlNumber, lastname, firstname, middlename 
+        FROM 
+            Student 
+        WHERE 
+            middlename LIKE ? 
+        ORDER BY 
+            lastname
+    `
+
+	var students []types.SearchResult
+	err := Db_Conn.Select(&students, query, middlename+"%")
+	if err != nil {
+		return nil, err
+	}
+
+	return students, nil
+}
+
+func getByFilteredMiddlename(middlename, program string) ([]types.SearchResult, error) {
+	query := `
+        SELECT
+            controlNumber, lastname, firstname, middlename
+        FROM
+            Student
+        WHERE
+            middlename LIKE ?
+            AND programId = (
+                SELECT
+                    id
+                FROM
+                    Program
+                WHERE
+                    program = ?
+            )
+        ORDER BY lastname
+    `
+
+	students := []types.SearchResult{}
+	err := Db_Conn.Select(&students, query, middlename+"%", program)
 	if err != nil {
 		return nil, err
 	}
