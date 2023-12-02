@@ -47,10 +47,13 @@ func NewServer() {
 	Router.Use(middleware.MimeType)
 	Router.Use(sessions.Sessions("user", sessionStore))
 
+	Router.NoRoute(HandleNotFoundRote)
+
 	Router.Static("/styles", "views/styles/")
 	Router.Static("/scripts", "views/scripts/")
 	Router.Static("/public", "assets/public/")
 	Router.Static("/fonts", "webfonts/")
 
 	RegisterRoutes()
+
 }
