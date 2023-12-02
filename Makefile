@@ -73,6 +73,7 @@ linux-release: clean build
 clean:
 	@echo "cleaning up..."
 	@rm -rf registrar-digitized*
+	@rm -rf release/*
 	@echo "clean complete"
 
 test:
