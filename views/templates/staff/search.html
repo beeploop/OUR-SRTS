@@ -61,6 +61,14 @@
                     option.textContent = program;
                     selection.appendChild(option);
                 })
+
+                const search = localStorage.getItem('search')
+                if (search) {
+                    const { searchterm, type, program } = JSON.parse(search)
+                    document.getElementById('search-bar').value = searchterm
+                    document.getElementById('search-type').value = type
+                    document.getElementById('programs').value = program
+                }
             </script>
 
         </div>
