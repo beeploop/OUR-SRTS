@@ -1,6 +1,7 @@
 package types
 
-type Submit struct {
-	Search  string `form:"search" binding:"required"`
-	Program string `form:"program" binding:"required"`
+type SearchData struct {
+	SearchTerm string `form:"searchterm" binding:"required"`
+	Program    string `form:"program" binding:"required"`
+	Type       string `form:"type" binding:"required"`
 }

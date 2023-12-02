@@ -1,58 +1,49 @@
 package store
 
 import (
-	"strconv"
+	"errors"
 
 	"github.com/BeepLoop/registrar-digitized/types"
+	"github.com/sirupsen/logrus"
 )
 
-func SearchStudent(searchTerm, program string) ([]types.Student, error) {
-	// check if search term can be converted to number in order to know
-	// if we should search by lastname or by controlNumber
-	startingChars := searchTerm[:2]
-	_, err := strconv.Atoi(startingChars)
-	if err != nil {
-		// if program == all then dont filter by program
-		// else filter students by program
-		if program == "all" {
-			students, err := getByLastname(searchTerm)
-			if err != nil {
-				return nil, err
-			}
-			return students, nil
+func SearchStudent(data types.SearchData) ([]types.SearchResult, error) {
+	switch data.Type {
+	case "lastname":
+		if data.Program == "all" {
+			logrus.Info("search by lastname, no program")
+			return getByLastname(data.SearchTerm)
+		} else {
+			logrus.Info("search by lastname, with program")
+			return getByFilteredLastname(data.SearchTerm, data.Program)
 		}
-
-		// program != all so we doesn't filter students by program
-		students, err := getByFilteredLastname(searchTerm, program)
-		if err != nil {
-			return nil, err
+	case "firstname":
+		if data.Program == "all" {
+			logrus.Info("search by firstname, no program")
+			return getByFirstname(data.SearchTerm)
+		} else {
+			logrus.Info("search by firstname, with program")
+			return getByFilteredFirstname(data.SearchTerm, data.Program)
 		}
-		return students, nil
+	default:
+		return nil, errors.New("invalid search type")
 	}
-
-	// if program == all then dont filter by program
-	// else filter students by program
-	if program == "all" {
-		students, err := getByControlNo(searchTerm)
-		if err != nil {
-			return nil, err
-		}
-		return students, nil
-	}
-
-	// program != all so we filter by program
-	students, err := getByFilteredControlNo(searchTerm, program)
-	if err != nil {
-		return nil, err
-	}
-	return students, nil
 }
 
-func getByLastname(lastname string) ([]types.Student, error) {
-	query := "select * from Student where lastname=?"
+func getByLastname(lastname string) ([]types.SearchResult, error) {
+	query := `
+        SELECT 
+            controlNumber, lastname, firstname, middlename 
+        FROM 
+            Student 
+        WHERE 
+            lastname LIKE ? 
+        ORDER BY 
+            lastname
+    `
 
-	var students []types.Student
-	err := Db_Conn.Select(&students, query, lastname)
+	var students []types.SearchResult
+	err := Db_Conn.Select(&students, query, lastname+"%")
 	if err != nil {
 		return nil, err
 	}
@@ -60,14 +51,14 @@ func getByLastname(lastname string) ([]types.Student, error) {
 	return students, nil
 }
 
-func getByFilteredLastname(lastname, program string) ([]types.Student, error) {
+func getByFilteredLastname(lastname, program string) ([]types.SearchResult, error) {
 	query := `
         SELECT
-            *
+            controlNumber, lastname, firstname, middlename 
         FROM
             Student
         WHERE
-            lastname = ?
+            lastname LIKE ?
             AND programId = (
                 SELECT
                     id
@@ -75,11 +66,12 @@ func getByFilteredLastname(lastname, program string) ([]types.Student, error) {
                     Program
                 WHERE
                     program = ?
-            );
+            )
+        ORDER BY lastname
     `
 
-	students := []types.Student{}
-	err := Db_Conn.Select(&students, query, lastname, program)
+	students := []types.SearchResult{}
+	err := Db_Conn.Select(&students, query, lastname+"%", program)
 	if err != nil {
 		return nil, err
 	}
@@ -87,11 +79,20 @@ func getByFilteredLastname(lastname, program string) ([]types.Student, error) {
 	return students, nil
 }
 
-func getByControlNo(controlNumber string) ([]types.Student, error) {
-	query := "select * from Student where controlNumber=?"
+func getByFirstname(firstname string) ([]types.SearchResult, error) {
+	query := `
+        SELECT 
+            controlNumber, lastname, firstname, middlename 
+        FROM 
+            Student 
+        WHERE 
+            firstname LIKE ? 
+        ORDER BY 
+            lastname
+    `
 
-	var students []types.Student
-	err := Db_Conn.Select(&students, query, controlNumber)
+	var students []types.SearchResult
+	err := Db_Conn.Select(&students, query, firstname+"%")
 	if err != nil {
 		return nil, err
 	}
@@ -99,14 +100,14 @@ func getByControlNo(controlNumber string) ([]types.Student, error) {
 	return students, nil
 }
 
-func getByFilteredControlNo(controlNumber, program string) ([]types.Student, error) {
+func getByFilteredFirstname(firstname, program string) ([]types.SearchResult, error) {
 	query := `
         SELECT
-            *
+            controlNumber, lastname, firstname, middlename
         FROM
             Student
         WHERE
-            controlNumber = ?
+            firstname LIKE ?
             AND programId = (
                 SELECT
                     id
@@ -114,11 +115,12 @@ func getByFilteredControlNo(controlNumber, program string) ([]types.Student, err
                     Program
                 WHERE
                     program = ?
-            );
+            )
+        ORDER BY lastname
     `
 
-	students := []types.Student{}
-	err := Db_Conn.Select(&students, query, controlNumber, program)
+	students := []types.SearchResult{}
+	err := Db_Conn.Select(&students, query, firstname+"%", program)
 	if err != nil {
 		return nil, err
 	}

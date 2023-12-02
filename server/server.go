@@ -17,7 +17,6 @@ var Router *gin.Engine
 
 func NewServer() {
 	gob.Register(types.User{})
-	gob.Register([]types.Student{})
 
 	logLevel, err := logrus.ParseLevel(config.Env.LogLevel)
 	if err != nil {

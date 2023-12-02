@@ -16,6 +16,7 @@ func HandleAdminPostSearch(c *gin.Context) {
 		"admin/search.html",
 		"components/header.html",
 		"components/sidebar.html",
+		"components/searchbar.html",
 	)
 
 	programs, err := store.GetPrograms()
@@ -29,7 +30,7 @@ func HandleAdminPostSearch(c *gin.Context) {
 		return
 	}
 
-	var input types.Submit
+	var input types.SearchData
 	err = c.ShouldBindWith(&input, binding.Form)
 	if err != nil {
 		c.Request.Method = "GET"
@@ -41,7 +42,7 @@ func HandleAdminPostSearch(c *gin.Context) {
 		return
 	}
 
-	if input.Search == "" {
+	if input.SearchTerm == "" {
 		c.Request.Method = "GET"
 		html.Execute(c.Writer, gin.H{
 			"user":     user,
@@ -51,7 +52,7 @@ func HandleAdminPostSearch(c *gin.Context) {
 		return
 	}
 
-	students, err := store.SearchStudent(input.Search, input.Program)
+	students, err := store.SearchStudent(input)
 	if err != nil {
 		c.Request.Method = "GET"
 		html.Execute(c.Writer, gin.H{

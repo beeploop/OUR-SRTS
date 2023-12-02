@@ -16,3 +16,10 @@ type Student struct {
 	CreatedAt      string        `db:"createdAt"`
 	UpdatedAt      string        `db:"updatedAt"`
 }
+
+type SearchResult struct {
+	Control_Number string `db:"controlNumber"`
+	Lastname       string `db:"lastname"`
+	Firstname      string `db:"firstname"`
+	Middlename     string `db:"middlename"`
+}

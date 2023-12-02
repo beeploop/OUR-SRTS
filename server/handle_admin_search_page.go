@@ -3,7 +3,6 @@ package server
 import (
 	"github.com/BeepLoop/registrar-digitized/store"
 	"github.com/BeepLoop/registrar-digitized/utils"
-	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,17 +11,16 @@ func HandleAdminSearchPage(c *gin.Context) {
 		"admin/search.html",
 		"components/header.html",
 		"components/sidebar.html",
+		"components/searchbar.html",
 	)
 
 	user := utils.GetUserInSession(c)
-	session := sessions.Default(c)
-	students := session.Get("search-result")
 
 	programs, err := store.GetPrograms()
 	if err != nil {
 		html.Execute(c.Writer, gin.H{
 			"user":     user,
-			"students": students,
+			"students": []string{},
 			"programs": []string{},
 		})
 		return
@@ -30,7 +28,7 @@ func HandleAdminSearchPage(c *gin.Context) {
 
 	html.Execute(c.Writer, gin.H{
 		"user":     user,
-		"students": students,
+		"students": []string{},
 		"programs": programs,
 	})
 }

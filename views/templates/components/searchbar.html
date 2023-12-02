@@ -1,0 +1,38 @@
+{{ define "searchbar" }}
+<form id="form" method="POST" class="flex w-full justify-between gap-4">
+    <div class="flex flex-1 gap-4">
+        <input type="text" id="search-bar" autocomplete="off" autofocus spellcheck="false"
+        name="searchterm" 
+        class="w-full rounded-md border border-gray-400 px-2 focus:border-red-700 focus:outline-none" 
+        placeholder="Search lastname or File Control Number">
+
+        <div class="flex w-full gap-4">
+            <select name="type" id="search-type"
+                class="w-full rounded-md border border-gray-400 bg-white px-2 focus:border-red-700 focus:outline-none"
+                >
+                <option value="lastname">Lastname</option>
+                <option value="firstname">Firstname</option>
+            </select>
+
+            <select id="programs" name="program" 
+                class="w-full rounded-md border border-gray-400 bg-white px-2 focus:border-red-700 focus:outline-none"
+                >
+                <option value="all">All</option>
+            </select>
+        </div>
+    </div>
+
+    <button type="submit" class="flex items-center gap-2 rounded-md bg-red-900 px-3 py-1 text-white hover:bg-red-700">
+        <svg fill="#FFFFFF" width="16px" height="16px" viewBox="-2.5 -2.5 24 24" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin" class="jam jam-search"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12zm6.32-1.094l3.58 3.58a1 1 0 1 1-1.415 1.413l-3.58-3.58a8 8 0 1 1 1.414-1.414z"></path></g></svg>
+        Search
+    </button>
+</form>
+<script>
+    const form = document.getElementById('form')
+    form.addEventListener('submit', (e) => {
+        const formData = new FormData(form)
+        const values = Object.fromEntries(formData)
+        localStorage.setItem('search', JSON.stringify(values))
+    })
+</script>
+{{ end }}
