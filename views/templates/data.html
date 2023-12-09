@@ -96,7 +96,7 @@
                         {{ template "clearance" .files }}
                         {{ template "DPP" .files }}
 
-                        {{ if eq .files.Type "Transferee" }}
+                        {{ if eq .files.Type "NonTransferee" }}
                         {{ template "form137" .files }}
                         {{ template "form138" .files }}
                         {{ end }}
