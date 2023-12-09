@@ -53,6 +53,7 @@ func NewServer() {
 	Router.Static("/scripts", "views/scripts/")
 	Router.Static("/public", "assets/public/")
 	Router.Static("/fonts", "webfonts/")
+    Router.Static("/nas", "nas/")
 
 	RegisterRoutes()
 
