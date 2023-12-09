@@ -2,6 +2,7 @@ package server
 
 import (
 	"net/http"
+	"runtime"
 	"strings"
 
 	"github.com/BeepLoop/registrar-digitized/store"
@@ -16,7 +17,7 @@ func HandleUpload(c *gin.Context) {
 
 	form, err := c.MultipartForm()
 	if err != nil {
-        logrus.Warn("err binding form: ", err)
+		logrus.Warn("err binding form: ", err)
 		c.Request.Method = "GET"
 		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_form")
 		return
@@ -49,6 +50,11 @@ func HandleUpload(c *gin.Context) {
 				return
 			}
 
+			// replace backslash with forward slash for windows
+			if runtime.GOOS == "windows" {
+				location = strings.ReplaceAll(location, "\\", "/")
+			}
+
 			err = store.SaveOtherFile(file, location, controlNumber, key)
 			if err != nil {
 				c.Request.Method = "GET"
@@ -62,6 +68,11 @@ func HandleUpload(c *gin.Context) {
 				c.Request.Method = "GET"
 				c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=invalid_form")
 				return
+			}
+
+			// replace backslash with forward slash for windows
+			if runtime.GOOS == "windows" {
+				location = strings.ReplaceAll(location, "\\", "/")
 			}
 
 			err = store.SaveFile(location, controlNumber, key)

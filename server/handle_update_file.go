@@ -2,6 +2,7 @@ package server
 
 import (
 	"net/http"
+	"runtime"
 	"strings"
 
 	"github.com/BeepLoop/registrar-digitized/store"
@@ -52,6 +53,11 @@ func HandleUpdateFile(c *gin.Context) {
 			c.Request.Method = "GET"
 			c.Redirect(http.StatusBadRequest, url+"?status=failed&reason=invalid_form")
 			return
+		}
+
+		// replace backslash with forward slash for windows
+		if runtime.GOOS == "windows" {
+			location = strings.ReplaceAll(location, "\\", "/")
 		}
 
 		err = store.UpdateFile(key, controlNumber, location)

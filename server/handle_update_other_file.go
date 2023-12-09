@@ -2,6 +2,7 @@ package server
 
 import (
 	"net/http"
+	"runtime"
 	"strings"
 
 	"github.com/BeepLoop/registrar-digitized/store"
@@ -16,7 +17,7 @@ func HandleUpdateOtherFile(c *gin.Context) {
 
 	form, err := c.MultipartForm()
 	if err != nil {
-        logrus.Warn("err binding form: ", err)
+		logrus.Warn("err binding form: ", err)
 		c.Request.Method = "GET"
 		c.Redirect(http.StatusBadRequest, url+"?status=failed&reason=invalid_form")
 		return
@@ -37,15 +38,20 @@ func HandleUpdateOtherFile(c *gin.Context) {
 
 		remoteLocation, err := utils.UpdateOtherFile(c, file, filename, location)
 		if err != nil {
-            logrus.Warn("err saving updated file: ", err)
+			logrus.Warn("err saving updated file: ", err)
 			c.Request.Method = "GET"
 			c.Redirect(http.StatusBadRequest, url+"?status=failed&reason=upload_failed")
 			return
 		}
 
+		// replace backslash with forward slash for windows
+		if runtime.GOOS == "windows" {
+			remoteLocation = strings.ReplaceAll(remoteLocation, "\\", "/")
+		}
+
 		err = store.UpdateOtherFile(remoteLocation, filename)
 		if err != nil {
-            logrus.Warn("err updating file: ", err)
+			logrus.Warn("err updating file: ", err)
 			c.Request.Method = "GET"
 			c.Redirect(http.StatusBadRequest, url+"?status=failed&reason=update_failed")
 			return

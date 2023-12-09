@@ -21,7 +21,7 @@ func SaveOtherFile(filename, lastname, controlNumber, key string, file *multipar
 	transformedFilename := strings.ReplaceAll(filename, " ", "-")
 	ext := filepath.Ext(file.Filename)
 	newFilename := lastname + "_" + controlNumber + "_Other_" + transformedFilename + ext
-	path := config.Env.TempDir+ newFilename
+	path := config.Env.TempDir + newFilename
 	// location := "http://" + config.Env.LocalAddr + config.Env.Port + "/" + path
 
 	err := c.SaveUploadedFile(file, path)
