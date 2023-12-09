@@ -8,6 +8,6 @@ type StudentInfo struct {
 	FileLocaion   string `form:"fileLocation" binding:"required"`
 	Type          string `form:"type" binding:"required"`
 	CivilStatus   string `form:"civilStatus" binding:"required"`
-	Program       string `form:"program" binding:"required"`
-	Major         string `form:"major" binding:""`
+	Program       string `form:"program"`
+	Major         string `form:"major"`
 }
