@@ -3,6 +3,7 @@ package server
 import (
 	"encoding/gob"
 	"io"
+	"net/http"
 	"os"
 
 	"github.com/BeepLoop/registrar-digitized/config"
@@ -53,7 +54,7 @@ func NewServer() {
 	Router.Static("/scripts", "views/scripts/")
 	Router.Static("/public", "assets/public/")
 	Router.Static("/fonts", "webfonts/")
-    Router.Static("/nas", "nas/")
+	Router.StaticFS("/nas", http.Dir(config.Env.NasUrl))
 
 	RegisterRoutes()
 

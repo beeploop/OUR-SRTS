@@ -30,15 +30,16 @@ func SaveFileToNas(srcFilepath, fileType string) (string, error) {
 
 	distFile, err := os.Create(outputFilename)
 	if err != nil {
-		return outputFilename, nil
+		return "", nil
 	}
 	defer distFile.Close()
 
 	_, err = io.Copy(distFile, src)
 	if err != nil {
-		return outputFilename, nil
+		return "", nil
 	}
 
+	filepath := filepath.Join("nas", fileType, filename)
 	logrus.Info("File saved to NAS successfully")
-	return outputFilename, nil
+	return filepath, nil
 }
