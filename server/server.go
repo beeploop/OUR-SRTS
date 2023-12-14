@@ -32,11 +32,13 @@ func NewServer() {
 	if err != nil {
 		logrus.Fatal("Error creating log file: ", err)
 	}
-	multiwriter := io.MultiWriter(logFile, os.Stdout)
-	logrus.SetOutput(multiwriter)
 
 	if config.Env.GinMode == "release" {
+		logrus.SetOutput(logFile)
 		gin.SetMode(gin.ReleaseMode)
+	} else {
+		multiwriter := io.MultiWriter(logFile, os.Stdout)
+		logrus.SetOutput(multiwriter)
 	}
 
 	Router = gin.New()
