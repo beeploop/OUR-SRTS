@@ -3,6 +3,7 @@ package models
 import "database/sql"
 
 type StudentFiles struct {
+	LocalAddr                string
 	Lastname                 string           `db:"lastname"`
 	Firstname                string           `db:"firstname"`
 	Middlename               string           `db:"middlename"`

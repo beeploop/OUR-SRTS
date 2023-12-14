@@ -20,12 +20,11 @@ type Config struct {
 var Env *Config
 
 func Initialize() error {
-	conn, err := net.Dial("udp", "8.8.8.8:80")
+
+	localAddr, err := NetDial()
 	if err != nil {
 		return err
 	}
-	defer conn.Close()
-	localAddr := conn.LocalAddr().String()
 
 	var envFile map[string]string
 	envFile, err = godotenv.Read()
@@ -40,8 +39,19 @@ func Initialize() error {
 		TempDir:   envFile["TEMP_DIR"],
 		NasUrl:    envFile["NAS_URL"],
 		GinMode:   envFile["GIN_MODE"],
-        LogLevel:  envFile["LOG_LEVEL"],
+		LogLevel:  envFile["LOG_LEVEL"],
 	}
 
 	return nil
+}
+
+func NetDial() (string, error) {
+	conn, err := net.Dial("udp", "8.8.8.8:80")
+	if err != nil {
+		return "", err
+	}
+	defer conn.Close()
+	localAddr := conn.LocalAddr().String()
+
+	return localAddr, nil
 }

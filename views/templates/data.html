@@ -1,185 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
-    {{ template "head" }}
+{{ template "head" }}
 
-    <body>
+<body>
 
-        {{ template "header" .user }}
-    
-        <div class="mx-auto my-4 max-w-5xl rounded-md border p-4">
+    {{ template "header" .user }}
 
-            <div class="py-2">
-                <a href="/admin/search" class="rounded-md bg-yellow-400 px-3 py-1 hover:bg-yellow-200">Back</a>
-            </div>
+    <div class="mx-auto my-4 max-w-5xl rounded-md border p-4">
 
-            <!-- Student Information Part -->
-            <div class="flex justify-between">
-                <div class="flex gap-4">
+        <div class="py-2">
+            <a href="/admin/search" class="rounded-md bg-yellow-400 px-3 py-1 hover:bg-yellow-200">Back</a>
+        </div>
 
-                    <!-- Student Image -->
-                    <div class="aspect-square h-40 w-40 border border-gray-400">
-                        <img src="/{{ .files.Photo.String }}" 
-                        onerror="this.onerror=null;this.src='/public/placeholder.jpg'" 
+        <!-- Student Information Part -->
+        <div class="flex justify-between">
+            <div class="flex gap-4">
+
+                <!-- Student Image -->
+                <div class="aspect-square h-40 w-40 border border-gray-400">
+                    <img src="/{{ .files.Photo.String }}" onerror="this.onerror=null;this.src='/public/placeholder.jpg'"
                         alt="profile picture" class="h-40 w-40 object-cover">
-                    </div>
-
-                    <!-- Student Info -->
-                    <div class="flex flex-col justify-end">
-                        <div class="text-bold flex text-lg uppercase">
-                            <h2 class="w-40">
-                                Name:
-                            </h2>
-                            <h2>
-                                {{ .files.Lastname }}, &nbsp;{{ .files.Firstname }} &nbsp; {{ .files.Middlename }}
-                            </h2>
-                        </div>
-                        <div class="flex text-sm">
-                            <p class="w-40">File Control Number:</p>
-                            <p id="studentControlNumber">{{ .files.ControlNumber }}</p>
-                        </div>
-                        <div class="flex text-sm">
-                            <p class="w-40">Program:</p>
-                            <p>{{ .files.Program.String }}</p>
-                        </div>
-                        <div class="flex text-sm">
-                            <p class="w-40">Major:</p>
-                            <p>{{ .files.Major.String }}</p>
-                        </div>
-                        <div class="flex text-sm">
-                            <p class="w-40">File Location:</p>
-                            <p class="text-red-600">{{ .files.File  }}</p>
-                        </div>
-                        <div class="flex text-sm">
-                            <p class="w-40">Type:</p>
-                            <p>{{ .files.Type }}</p>
-                        </div>
-                    </div>
                 </div>
 
-                <script>
-                    const ctrlNo = document.getElementById('studentControlNumber').innerText
-                </script>
-
-                <!-- Info Actions -->
+                <!-- Student Info -->
                 <div class="flex flex-col justify-end">
-                    <div class="flex gap-4 text-sm">
-                        <!-- <button class="rounded bg-red-900 px-3 py-1 text-white hover:bg-red-700"> -->
-                        <!--     Edit Student -->
-                        <!-- </button> -->
-                        {{ template "editStudent" .files }}
-                        <button id="addNewOther" class="rounded bg-teal-900 px-3 py-1 text-white hover:bg-teal-700">
-                            New File
-                        </button>
+                    <div class="text-bold flex text-lg uppercase">
+                        <h2 class="w-40">
+                            Name:
+                        </h2>
+                        <h2>
+                            {{ .files.Lastname }}, &nbsp;{{ .files.Firstname }} &nbsp; {{ .files.Middlename }}
+                        </h2>
+                    </div>
+                    <div class="flex text-sm">
+                        <p class="w-40">File Control Number:</p>
+                        <p id="studentControlNumber">{{ .files.ControlNumber }}</p>
+                    </div>
+                    <div class="flex text-sm">
+                        <p class="w-40">Program:</p>
+                        <p>{{ .files.Program.String }}</p>
+                    </div>
+                    <div class="flex text-sm">
+                        <p class="w-40">Major:</p>
+                        <p>{{ .files.Major.String }}</p>
+                    </div>
+                    <div class="flex text-sm">
+                        <p class="w-40">File Location:</p>
+                        <p class="text-red-600">{{ .files.File }}</p>
+                    </div>
+                    <div class="flex text-sm">
+                        <p class="w-40">Type:</p>
+                        <p>{{ .files.Type }}</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Student Files -->
-            <div class="mt-8">
-                <h2>Files</h2>
-                
-                <table class="mt-1 w-full border text-sm">
-                    <thead class="border bg-gray-100">
-                        <tr class="[&>*]:px-1 [&>*]:py-2">
-                            <td>Filename</td>
-                            <td>Remarks</td>
-                            <td>Actions</td>
-                        </tr>
-                    </thead>
-                    <tbody class="[&>*]:border">
-                        {{ template "AdvancedCredit" .files }}
-                        {{ template "undertaking" .files }}
-                        {{ template "AFG" .files }}
-                        {{ template "approval" .files }}
-                        {{ template "birth-certificate" .files }}
-                        {{ template "LowIncome" .files }}
-                        {{ template "clearance" .files }}
-                        {{ template "DPP" .files }}
+            <script>
+                const ctrlNo = document.getElementById('studentControlNumber').innerText
+            </script>
 
-                        {{ if eq .files.Type "NonTransferee" }}
-                        {{ template "form137" .files }}
-                        {{ template "form138" .files }}
-                        {{ end }}
-
-                        {{ template "GoodMoral" .files }}
-                        {{ template "HSD" .files }}
-                        {{ template "HD" .files }}
-                        {{ template "INC" .files }}
-
-                        {{ if eq .files.Program.String "Doctor Of Medicine" }}
-                        {{ template "Indigency" .files }}
-                        {{ end }}
-
-                        {{ template "LOA" .files }}
-
-                        {{ if eq .files.CivilStatus "married"}}
-                        {{ template "MarriageCert" .files }}
-                        {{ end }}
-
-                        {{ template "MedCert" .files }}
-
-                        {{ if eq .files.Program.String "Doctor Of Medicine" }}
-                        {{ template "NMAT" .files }}
-                        {{ end }}
-
-                        {{ template "NOAP" .files }}
-                        {{ template "PDS" .files }}
-                        {{ template "photo" .files }}
-                        {{ template "Promise" .files }}
-                        {{ template "SubjectValidation" .files }}
-                        {{ template "Substitution" .files }}
-                        {{ template "TOR" .files }}
-                        {{ template "Usepat" .files }}
-                    </tbody>
-                </table>
+            <!-- Info Actions -->
+            <div class="flex flex-col justify-end">
+                <div class="flex gap-4 text-sm">
+                    <!-- <button class="rounded bg-red-900 px-3 py-1 text-white hover:bg-red-700"> -->
+                    <!--     Edit Student -->
+                    <!-- </button> -->
+                    {{ template "editStudent" .files }}
+                    <button id="addNewOther" class="rounded bg-teal-900 px-3 py-1 text-white hover:bg-teal-700">
+                        New File
+                    </button>
+                </div>
             </div>
+        </div>
 
-            <div class="mt-8">
-                <h2>Other</h2>
+        <!-- Student Files -->
+        <div class="mt-8">
+            <h2>Files</h2>
 
-                <table class="mt-1 w-full border text-sm">
-                    <thead class="border bg-gray-100">
-                        <tr class="[&>*]:px-1 [&>*]:py-2">
-                            <td>Filename</td>
-                            <td>Remarks</td>
-                            <td>Actions</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{ if not .files.Other }}
-                        <tr class="[&>*]:py-3">
-                            <td colspan="5" align="center">No Other Files</td>
-                        </tr>
-                        {{ else }}
-                        {{ range .files.Other }}
-                        <tr class="hover:bg-gray-100 [&>*]:px-1 [&>*]:py-2">
-                            <td>{{ .Filename }}</td>
-                            <td>
-                                <span class="badge-active">On-File</span>
-                            </td>
-                            <td>
-                                <div class="flex gap-2">
-                                <a 
-                                    href="http://localhost:3000/{{ .Location }}" 
-                                    target="_blank"
-                                    class="rounded bg-teal-900 px-3 py-1 text-white hover:bg-teal-700"
-                                    >
+            <table class="mt-1 w-full border text-sm">
+                <thead class="border bg-gray-100">
+                    <tr class="[&>*]:px-1 [&>*]:py-2">
+                        <td>Filename</td>
+                        <td>Remarks</td>
+                        <td>Actions</td>
+                    </tr>
+                </thead>
+                <tbody class="[&>*]:border">
+                    {{ template "AdvancedCredit" .files }}
+                    {{ template "undertaking" .files }}
+                    {{ template "AFG" .files }}
+                    {{ template "approval" .files }}
+                    {{ template "birth-certificate" .files }}
+                    {{ template "LowIncome" .files }}
+                    {{ template "clearance" .files }}
+                    {{ template "DPP" .files }}
+
+                    {{ if eq .files.Type "NonTransferee" }}
+                    {{ template "form137" .files }}
+                    {{ template "form138" .files }}
+                    {{ end }}
+
+                    {{ template "GoodMoral" .files }}
+                    {{ template "HSD" .files }}
+                    {{ template "HD" .files }}
+                    {{ template "INC" .files }}
+
+                    {{ if eq .files.Program.String "Doctor Of Medicine" }}
+                    {{ template "Indigency" .files }}
+                    {{ end }}
+
+                    {{ template "LOA" .files }}
+
+                    {{ if eq .files.CivilStatus "married"}}
+                    {{ template "MarriageCert" .files }}
+                    {{ end }}
+
+                    {{ template "MedCert" .files }}
+
+                    {{ if eq .files.Program.String "Doctor Of Medicine" }}
+                    {{ template "NMAT" .files }}
+                    {{ end }}
+
+                    {{ template "NOAP" .files }}
+                    {{ template "PDS" .files }}
+                    {{ template "photo" .files }}
+                    {{ template "Promise" .files }}
+                    {{ template "SubjectValidation" .files }}
+                    {{ template "Substitution" .files }}
+                    {{ template "TOR" .files }}
+                    {{ template "Usepat" .files }}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-8">
+            <h2>Other</h2>
+
+            <table class="mt-1 w-full border text-sm">
+                <thead class="border bg-gray-100">
+                    <tr class="[&>*]:px-1 [&>*]:py-2">
+                        <td>Filename</td>
+                        <td>Remarks</td>
+                        <td>Actions</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{ if not .files.Other }}
+                    <tr class="[&>*]:py-3">
+                        <td colspan="5" align="center">No Other Files</td>
+                    </tr>
+                    {{ else }}
+                    {{ range .files.Other }}
+                    <tr class="hover:bg-gray-100 [&>*]:px-1 [&>*]:py-2">
+                        <td>{{ .Filename }}</td>
+                        <td>
+                            <span class="badge-active">On-File</span>
+                        </td>
+                        <td>
+                            <div class="flex gap-2">
+                                <a href="http://localhost:3000/{{ .Location }}" target="_blank"
+                                    class="rounded bg-teal-900 px-3 py-1 text-white hover:bg-teal-700">
                                     View
                                 </a>
                                 {{ template "update-other-file" . }}
-                                </div>
-                            </td>
-                        </tr>
-                        {{ end }}
-                        {{ end }}
-                    </tbody>
-                </table>
-            </div>
-
+                            </div>
+                        </td>
+                    </tr>
+                    {{ end }}
+                    {{ end }}
+                </tbody>
+            </table>
         </div>
 
-        <div id="modalOther" class="relative z-10 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-            <!--
+    </div>
+
+    <div id="modalOther" class="relative z-10 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <!--
                 Background backdrop, show/hide based on modal state.
 
                 Entering: "duration-300 ease-out"
@@ -189,11 +185,11 @@
                 From: "opacity-100"
                 To: "opacity-0"
             -->
-            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
-            <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-                <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                    <!--
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+            <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <!--
                         Modal panel, show/hide based on modal state.
 
                         Entering: "ease-out duration-300"
@@ -203,79 +199,101 @@
                         From: "opacity-100 translate-y-0 sm:scale-100"
                         To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     -->
-                    <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                        <div class="p-4">
+                <div
+                    class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    <div class="p-4">
 
-                            <form action="/upload" method="POST" enctype="multipart/form-data">
-                                <h2 class="text-lg">Other</h2>
+                        <form action="/upload" method="POST" enctype="multipart/form-data">
+                            <h2 class="text-lg">Other</h2>
 
-                                <input type="text" name="controlNumber" value="{{ .files.ControlNumber }}" class="hidden">
-                                <input type="text" name="lastname" value="{{ .files.Lastname }}" class="hidden">
+                            <input type="text" name="controlNumber" value="{{ .files.ControlNumber }}" class="hidden">
+                            <input type="text" name="lastname" value="{{ .files.Lastname }}" class="hidden">
 
-                                <div class="mt-4">
-                                    <label for="filename">Filename</label>
-                                    <br>
-                                    <input type="text" required name="filename" class="w-full rounded border p-2" id="filename" placeholder="filename">
-                                </div>
+                            <div class="mt-4">
+                                <label for="filename">Filename</label>
+                                <br>
+                                <input type="text" required name="filename" class="w-full rounded border p-2"
+                                    id="filename" placeholder="filename">
+                            </div>
 
-                                <div class="mt-4">
-                                    <label class="hover:border-primary-300 flex w-full cursor-pointer appearance-none items-center justify-center rounded-md border-2 border-dashed border-gray-200 p-6 transition-all">
-                                        <div class="space-y-1 text-center">
-                                            <div class="mx-auto inline-flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 text-gray-500">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
-                                                </svg>
-                                            </div>
-                                            <div class="text-bold">Click to upload a file</div>
-                                            <p class="text-sm text-gray-500">Only accepts PDF files</p>
+                            <div class="mt-4">
+                                <label
+                                    class="hover:border-primary-300 flex w-full cursor-pointer appearance-none items-center justify-center rounded-md border-2 border-dashed border-gray-200 p-6 transition-all">
+                                    <div class="space-y-1 text-center">
+                                        <div
+                                            class="mx-auto inline-flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="h-6 w-6 text-gray-500">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
+                                            </svg>
                                         </div>
-                                        <input required name="Other" type="file" class="sr-only" accept="application/pdf" />
-                                    </label>
-                                </div>
+                                        <div class="text-bold">Click to upload a file</div>
+                                        <p class="text-sm text-gray-500">Only accepts PDF files</p>
+                                    </div>
+                                    <input required name="Other" type="file" class="sr-only" accept="application/pdf" />
+                                </label>
+                            </div>
 
-                                <div class="mt-4 flex justify-end gap-2">
-                                    <button id="cancelOther" type="button" class="w-20 rounded border border-black px-3 py-1 hover:bg-gray-200">
-                                        Cancel
-                                    </button>
-                                    <button type="submit" 
-                                        class="w-20 rounded bg-red-900 px-3 py-1 text-white hover:bg-red-700">
-                                        Save
-                                    </button>
-                                </div>
-                            </form>   
-
-                        </div>
+                            <div class="mt-4 flex justify-end gap-2">
+                                <button id="cancelOther" type="button"
+                                    class="w-20 rounded border border-black px-3 py-1 hover:bg-gray-200">
+                                    Cancel
+                                </button>
+                                <button type="submit"
+                                    class="w-20 rounded bg-red-900 px-3 py-1 text-white hover:bg-red-700">
+                                    Save
+                                </button>
+                            </div>
+                        </form>
 
                     </div>
+
                 </div>
             </div>
         </div>
+    </div>
 
-        <div id="successNotif" class="absolute right-0 top-0 hidden items-center gap-2 rounded border border-green-400 bg-green-100 px-4 py-3 text-green-700" role="alert">
-            <strong class="font-bold">Success!</strong>
-            <span class="block sm:inline">Operation successful.</span>
-            <span class="px-4 py-1">
-                <svg class="h-6 w-6 fill-current text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
-            </span>
-        </div>
+    <div id="successNotif"
+        class="absolute right-0 top-0 hidden items-center gap-2 rounded border border-green-400 bg-green-100 px-4 py-3 text-green-700"
+        role="alert">
+        <strong class="font-bold">Success!</strong>
+        <span class="block sm:inline">Operation successful.</span>
+        <span class="px-4 py-1">
+            <svg class="h-6 w-6 fill-current text-green-500" role="button" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20">
+                <title>Close</title>
+                <path
+                    d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+            </svg>
+        </span>
+    </div>
 
-        <div id="failedNotif" class="absolute right-0 top-0 hidden items-center gap-2 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700" role="alert">
-            <strong class="font-bold">Failed!</strong>
-            <span class="block sm:inline" id="errReason">An error occurred while saving student.</span>
-            <span class="px-4 py-1">
-                <svg class="h-6 w-6 fill-current text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
-            </span>
-        </div>
+    <div id="failedNotif"
+        class="absolute right-0 top-0 hidden items-center gap-2 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"
+        role="alert">
+        <strong class="font-bold">Failed!</strong>
+        <span class="block sm:inline" id="errReason">An error occurred while saving student.</span>
+        <span class="px-4 py-1">
+            <svg class="h-6 w-6 fill-current text-red-500" role="button" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20">
+                <title>Close</title>
+                <path
+                    d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+            </svg>
+        </span>
+    </div>
 
-    </body>
+</body>
 
-    <script>
-        document.getElementById('addNewOther').addEventListener('click', () => {
-            document.getElementById('modalOther').classList.toggle('hidden')
-        })
-        document.getElementById('cancelOther').addEventListener('click', () => {
-            document.getElementById('modalOther').classList.toggle('hidden')
-        })
-    </script>
-    <script src="/scripts/notification.js"></script>
+<script>
+    document.getElementById('addNewOther').addEventListener('click', () => {
+        document.getElementById('modalOther').classList.toggle('hidden')
+    })
+    document.getElementById('cancelOther').addEventListener('click', () => {
+        document.getElementById('modalOther').classList.toggle('hidden')
+    })
+</script>
+<script src="/scripts/notification.js"></script>
+
 </html>

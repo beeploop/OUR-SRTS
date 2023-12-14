@@ -10,7 +10,7 @@
     </td>
     <td>
         <div class="flex gap-2">
-            <a  href="http://localhost:3000/{{ .DataPrivacyProvision.String }}"
+            <a  href="{{ .LocalAddr }}/{{ .DataPrivacyProvision.String }}"
                 target="_blank"
                 {{ if eq .DataPrivacyProvision.Valid true }}
                 class="w-16 rounded bg-teal-900 px-3 py-1 text-center text-white hover:bg-teal-700"

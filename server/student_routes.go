@@ -1,6 +1,7 @@
 package server
 
 import (
+	"github.com/BeepLoop/registrar-digitized/config"
 	"github.com/BeepLoop/registrar-digitized/store"
 	"github.com/BeepLoop/registrar-digitized/utils"
 	"github.com/gin-gonic/gin"
@@ -54,6 +55,9 @@ func HandleStudentRoutes(student *gin.RouterGroup) {
 			})
 			return
 		}
+
+		localAddr := "http://" + config.Env.LocalAddr + config.Env.Port
+		files.LocalAddr = localAddr
 
 		html.Execute(c.Writer, gin.H{
 			"user":  user,
