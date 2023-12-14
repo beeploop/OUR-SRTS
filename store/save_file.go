@@ -11,17 +11,16 @@ func SaveFile(location, ownerNumber, table string) error {
 
 	stmt, err := Db_Conn.Preparex(query)
 	if err != nil {
-        logrus.Warn("err preparing sql: ", err)
+		logrus.Warn("err preparing sql: ", err)
 		return err
 	}
 	defer stmt.Close()
 
 	_, err = stmt.Exec(location, ownerNumber)
 	if err != nil {
-        logrus.Warn("err executing sql: ", err)
+		logrus.Warn("err executing sql: ", err)
 		return err
 	}
-    fmt.Println("executed sql")
 
 	return nil
 }

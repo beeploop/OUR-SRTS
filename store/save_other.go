@@ -21,7 +21,6 @@ func SaveOtherFile(filename, location, ownerNumber, table string) error {
         logrus.Warn("err executing sql: ", err)
 		return err
 	}
-	fmt.Println("executed sql")
 
 	return nil
 }
