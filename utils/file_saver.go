@@ -32,7 +32,7 @@ func FileSaver(c *gin.Context, file *multipart.FileHeader, lastname, controlNumb
 
 		strCount := strconv.Itoa(count)
 		filename := lastname + "_" + controlNumber + "_" + filetype + "_" + strCount + ext
-		path := config.Env.TempDir + filename
+		path := filepath.Join(config.Env.TempDir, filename)
 		// location := "http://" + config.Env.LocalAddr + config.Env.Port + "/" + path
 
 		err = c.SaveUploadedFile(file, path)
@@ -40,7 +40,7 @@ func FileSaver(c *gin.Context, file *multipart.FileHeader, lastname, controlNumb
 			return "", path, err
 		}
 
-		remoteFileLocation, err := SaveFileToNas(path, filetype)
+		nasFilepath, err := SaveFileToNas(path, filetype)
 		if err != nil {
 			return "", path, err
 		}
@@ -51,19 +51,18 @@ func FileSaver(c *gin.Context, file *multipart.FileHeader, lastname, controlNumb
 			return "", path, err
 		}
 
-		return remoteFileLocation, path, nil
+		return nasFilepath, path, nil
 	}
 
 	filename := lastname + "_" + controlNumber + "_" + filetype + ext
-	path := config.Env.TempDir + filename
-	// location := "http://" + config.Env.LocalAddr + config.Env.Port + "/" + path
+	path := filepath.Join(config.Env.TempDir, filename)
 
 	err := c.SaveUploadedFile(file, path)
 	if err != nil {
 		return "", path, err
 	}
 
-	remoteFileLocation, err := SaveFileToNas(path, filetype)
+	nasFilepath, err := SaveFileToNas(path, filetype)
 	if err != nil {
 		return "", path, err
 	}
@@ -74,5 +73,5 @@ func FileSaver(c *gin.Context, file *multipart.FileHeader, lastname, controlNumb
 		return "", path, err
 	}
 
-	return remoteFileLocation, path, nil
+	return nasFilepath, path, nil
 }

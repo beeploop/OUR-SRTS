@@ -3,7 +3,6 @@ package utils
 import (
 	"fmt"
 	"io"
-	"net/url"
 	"os"
 	"path/filepath"
 
@@ -11,41 +10,35 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func SaveFileToNas(filePath, fileType string) (string, error) {
-	nasUrl := config.Env.NasUrl + fileType + "/"
+func SaveFileToNas(srcFilepath, fileType string) (string, error) {
+	nasPath := filepath.Join(config.Env.NasUrl, fileType)
 
-	err := os.MkdirAll(nasUrl, os.ModePerm)
+	err := os.MkdirAll(nasPath, os.ModePerm)
 	if err != nil {
 		fmt.Println("failed to create directory: ", fileType)
 		return "", err
 	}
 
-	// parse the nas url
-	url, err := url.Parse(nasUrl)
+	src, err := os.Open(srcFilepath)
 	if err != nil {
 		return "", err
 	}
+	defer src.Close()
 
-	file, err := os.Open(filePath)
+	_, filename := filepath.Split(srcFilepath)
+	outputFilename := filepath.Join(nasPath, filename)
+
+	distFile, err := os.Create(outputFilename)
 	if err != nil {
-		return "", err
+		return outputFilename, nil
 	}
-	defer file.Close()
+	defer distFile.Close()
 
-	_, filename := filepath.Split(filePath)
-	remoteFilename := filepath.Join(url.Path, filename)
-
-	remoteFile, err := os.Create(remoteFilename)
+	_, err = io.Copy(distFile, src)
 	if err != nil {
-		return remoteFilename, nil
-	}
-	defer remoteFile.Close()
-
-	_, err = io.Copy(remoteFile, file)
-	if err != nil {
-		return remoteFilename, nil
+		return outputFilename, nil
 	}
 
 	logrus.Info("File saved to NAS successfully")
-	return remoteFilename, nil
+	return outputFilename, nil
 }
