@@ -81,7 +81,7 @@
                                     <div class="text-bold">Click to upload a file</div>
                                     <p class="text-sm text-gray-500">Only accepts PDF files</p>
                                 </div>
-                                <input required name="Form138" type="file" class="sr-only" accept="application/pdf" />
+                                <input required id="Form138File" name="Form138" type="file" class="sr-only" accept="application/pdf" />
                             </label>
                         </div>
 
@@ -90,7 +90,9 @@
                                 Cancel
                             </button>
                             <button type="submit" 
-                                class="w-20 rounded bg-red-900 px-3 py-1 text-white hover:bg-red-700">
+                                id="Form138Save"
+                                class="file-selected"
+                                >
                                 Save
                             </button>
                         </div>
@@ -107,6 +109,27 @@
     if (form138Btn) {
         form138Btn.addEventListener('click', () => {
             document.getElementById('modalForm138').classList.toggle('hidden')
+
+            const saveBtn = document.getElementById('Form138Save')
+            const fileInput = document.getElementById('Form138File')
+
+            fileInput.addEventListener('change', () => {
+                checkFileInput()
+            })
+
+            checkFileInput()
+
+            function checkFileInput() {
+                if (fileInput.files.length == 0) {
+                    console.log('no file selected');
+                    saveBtn.classList.replace('file-selected', 'no-file')
+                    saveBtn.disabled = false;
+                } else {
+                    console.log('file selected');
+                    saveBtn.classList.replace('no-file', 'file-selected')
+                    saveBtn.disabled = true;
+                }
+            }
         })
     }
     document.getElementById('cancelForm138').addEventListener('click', () => {

@@ -99,7 +99,7 @@
                                     <div class="text-bold">Click to upload a file</div>
                                     <p class="text-sm text-gray-500">Only accepts PDF files</p>
                                 </div>
-                                <input required name="IncompleteForm" type="file" class="sr-only" accept="application/pdf" />
+                                <input required id="IncFile" name="IncompleteForm" type="file" class="sr-only" accept="application/pdf" />
                             </label>
                         </div>
 
@@ -108,7 +108,8 @@
                                 Cancel
                             </button>
                             <button type="submit" 
-                                class="w-20 rounded bg-red-900 px-3 py-1 text-white hover:bg-red-700">
+                                id="IncSave"
+                                class="file-selected">
                                 Save
                             </button>
                         </div>
@@ -130,6 +131,27 @@
 
     document.getElementById('addINC').addEventListener('click', () => {
         document.getElementById('modalINC').classList.toggle('hidden')
+
+        const saveBtn = document.getElementById('IncSave')
+        const fileInput = document.getElementById('IncFile')
+
+        fileInput.addEventListener('change', () => {
+            checkFileInput()
+        })
+
+        checkFileInput()
+
+        function checkFileInput() {
+            if (fileInput.files.length == 0) {
+                console.log('no file selected');
+                saveBtn.classList.replace('file-selected', 'no-file')
+                saveBtn.disabled = false;
+            } else {
+                console.log('file selected');
+                saveBtn.classList.replace('no-file', 'file-selected')
+                saveBtn.disabled = true;
+            }
+        }
     })
     document.getElementById('cancelINC').addEventListener('click', () => {
         document.getElementById('modalINC').classList.toggle('hidden')

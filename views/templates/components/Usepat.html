@@ -1,6 +1,6 @@
 {{ define "Usepat" }}
 <tr class="hover:bg-gray-100 [&>*]:px-1 [&>*]:py-2">
-    <td>Usepat</td>
+    <td>USEPAT</td>
     <td>
         {{ if eq .Usepat.Valid true }}
         <span class="badge-active">On-File</span>
@@ -81,7 +81,7 @@
                                     <div class="text-bold">Click to upload a file</div>
                                     <p class="text-sm text-gray-500">Only accepts PDF files</p>
                                 </div>
-                                <input required name="Usepat" type="file" class="sr-only" accept="application/pdf" />
+                                <input required id="UsepatFile" name="Usepat" type="file" class="sr-only" accept="application/pdf" />
                             </label>
                         </div>
 
@@ -90,7 +90,8 @@
                                 Cancel
                             </button>
                             <button type="submit" 
-                                class="w-20 rounded bg-red-900 px-3 py-1 text-white hover:bg-red-700">
+                                id="UsepatSave"
+                                class="file-selected">
                                 Save
                             </button>
                         </div>
@@ -107,6 +108,27 @@
     if (usepatBtn) {
         usepatBtn.addEventListener('click', () => {
             document.getElementById('modalUsepat').classList.toggle('hidden')
+
+            const saveBtn = document.getElementById('UsepatSave')
+            const fileInput = document.getElementById('UsepatFile')
+
+            fileInput.addEventListener('change', () => {
+                checkFileInput()
+            })
+
+            checkFileInput()
+
+            function checkFileInput() {
+                if (fileInput.files.length == 0) {
+                    console.log('no file selected');
+                    saveBtn.classList.replace('file-selected', 'no-file')
+                    saveBtn.disabled = false;
+                } else {
+                    console.log('file selected');
+                    saveBtn.classList.replace('no-file', 'file-selected')
+                    saveBtn.disabled = true;
+                }
+            }
         })
     }
     document.getElementById('cancelUsepat').addEventListener('click', () => {

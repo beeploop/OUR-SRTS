@@ -10,20 +10,15 @@
     </td>
     <td>
         <div class="flex gap-2">
-            <a  href="{{ .LocalAddr }}/{{ .ApplicationForGraduation.String }}"
-                target="_blank"
-                {{ if eq .ApplicationForGraduation.Valid true }}
-                class="w-16 rounded bg-teal-900 px-3 py-1 text-center text-white hover:bg-teal-700"
-                {{ else }}
-                disabled
-                class="pointer-events-none w-16 rounded bg-gray-400 px-3 py-1 text-center text-white"
-                {{ end }}
-                >
+            <a href="{{ .LocalAddr }}/{{ .ApplicationForGraduation.String }}" target="_blank" {{ if eq
+                .ApplicationForGraduation.Valid true }}
+                class="w-16 rounded bg-teal-900 px-3 py-1 text-center text-white hover:bg-teal-700" {{ else }} disabled
+                class="pointer-events-none w-16 rounded bg-gray-400 px-3 py-1 text-center text-white" {{ end }}>
                 View
             </a>
 
             {{ if eq .ApplicationForGraduation.Valid true }}
-                {{ template "update-file" "ApplicationForGraduation" }}
+            {{ template "update-file" "ApplicationForGraduation" }}
             <!-- <button class="w-16 rounded bg-red-900 px-3 py-1 text-white hover:bg-red-700"> -->
             <!--     Update  -->
             <!-- </button> -->
@@ -61,7 +56,8 @@
                 From: "opacity-100 translate-y-0 sm:scale-100"
                 To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             -->
-            <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+            <div
+                class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                 <div class="p-4">
 
                     <form action="/upload" method="POST" enctype="multipart/form-data">
@@ -70,30 +66,38 @@
                         <input type="text" name="lastname" value="{{ .Lastname }}" class="hidden">
 
                         <div class="mt-4">
-                            <label class="hover:border-primary-300 flex w-full cursor-pointer appearance-none items-center justify-center rounded-md border-2 border-dashed border-gray-200 p-6 transition-all">
+                            <label
+                                class="hover:border-primary-300 flex w-full cursor-pointer appearance-none items-center justify-center rounded-md border-2 border-dashed border-gray-200 p-6 transition-all">
                                 <div class="space-y-1 text-center">
-                                    <div class="mx-auto inline-flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 text-gray-500">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
+                                    <div
+                                        class="mx-auto inline-flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="h-6 w-6 text-gray-500">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
                                         </svg>
                                     </div>
                                     <div class="text-bold">Click to upload a file</div>
                                     <p class="text-sm text-gray-500">Only accepts PDF files</p>
                                 </div>
-                                <input required name="ApplicationForGraduation" type="file" class="sr-only" accept="application/pdf" />
+                                <input required name="ApplicationForGraduation" id="AfgFile" type="file"
+                                    class="sr-only" accept="application/pdf" />
                             </label>
                         </div>
 
                         <div class="mt-4 flex justify-end gap-2">
-                            <button id="cancelAFG" type="button" class="w-20 rounded border border-black px-3 py-1 hover:bg-gray-200">
+                            <button id="cancelAFG" type="button"
+                                class="w-20 rounded border border-black px-3 py-1 hover:bg-gray-200">
                                 Cancel
                             </button>
-                            <button type="submit" 
-                                class="w-20 rounded bg-red-900 px-3 py-1 text-white hover:bg-red-700">
+                            <button type="submit"
+                                id="AfgSave"
+                                class="file-selected"
+                                >
                                 Save
                             </button>
                         </div>
-                    </form>   
+                    </form>
 
                 </div>
 
@@ -102,10 +106,32 @@
     </div>
 </div>
 <script>
+
     const afgBtn = document.getElementById('addAFG')
     if (afgBtn) {
         afgBtn.addEventListener('click', () => {
             document.getElementById('modalAFG').classList.toggle('hidden')
+
+            const saveBtn = document.getElementById('AfgSave')
+            const fileInput = document.getElementById('AfgFile')
+
+            fileInput.addEventListener('change', () => {
+                checkFileInput()
+            })
+
+            checkFileInput()
+
+            function checkFileInput() {
+                if (fileInput.files.length == 0) {
+                    console.log('no file selected');
+                    saveBtn.classList.replace('file-selected', 'no-file')
+                    saveBtn.disabled = false;
+                } else {
+                    console.log('file selected');
+                    saveBtn.classList.replace('no-file', 'file-selected')
+                    saveBtn.disabled = true;
+                }
+            }
         })
     }
     document.getElementById('cancelAFG').addEventListener('click', () => {

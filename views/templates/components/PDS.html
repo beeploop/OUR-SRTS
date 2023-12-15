@@ -1,6 +1,6 @@
 {{ define "PDS" }}
 <tr class="hover:bg-gray-100 [&>*]:px-1 [&>*]:py-2">
-    <td>Personal Data Sheet</td>
+    <td>Student Information Sheet</td>
     <td>
         {{ if eq .PersonalDataSheet.Valid true }}
         <span class="badge-active">On-File</span>
@@ -65,7 +65,7 @@
                 <div class="p-4">
 
                     <form action="/upload" method="POST" enctype="multipart/form-data">
-                        <h2>Personal Data Sheet</h2>
+                        <h2>Student Information Sheet</h2>
                         <input type="text" name="controlNumber" value="{{ .ControlNumber}}" class="hidden">
                         <input type="text" name="lastname" value="{{ .Lastname }}" class="hidden">
 
@@ -81,7 +81,7 @@
                                     <div class="text-bold">Click to upload a file</div>
                                     <p class="text-sm text-gray-500">Only accepts PDF files</p>
                                 </div>
-                                <input required name="PersonalDataSheet" type="file" class="sr-only" accept="application/pdf" />
+                                <input required id="PdsFile" name="PersonalDataSheet" type="file" class="sr-only" accept="application/pdf" />
                             </label>
                         </div>
 
@@ -90,7 +90,8 @@
                                 Cancel
                             </button>
                             <button type="submit" 
-                                class="w-20 rounded bg-red-900 px-3 py-1 text-white hover:bg-red-700">
+                                id="PdsSave"
+                                class="file-selected">
                                 Save
                             </button>
                         </div>
@@ -107,6 +108,27 @@
     if (pdsBtn) {
         pdsBtn.addEventListener('click', () => {
             document.getElementById('modalPDS').classList.toggle('hidden')
+
+            const saveBtn = document.getElementById('PdsSave')
+            const fileInput = document.getElementById('PdsFile')
+
+            fileInput.addEventListener('change', () => {
+                checkFileInput()
+            })
+
+            checkFileInput()
+
+            function checkFileInput() {
+                if (fileInput.files.length == 0) {
+                    console.log('no file selected');
+                    saveBtn.classList.replace('file-selected', 'no-file')
+                    saveBtn.disabled = false;
+                } else {
+                    console.log('file selected');
+                    saveBtn.classList.replace('no-file', 'file-selected')
+                    saveBtn.disabled = true;
+                }
+            }
         })
     }
     document.getElementById('cancelPDS').addEventListener('click', () => {

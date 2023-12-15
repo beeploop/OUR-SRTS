@@ -25,3 +25,10 @@ body {
 .badge-active {
     @apply block text-center w-24 items-center gap-x-1.5 py-1 px-2 rounded-full text-xs font-medium bg-teal-100 text-teal-800;
 }
+
+.file-selected {
+    @apply w-20 rounded bg-red-900 px-3 py-1 text-white hover:bg-red-700;
+}
+.no-file {
+    @apply w-20 rounded bg-gray-300 px-3 py-1 text-white;
+}
