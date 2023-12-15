@@ -1,6 +1,6 @@
 {{ define "form138" }}
 <tr class="hover:bg-gray-100 [&>*]:px-1 [&>*]:py-2">
-    <td>Form 138</td>
+    <td>Form-138 (Report Card for SHS Graduates)</td>
     <td>
         {{ if eq .Form138.Valid true }}
         <span class="badge-active">On-File</span>
@@ -65,7 +65,9 @@
                 <div class="p-4">
 
                     <form action="/upload" method="POST" enctype="multipart/form-data">
-                        <h2>Form138</h2>
+
+                        <h2>Form-138 (Report Card for SHS Graduates)</h2>
+
                         <input type="text" name="controlNumber" value="{{ .ControlNumber}}" class="hidden">
                         <input type="text" name="lastname" value="{{ .Lastname }}" class="hidden">
 

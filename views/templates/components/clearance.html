@@ -1,6 +1,6 @@
 {{ define "clearance" }}
 <tr class="hover:bg-gray-100 [&>*]:px-1 [&>*]:py-2">
-    <td>Clearance</td>
+    <td>Clearance Form/s</td>
     <td>
         {{ if not .Clearance }}
         <span class="badge-inactive">Unavailable</span>
@@ -83,7 +83,9 @@
                 <div class="p-4">
 
                     <form action="/upload" method="POST" enctype="multipart/form-data">
-                        <h2>Clearance</h2>
+
+                        <h2>Clearance Form/s</h2>
+
                         <input type="text" name="controlNumber" value="{{ .ControlNumber}}" class="hidden">
                         <input type="text" name="lastname" value="{{ .Lastname }}" class="hidden">
 

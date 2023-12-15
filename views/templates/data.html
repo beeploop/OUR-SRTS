@@ -101,8 +101,8 @@
                     {{ end }}
 
                     {{ template "GoodMoral" .files }}
-                    {{ template "HSD" .files }}
                     {{ template "HD" .files }}
+                    {{ template "photo" .files }}
                     {{ template "INC" .files }}
 
                     {{ if eq .files.Program.String "Doctor Of Medicine" }}
@@ -123,12 +123,12 @@
 
                     {{ template "NOAP" .files }}
                     {{ template "PDS" .files }}
-                    {{ template "photo" .files }}
+                    {{ template "HSD" .files }}
                     {{ template "Promise" .files }}
-                    {{ template "SubjectValidation" .files }}
                     {{ template "Substitution" .files }}
                     {{ template "TOR" .files }}
                     {{ template "Usepat" .files }}
+                    {{ template "SubjectValidation" .files }}
                 </tbody>
             </table>
         </div>

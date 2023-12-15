@@ -1,6 +1,6 @@
 {{ define "TOR" }}
 <tr class="hover:bg-gray-100 [&>*]:px-1 [&>*]:py-2">
-    <td>Transcript of Records</td>
+    <td>Transcript of Records (for Reference or Informative Copy)</td>
     <td>
         {{ if eq .TOR.Valid true }}
         <span class="badge-active">On-File</span>
@@ -65,7 +65,9 @@
                 <div class="p-4">
 
                     <form action="/upload" method="POST" enctype="multipart/form-data">
-                        <h2>Transcript of Records</h2>
+
+                        <h2>Transcript of Records (for Reference or Informative Copy)</h2>
+
                         <input type="text" name="controlNumber" value="{{ .ControlNumber}}" class="hidden">
                         <input type="text" name="lastname" value="{{ .Lastname }}" class="hidden">
 

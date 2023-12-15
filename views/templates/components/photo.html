@@ -1,6 +1,6 @@
 {{ define "photo" }}
 <tr class="hover:bg-gray-100 [&>*]:px-1 [&>*]:py-2">
-    <td>Photo</td>
+    <td>ID Picture</td>
     <td>
         {{ if eq .Photo.Valid true }}
         <span class="badge-active">On-File</span>
@@ -45,7 +45,8 @@
                 <div class="p-4">
 
                     <form action="/upload" method="POST" enctype="multipart/form-data">
-                        <h2>Photo</h2>
+                        
+                        <h2>ID Picture</h2>
 
                         <input type="text" name="controlNumber" value="{{ .ControlNumber}}" class="hidden">
                         <input type="text" name="lastname" value="{{ .Lastname }}" class="hidden">
