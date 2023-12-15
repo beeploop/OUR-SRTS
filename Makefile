@@ -74,6 +74,7 @@ clean:
 	@echo "cleaning up..."
 	@rm -rf registrar-digitized*
 	@rm -rf release/*
+	@rm server.log
 	@echo "clean complete"
 
 test:
