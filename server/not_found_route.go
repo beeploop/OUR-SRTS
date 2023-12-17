@@ -7,7 +7,7 @@ import (
 
 func HandleNotFoundRote(c *gin.Context) {
 	html := utils.HtmlParser(
-		"404.html",
+		"404.tmpl",
 	)
 
 	html.Execute(c.Writer, nil)

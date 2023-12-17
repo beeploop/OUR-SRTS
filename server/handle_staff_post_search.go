@@ -13,9 +13,9 @@ func HandleStaffPostSearch(c *gin.Context) {
 	user := utils.GetUserInSession(c)
 
 	html := utils.HtmlParser(
-		"staff/search.html",
-		"components/header.html",
-		"components/searchbar.html",
+		"staff/search.tmpl",
+		"components/header.tmpl",
+		"components/searchbar.tmpl",
 	)
 
 	programs, err := store.GetPrograms()

@@ -13,10 +13,10 @@ func HandleAdminPostSearch(c *gin.Context) {
 	user := utils.GetUserInSession(c)
 
 	html := utils.HtmlParser(
-		"admin/search.html",
-		"components/header.html",
-		"components/sidebar.html",
-		"components/searchbar.html",
+		"admin/search.tmpl",
+		"components/header.tmpl",
+		"components/sidebar.tmpl",
+		"components/searchbar.tmpl",
 	)
 
 	programs, err := store.GetPrograms()

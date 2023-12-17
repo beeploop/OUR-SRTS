@@ -10,14 +10,14 @@ import (
 
 func HandleManageStaff(c *gin.Context) {
 	html := utils.HtmlParser(
-		"admin/manage-staff.html",
-		"components/head.html",
-		"components/header.html",
-		"components/sidebar.html",
-		"components/add-staff.html",
-		"components/enable-staff-modal.html",
-		"components/disable-staff-modal.html",
-		"components/delete-staff-modal.html",
+		"admin/manage-staff.tmpl",
+		"components/head.tmpl",
+		"components/header.tmpl",
+		"components/sidebar.tmpl",
+		"components/add-staff.tmpl",
+		"components/enable-staff-modal.tmpl",
+		"components/disable-staff-modal.tmpl",
+		"components/delete-staff-modal.tmpl",
 	)
 
 	user := utils.GetUserInSession(c)
@@ -25,7 +25,7 @@ func HandleManageStaff(c *gin.Context) {
 
 	users, err := store.GetStaff()
 	if err != nil {
-        logrus.Warn("err getting staff: ", err)
+		logrus.Warn("err getting staff: ", err)
 
 		html.Execute(c.Writer, gin.H{
 			"user":         user.Fullname,

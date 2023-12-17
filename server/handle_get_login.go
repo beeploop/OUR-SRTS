@@ -7,8 +7,8 @@ import (
 )
 
 func HandleGetLogin(c *gin.Context) {
-    logrus.Info("Hit Get login route")
-	html := utils.HtmlParser("login.html", "components/head.html", "components/header.html")
+	logrus.Info("Hit Get login route")
+	html := utils.HtmlParser("login.tmpl", "components/head.tmpl", "components/header.tmpl")
 
 	html.Execute(c.Writer, nil)
 }

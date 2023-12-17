@@ -9,7 +9,7 @@ import (
 
 func HandleGetAddStudent(c *gin.Context) {
 	user := utils.GetUserInSession(c)
-    requestCount := store.CountActiveRequests()
+	requestCount := store.CountActiveRequests()
 
 	programs, err := store.GetProgramsAndMajors()
 	if err != nil {
@@ -17,14 +17,14 @@ func HandleGetAddStudent(c *gin.Context) {
 	}
 
 	html := utils.HtmlParser(
-		"admin/add-student.html",
-		"components/header.html",
-		"components/sidebar.html",
+		"admin/add-student.tmpl",
+		"components/header.tmpl",
+		"components/sidebar.tmpl",
 	)
 
 	html.Execute(c.Writer, gin.H{
-		"user":     user,
-		"programs": programs,
-        "requestCount": requestCount,
+		"user":         user,
+		"programs":     programs,
+		"requestCount": requestCount,
 	})
 }
