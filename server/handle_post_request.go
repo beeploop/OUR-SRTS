@@ -33,7 +33,7 @@ func HandlePostRequest(c *gin.Context) {
 			c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=Admin_cannot_submit_a_request")
 			return
 		}
-		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=unknown_user")
+		c.Redirect(http.StatusSeeOther, url+"?status=failed&reason=user_have_active_request")
 		return
 	}
 
