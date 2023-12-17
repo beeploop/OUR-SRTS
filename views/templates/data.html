@@ -91,6 +91,11 @@
                     {{ template "AFG" .files }}
                     {{ template "approval" .files }}
                     {{ template "birth-certificate" .files }}
+
+                    {{ if eq .files.Program.String "Doctor Of Medicine" }}
+                    {{ template "Indigency" .files }}
+                    {{ end }}
+
                     {{ template "LowIncome" .files }}
                     {{ template "clearance" .files }}
                     {{ template "DPP" .files }}
@@ -104,10 +109,6 @@
                     {{ template "HD" .files }}
                     {{ template "photo" .files }}
                     {{ template "INC" .files }}
-
-                    {{ if eq .files.Program.String "Doctor Of Medicine" }}
-                    {{ template "Indigency" .files }}
-                    {{ end }}
 
                     {{ template "LOA" .files }}
 
@@ -125,7 +126,9 @@
                     {{ template "PDS" .files }}
                     {{ template "HSD" .files }}
                     {{ template "Promise" .files }}
-                    {{ template "Substitution" .files }}
+
+                    <!-- Substitution used to be here, but now it's gone. RIP my friend -->
+
                     {{ template "TOR" .files }}
                     {{ template "Usepat" .files }}
                     {{ template "SubjectValidation" .files }}

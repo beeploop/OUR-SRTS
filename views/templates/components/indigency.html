@@ -1,6 +1,6 @@
 {{ define "Indigency" }}
 <tr class="hover:bg-gray-100 [&>*]:px-1 [&>*]:py-2">
-    <td>Indigency</td>
+    <td>Certificate of Indigency</td>
     <td>
         {{ if eq .Indigency.Valid true }}
         <span class="badge-active">On-File</span>
@@ -65,7 +65,9 @@
                 <div class="p-4">
 
                     <form action="/upload" method="POST" enctype="multipart/form-data">
-                        <h2>Indigency</h2>
+
+                        <h2>Certificate of Indigency</h2>
+
                         <input type="text" name="controlNumber" value="{{ .ControlNumber}}" class="hidden">
                         <input type="text" name="lastname" value="{{ .Lastname }}" class="hidden">
 
