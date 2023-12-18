@@ -1,6 +1,6 @@
 build:
 	@echo "building application..."
-	@go build
+	@go build -o Registrar-SRTS
 	@echo "build complete"
 
 watch-css:
@@ -12,67 +12,67 @@ build-css:
 	@echo "build complete"
 
 run: build 
-	@./registrar-digitized
+	@./Registrar-SRTS
 
 win:
 	@echo "building windows application..."
-	@env GOOS=windows GOARCH=amd64 go build 
+	@env GOOS=windows GOARCH=amd64 go build -o Registrar-SRTS.exe
 	@echo "build complete"
 
 run-win: win
-	@./registrar-digitized.exe
+	@./Registrar-SRTS.exe
 
 win-zip: clean win
 	@echo "initializing release directory..."
-	@rm -rf ./release/windows-release
-	@mkdir ./release/windows-release
-	@mkdir ./release/windows-release/tempDir
-	@mkdir ./release/windows-release/nas
+	@rm -rf ./release/SRTS-windows-release
+	@mkdir ./release/SRTS-windows-release
+	@mkdir ./release/SRTS-windows-release/tempDir
+	@mkdir ./release/SRTS-windows-release/nas
 	@echo "copying files to release directory..."
-	@cp -r .release.env assets/ views/ webfonts/ registrar-digitized.exe ./release/windows-release
-	@mv ./release/windows-release/.release.env ./release/windows-release/.env
+	@cp -r .example.env assets/ views/ webfonts/ Registrar-SRTS.exe ./release/SRTS-windows-release
+	@mv ./release/SRTS-windows-release/.example.env ./release/SRTS-windows-release/.env
 	@echo "zipping release directory..."
-	@cd release/ && zip -r registrar-digitized-windows.zip windows-release
+	@cd release/ && zip -r Registrar-SRTS-windows.zip SRTS-windows-release
 	@echo "zip complete. zip file saved in go/ directory"
 
 linux-zip: clean build
 	@echo "initializing release directory..."
-	@rm -rf ./release/linux-release
-	@mkdir ./release/linux-release
-	@mkdir ./release/linux-release/tempDir
-	@mkdir ./release/linux-release/nas
+	@rm -rf ./release/SRTS-linux-release
+	@mkdir ./release/SRTS-linux-release
+	@mkdir ./release/SRTS-linux-release/tempDir
+	@mkdir ./release/SRTS-linux-release/nas
 	@echo "copying files to release directory..."
-	@cp -r .release.env assets/ views/ webfonts/ registrar-digitized ./release/linux-release
-	@mv ./release/linux-release/.release.env ./release/linux-release/.env
+	@cp -r .example.env assets/ views/ webfonts/ Registrar-SRTS ./release/SRTS-linux-release
+	@mv ./release/SRTS-linux-release/.example.env ./release/SRTS-linux-release/.env
 	@echo "zipping release directory..."
-	@cd release/ && zip -r registrar-digitized-linux.zip linux-release
+	@cd release/ && zip -r Registrar-SRTS-linux.zip SRTS-linux-release
 	@echo "zip complete. zip file saved in go/ directory"
 
 win-release: clean win
 	@echo "initializing release directory..."
-	@rm -rf ./release/windows-release
-	@mkdir ./release/windows-release
-	@mkdir ./release/windows-release/tempDir
-	@mkdir ./release/windows-release/nas
+	@rm -rf ./release/SRTS-windows-release
+	@mkdir ./release/SRTS-windows-release
+	@mkdir ./release/SRTS-windows-release/tempDir
+	@mkdir ./release/SRTS-windows-release/nas
 	@echo "copying files to release directory..."
-	@cp -r .release.env assets/ views/ webfonts/ registrar-digitized.exe ./release/windows-release
-	@mv ./release/windows-release/.release.env ./release/windows-release/.env
+	@cp -r .example.env assets/ views/ webfonts/ Registrar-SRTS.exe ./release/SRTS-windows-release
+	@mv ./release/SRTS-windows-release/.example.env ./release/SRTS-windows-release/.env
 	@echo "compiled release version. release files saved in go/ directory"
 
 linux-release: clean build 
 	@echo "initializing release directory..."
-	@rm -rf ./release/linux-release
-	@mkdir ./release/linux-release
-	@mkdir ./release/linux-release/tempDir
-	@mkdir ./release/linux-release/nas
+	@rm -rf ./release/SRTS-linux-release
+	@mkdir ./release/SRTS-linux-release
+	@mkdir ./release/SRTS-linux-release/tempDir
+	@mkdir ./release/SRTS-linux-release/nas
 	@echo "copying files to release directory..."
-	@cp -r .release.env assets/ views/ webfonts/ registrar-digitized ./release/linux-release
-	@mv ./release/linux-release/.release.env ./release/linux-release/.env
+	@cp -r .example.env assets/ views/ webfonts/ Registrar-SRTS ./release/SRTS-linux-release
+	@mv ./release/SRTS-linux-release/.example.env ./release/SRTS-linux-release/.env
 	@echo "compiled release version. release files saved in go/ directory"
 
 clean:
 	@echo "cleaning up..."
-	@rm -rf registrar-digitized*
+	@rm -rf Registrar-SRTS*
 	@rm -rf release/*
 	@echo "clean complete"
 
