@@ -123,11 +123,9 @@
                 if (fileInput.files.length == 0) {
                     console.log('no file selected');
                     saveBtn.classList.replace('file-selected', 'no-file')
-                    saveBtn.disabled = false;
                 } else {
                     console.log('file selected');
                     saveBtn.classList.replace('no-file', 'file-selected')
-                    saveBtn.disabled = true;
                 }
             }
         })
