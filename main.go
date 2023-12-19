@@ -19,8 +19,6 @@ func init() {
 	if err != nil {
 		logrus.Fatal(err)
 	}
-
-	store.InitializeTables()
 }
 
 func main() {

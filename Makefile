@@ -3,6 +3,12 @@ build:
 	@go build -o Registrar-SRTS
 	@echo "build complete"
 
+migrate-up:
+	@migrate -database mysql://root:Password_1@/registrar -path db/migrations up
+
+migrate-down:
+	@migrate -database mysql://root:Password_1@/registrar -path db/migrations down
+
 watch-css:
 	@tailwindcss -i ./views/styles/tailwind.css -o ./views/styles/output.css --watch
 
