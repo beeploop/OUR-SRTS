@@ -7,6 +7,6 @@ Registrar-SRTS*
 release/
 
 *.log
-.env
+*.env
 .release.env
 .debug.env
