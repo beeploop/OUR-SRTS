@@ -80,6 +80,7 @@ clean:
 	@echo "cleaning up..."
 	@rm -rf Registrar-SRTS*
 	@rm -rf release/*
+	@rm -rf *.log
 	@echo "clean complete"
 
 test:
