@@ -8,50 +8,50 @@ import (
 )
 
 type Major struct {
-	id        string
-	title     string
-	createdAt time.Time
-	updatedAt time.Time
+	ID        string
+	Title     string
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 func NewMajor(name string) *Major {
 	return &Major{
-		id:    uuid.New().String(),
-		title: name,
+		ID:    uuid.New().String(),
+		Title: name,
 	}
 }
 
 func (m *Major) validate() error {
-	if m.title == "" {
+	if m.Title == "" {
 		return errors.New("name must not be empty")
 	}
-	if m.createdAt.After(m.updatedAt) {
+	if m.CreatedAt.After(m.UpdatedAt) {
 		return errors.New("created_at must be before updated_at")
 	}
 	return nil
 }
 
 func (m *Major) GetID() string {
-	return m.id
+	return m.ID
 }
 
 func (m *Major) GetTitle() string {
-	return m.title
+	return m.Title
 }
 
 func (m *Major) UpdateTitle(title string) error {
-	m.title = title
-	m.updatedAt = time.Now()
+	m.Title = title
+	m.UpdatedAt = time.Now()
 
 	return m.validate()
 }
 
 func (m *Major) Copy() *Major {
 	copy := &Major{
-		id:        m.id,
-		title:     m.title,
-		createdAt: m.createdAt,
-		updatedAt: m.updatedAt,
+		ID:        m.ID,
+		Title:     m.Title,
+		CreatedAt: m.CreatedAt,
+		UpdatedAt: m.UpdatedAt,
 	}
 
 	return copy

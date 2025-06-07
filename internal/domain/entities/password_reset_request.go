@@ -16,84 +16,68 @@ const (
 )
 
 type PasswordResetRequest struct {
-	id        string
-	adminId   string
-	token     string
-	expiresAt time.Time
-	status    ResetRequestStatus
-	createdAt time.Time
-	updatedAt time.Time
+	ID        string
+	AdminID   string
+	Token     string
+	ExpiresAt time.Time
+	Status    ResetRequestStatus
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 func NewResetRequest(adminID, token string, expiresAt time.Time) *PasswordResetRequest {
 	return &PasswordResetRequest{
-		id:        uuid.New().String(),
-		adminId:   adminID,
-		token:     token,
-		expiresAt: expiresAt,
-		status:    REQUEST_STATUS_PENDING,
-		createdAt: time.Now(),
-		updatedAt: time.Now(),
+		ID:        uuid.New().String(),
+		AdminID:   adminID,
+		Token:     token,
+		ExpiresAt: expiresAt,
+		Status:    REQUEST_STATUS_PENDING,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
 	}
 }
 
 func (r *PasswordResetRequest) validate() error {
-	if r.adminId == "" {
+	if r.AdminID == "" {
 		return errors.New("admin ID must not be empty")
 	}
-	if r.token == "" {
+	if r.Token == "" {
 		return errors.New("token must not be empty")
 	}
-	if r.expiresAt.Before(time.Now()) {
+	if r.ExpiresAt.Before(time.Now()) {
 		return errors.New("expires_at must not be before current time")
 	}
 	return nil
 }
 
-func (r *PasswordResetRequest) ID() string {
-	return r.id
-}
-
-func (r *PasswordResetRequest) AdminID() string {
-	return r.adminId
-}
-
-func (r *PasswordResetRequest) Token() string {
-	return r.token
-}
-
-func (r *PasswordResetRequest) Status() ResetRequestStatus {
-	return r.status
-}
-
 func (r *PasswordResetRequest) Fulfill() error {
-	if r.status == REQUEST_STATUS_REJECTED {
+	if r.Status == REQUEST_STATUS_REJECTED {
 		return errors.New("rejected requests cannot be fulfilled")
 	}
 
-	if r.status == REQUEST_STATUS_FULFILLED {
+	if r.Status == REQUEST_STATUS_FULFILLED {
 		return nil
 	}
 
-	r.status = REQUEST_STATUS_FULFILLED
-	r.updatedAt = time.Now()
+	r.Status = REQUEST_STATUS_FULFILLED
+	r.UpdatedAt = time.Now()
 	return r.validate()
 }
 
 func (r *PasswordResetRequest) Reject() error {
-	if r.status == REQUEST_STATUS_FULFILLED {
+	if r.Status == REQUEST_STATUS_FULFILLED {
 		return errors.New("fulfilled requests cannot be rejected")
 	}
 
-	if r.status == REQUEST_STATUS_REJECTED {
+	if r.Status == REQUEST_STATUS_REJECTED {
 		return nil
 	}
 
-	r.status = REQUEST_STATUS_REJECTED
-	r.updatedAt = time.Now()
+	r.Status = REQUEST_STATUS_REJECTED
+	r.UpdatedAt = time.Now()
 	return r.validate()
 }
 
 func (r *PasswordResetRequest) IsExpired() bool {
-	return r.expiresAt.Before(time.Now()) || r.expiresAt.Equal(time.Now())
+	return r.ExpiresAt.Before(time.Now()) || r.ExpiresAt.Equal(time.Now())
 }
