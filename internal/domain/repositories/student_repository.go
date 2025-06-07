@@ -13,6 +13,5 @@ type StudentRepository interface {
 	Create(student *entities.Student) (*entities.Student, error)
 	Search(criteria SearchCriteria) ([]*entities.Student, error)
 	FindAll(limit, offset int) ([]*entities.Student, error)
-	Update(student *entities.Student) (*entities.Student, error)
-	Delete(id string) error
+	Save(student *entities.Student) error
 }
