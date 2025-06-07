@@ -10,6 +10,8 @@ func SetupRouter() *echo.Echo {
 
 	r.Use(middleware.RemoveTrailingSlash())
 
+	r.Static("/assets", "web/assets/")
+
 	indexRoute := r.Group("/")
 	indexRouteHandler(indexRoute)
 

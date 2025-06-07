@@ -1,3 +1,5 @@
+include .env
+
 build:
 	@go build -o bin/our-srts cmd/main.go
 
@@ -16,3 +18,15 @@ watch:
 		--build.exclude_dir [] --build.include_ext "go" \
 		--build.stop_on_error "false" \
 		--misc.clean_on_exit true
+
+templates:
+	@templ generate
+
+templates-watch:
+	@templ generate --watch --proxy="http://localhost:${PORT}" -v
+
+tailwind:
+	@pnpm tailwindcss -i ./web/assets/styles/tailwind.css -o ./web/assets/styles/style.css
+
+tailwind-watch:
+	@pnpm tailwindcss -i ./web/assets/styles/tailwind.css -o ./web/assets/styles/style.css --watch

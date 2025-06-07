@@ -1,6 +1,7 @@
 tempDir/
 logs/
 nas/
+node_modules
 
 Registrar-SRTS*
 
