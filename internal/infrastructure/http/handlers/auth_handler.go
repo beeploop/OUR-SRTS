@@ -3,18 +3,18 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/beeploop/our-srts/internal/application/usecases"
+	uc "github.com/beeploop/our-srts/internal/application/usecases/auth"
 	"github.com/beeploop/our-srts/internal/infrastructure/session"
 	"github.com/beeploop/our-srts/web/views/pages/auth"
 	"github.com/labstack/echo/v4"
 )
 
 type authHandler struct {
-	authUseCase    *usecases.AuthUseCase
+	authUseCase    *uc.UseCase
 	sessionManager *session.SessionManager
 }
 
-func NewAuthHandler(authUseCase *usecases.AuthUseCase, sm *session.SessionManager) *authHandler {
+func NewAuthHandler(authUseCase *uc.UseCase, sm *session.SessionManager) *authHandler {
 	return &authHandler{
 		authUseCase:    authUseCase,
 		sessionManager: sm,
@@ -27,10 +27,12 @@ func (h *authHandler) RenderLogin(c echo.Context) error {
 }
 
 func (h *authHandler) HandleLogin(c echo.Context) error {
+	ctx := c.Request().Context()
+
 	username := c.FormValue("username")
 	password := c.FormValue("password")
 
-	admin, err := h.authUseCase.Login(username, password)
+	admin, err := h.authUseCase.Login(ctx, username, password)
 	if err != nil {
 		return c.Redirect(http.StatusSeeOther, "/auth/login")
 	}

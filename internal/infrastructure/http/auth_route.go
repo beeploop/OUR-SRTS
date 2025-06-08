@@ -1,20 +1,19 @@
 package http
 
 import (
-	"github.com/beeploop/our-srts/internal/application/usecases"
+	"github.com/beeploop/our-srts/internal/application/usecases/auth"
 	"github.com/beeploop/our-srts/internal/infrastructure/http/handlers"
 	"github.com/beeploop/our-srts/internal/infrastructure/http/middleware"
 	"github.com/beeploop/our-srts/internal/infrastructure/persistence/repositories"
 	"github.com/beeploop/our-srts/internal/infrastructure/session"
-	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
 )
 
-func authRouteHandler(g *echo.Group, db *sqlx.DB) {
+func (r *Router) authRouteHandler(g *echo.Group) {
 	sessionManager := session.NewSessionManager([]byte("secret"))
 
-	adminRepo := repositories.NewAdminRepository(db)
-	authUseCase := usecases.NewAuthUseCase(adminRepo)
+	adminRepo := repositories.NewAdminRepository(r.db)
+	authUseCase := auth.NewUseCase(adminRepo)
 
 	handler := handlers.NewAuthHandler(authUseCase, sessionManager)
 

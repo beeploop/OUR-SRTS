@@ -39,11 +39,11 @@ func (r *Router) registerRoutes() {
 	r.Echo.Static("/assets", "web/assets/")
 
 	indexRoute := r.Echo.Group("/")
-	indexRouteHandler(indexRoute)
+	r.indexRouteHandler(indexRoute)
 
 	authRoute := r.Echo.Group("/auth")
-	authRouteHandler(authRoute, r.db)
+	r.authRouteHandler(authRoute)
 
 	appRoute := r.Echo.Group("/app")
-	appRouterHandler(appRoute)
+	r.appRouterHandler(appRoute)
 }

@@ -1,24 +1,25 @@
-package usecases
+package auth
 
 import (
+	"context"
 	"errors"
 
 	"github.com/beeploop/our-srts/internal/domain/entities"
 	"github.com/beeploop/our-srts/internal/domain/repositories"
 )
 
-type AuthUseCase struct {
+type UseCase struct {
 	adminRepo repositories.AdminRepository
 }
 
-func NewAuthUseCase(adminRepo repositories.AdminRepository) *AuthUseCase {
-	return &AuthUseCase{
+func NewUseCase(adminRepo repositories.AdminRepository) *UseCase {
+	return &UseCase{
 		adminRepo: adminRepo,
 	}
 }
 
-func (u *AuthUseCase) Login(username, password string) (*entities.Admin, error) {
-	admin, err := u.adminRepo.FindByUsername(username)
+func (u *UseCase) Login(ctx context.Context, username, password string) (*entities.Admin, error) {
+	admin, err := u.adminRepo.FindByUsername(ctx, username)
 	if err != nil {
 		return nil, err
 	}

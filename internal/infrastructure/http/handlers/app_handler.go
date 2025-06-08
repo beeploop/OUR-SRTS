@@ -1,88 +1,88 @@
 package handlers
 
 import (
-	"errors"
+	"net/http"
+	"slices"
 
+	"github.com/beeploop/our-srts/internal/application/usecases/student"
+	"github.com/beeploop/our-srts/internal/domain/entities"
 	"github.com/beeploop/our-srts/internal/infrastructure/http/viewmodel"
 	"github.com/beeploop/our-srts/internal/infrastructure/session"
+	"github.com/beeploop/our-srts/internal/pkg/contextkeys"
+	"github.com/beeploop/our-srts/internal/pkg/utils"
 	"github.com/beeploop/our-srts/web/views/pages/app"
 	"github.com/labstack/echo/v4"
 )
 
 type appHandler struct {
-	sm *session.SessionManager
+	sm             *session.SessionManager
+	studentUseCase *student.UseCase
 }
 
-func NewAppHandler(sm *session.SessionManager) *appHandler {
+func NewAppHandler(sm *session.SessionManager, studentUseCase *student.UseCase) *appHandler {
 	return &appHandler{
-		sm: sm,
+		sm:             sm,
+		studentUseCase: studentUseCase,
 	}
 }
 
 func (h *appHandler) RenderSearch(c echo.Context) error {
-	admin, ok := h.sm.GetAdmin(c.Request())
+	ctx := c.Request().Context()
+
+	admin, ok := ctx.Value(contextkeys.SessionKey).(viewmodel.Admin)
 	if !ok {
-		return errors.New("invalid session")
+		return c.Redirect(http.StatusSeeOther, "/auth/login")
 	}
 
-	vm := viewmodel.Admin{
-		ID:       admin.ID,
-		Fullname: admin.Fullname,
-		Username: admin.Username,
-		Role:     admin.Role,
+	students, err := h.studentUseCase.Search(ctx, c.QueryParams())
+	if err != nil {
+		page := app.SearchPage(admin, make([]viewmodel.StudentListItem, 0))
+		return page.Render(c.Request().Context(), c.Response().Writer)
 	}
 
-	page := app.SearchPage(vm)
+	studentModels := slices.AppendSeq(
+		make([]viewmodel.StudentListItem, 0),
+		utils.Map(students, func(student *entities.Student) viewmodel.StudentListItem {
+			return viewmodel.StudentItemFromDomain(student)
+		}),
+	)
+
+	page := app.SearchPage(admin, studentModels)
 	return page.Render(c.Request().Context(), c.Response().Writer)
 }
 
 func (h *appHandler) RenderAddStudentPage(c echo.Context) error {
-	admin, ok := h.sm.GetAdmin(c.Request())
+	ctx := c.Request().Context()
+
+	admin, ok := ctx.Value(contextkeys.SessionKey).(viewmodel.Admin)
 	if !ok {
-		return errors.New("invalid session")
+		return c.Redirect(http.StatusSeeOther, "/auth/login")
 	}
 
-	vm := viewmodel.Admin{
-		ID:       admin.ID,
-		Fullname: admin.Fullname,
-		Username: admin.Username,
-		Role:     admin.Role,
-	}
-
-	page := app.AddStudentPage(vm)
+	page := app.AddStudentPage(admin)
 	return page.Render(c.Request().Context(), c.Response().Writer)
 }
 
 func (h *appHandler) RenderManageStaffPage(c echo.Context) error {
-	admin, ok := h.sm.GetAdmin(c.Request())
+	ctx := c.Request().Context()
+
+	admin, ok := ctx.Value(contextkeys.SessionKey).(viewmodel.Admin)
 	if !ok {
-		return errors.New("invalid session")
+		return c.Redirect(http.StatusSeeOther, "/auth/login")
 	}
 
-	vm := viewmodel.Admin{
-		ID:       admin.ID,
-		Fullname: admin.Fullname,
-		Username: admin.Username,
-		Role:     admin.Role,
-	}
-
-	page := app.ManageStaffPage(vm)
+	page := app.ManageStaffPage(admin)
 	return page.Render(c.Request().Context(), c.Response().Writer)
 }
 
 func (h *appHandler) RenderRequestsPage(c echo.Context) error {
-	admin, ok := h.sm.GetAdmin(c.Request())
+	ctx := c.Request().Context()
+
+	admin, ok := ctx.Value(contextkeys.SessionKey).(viewmodel.Admin)
 	if !ok {
-		return errors.New("invalid session")
+		return c.Redirect(http.StatusSeeOther, "/auth/login")
 	}
 
-	vm := viewmodel.Admin{
-		ID:       admin.ID,
-		Fullname: admin.Fullname,
-		Username: admin.Username,
-		Role:     admin.Role,
-	}
-
-	page := app.RequestsPage(vm)
+	page := app.RequestsPage(admin)
 	return page.Render(c.Request().Context(), c.Response().Writer)
 }
