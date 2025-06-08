@@ -46,7 +46,7 @@ func SearchPage(admin viewmodel.Admin) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<h1>search page</h1><form action=\"/auth/logout\" method=\"POST\"><div><button type=\"submit\" class=\"bg-primary rounded-md px-3 py-1.5 text-white hover:opacity-75\">Logout</button></div></form>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<h1>search page</h1>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

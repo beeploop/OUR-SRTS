@@ -7,6 +7,7 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
+    --color-red-500: oklch(63.7% 0.237 25.331);
     --color-red-900: oklch(39.6% 0.141 25.723);
     --color-yellow-400: oklch(85.2% 0.199 91.936);
     --color-yellow-500: oklch(79.5% 0.184 86.047);
@@ -190,6 +191,9 @@
   .top-0 {
     top: calc(var(--spacing) * 0);
   }
+  .top-11 {
+    top: calc(var(--spacing) * 11);
+  }
   .right-0 {
     right: calc(var(--spacing) * 0);
   }
@@ -276,11 +280,17 @@
   .w-20 {
     width: calc(var(--spacing) * 20);
   }
+  .w-fit {
+    width: fit-content;
+  }
   .w-full {
     width: 100%;
   }
   .max-w-sm {
     max-width: var(--container-sm);
+  }
+  .min-w-48 {
+    min-width: calc(var(--spacing) * 48);
   }
   .cursor-pointer {
     cursor: pointer;
@@ -290,6 +300,9 @@
   }
   .grid-cols-12 {
     grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+  .flex-col {
+    flex-direction: column;
   }
   .items-center {
     align-items: center;
@@ -308,6 +321,9 @@
   }
   .self-stretch {
     align-self: stretch;
+  }
+  .overflow-hidden {
+    overflow: hidden;
   }
   .overflow-y-scroll {
     overflow-y: scroll;
@@ -354,6 +370,12 @@
   }
   .bg-primary {
     background-color: var(--color-primary);
+  }
+  .bg-red-500\/25 {
+    background-color: color-mix(in srgb, oklch(63.7% 0.237 25.331) 25%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-red-500) 25%, transparent);
+    }
   }
   .bg-red-900 {
     background-color: var(--color-red-900);
@@ -428,6 +450,9 @@
   .text-primary {
     color: var(--color-primary);
   }
+  .text-red-500 {
+    color: var(--color-red-500);
+  }
   .text-white {
     color: var(--color-white);
   }
@@ -437,6 +462,16 @@
   .shadow {
     --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  .hover\:bg-gray\/75 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: color-mix(in srgb, oklch(70.8% 0 0) 75%, transparent);
+        @supports (color: color-mix(in lab, red, red)) {
+          background-color: color-mix(in oklab, var(--color-gray) 75%, transparent);
+        }
+      }
+    }
   }
   .hover\:bg-primary\/50 {
     &:hover {
@@ -482,6 +517,9 @@
 .active {
   background-color: var(--color-primary);
   color: var(--color-white);
+}
+[x-cloak] {
+  display: none !important;
 }
 @property --tw-border-style {
   syntax: "*";

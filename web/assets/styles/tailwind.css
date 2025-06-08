@@ -10,3 +10,7 @@
     background-color: var(--color-primary);
     color: var(--color-white);
 }
+
+[x-cloak] {
+    display: none !important;
+}
