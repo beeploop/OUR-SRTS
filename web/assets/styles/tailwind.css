@@ -2,4 +2,11 @@
 
 @theme {
     --color-primary: var(--color-red-900);
+
+    --color-gray: var(--color-neutral-400);
+}
+
+.active {
+    background-color: var(--color-primary);
+    color: var(--color-white);
 }

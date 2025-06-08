@@ -14,4 +14,7 @@ func appRouterHandler(g *echo.Group) {
 	handler := handlers.NewAppHandler(sessionManager)
 
 	g.GET("/search", handler.RenderSearch)
+	g.GET("/add-student", handler.RenderAddStudentPage)
+	g.GET("/manage-staff", handler.RenderManageStaffPage)
+	g.GET("/requests", handler.RenderRequestsPage)
 }

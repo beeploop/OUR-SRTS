@@ -15,9 +15,9 @@ templ MainLayout(admin viewmodel.Admin) {
 			<link rel="icon" type="image/x-icon" href="/assets/images/logo.png"/>
 			<link rel="stylesheet" href="/assets/styles/style.css"/>
 		</head>
-		<body class="font-roboto text-sm">
+		<body class="font-roboto text-sm h-screen">
 			<header class="">
-				<div class="max-h-[4rem] border-0 border-b-[1px] border-gray-400">
+				<div class="max-h-[4rem] border-0 border-b-[1px] border-gray">
 					<div class="h-2 bg-primary"></div>
 					<div class="flex justify-between items-center px-4 py-2">
 						<div class="flex items-center justify-between">
@@ -43,7 +43,14 @@ templ MainLayout(admin viewmodel.Admin) {
 					</div>
 				</div>
 			</header>
-			{ children... }
+			<main class="grid grid-cols-12">
+				<aside class="col-span-2 border-r border-gray pl-1.5 pt-1.5 h-screen">
+					@components.Sidebar()
+				</aside>
+				<div class="col-span-10 rounded-sm p-1.5 overflow-y-scroll">
+					{ children... }
+				</div>
+			</main>
 		</body>
 	</html>
 }

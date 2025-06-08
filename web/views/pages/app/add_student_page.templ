@@ -1,0 +1,12 @@
+package app
+
+import (
+	"github.com/beeploop/our-srts/internal/infrastructure/http/viewmodel"
+	"github.com/beeploop/our-srts/web/views/layouts"
+)
+
+templ AddStudentPage(admin viewmodel.Admin) {
+	@layouts.MainLayout(admin) {
+		<h1>Add Student Page</h1>
+	}
+}
