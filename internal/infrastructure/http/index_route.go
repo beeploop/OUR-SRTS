@@ -5,8 +5,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func indexRouteHandler(r *echo.Group) {
-	indexHandler := handlers.NewIndexHandler()
+func indexRouteHandler(g *echo.Group) {
+	handler := handlers.NewIndexHandler()
 
-	r.GET("", indexHandler.RenderIndex)
+	g.GET("", handler.RenderIndex)
 }

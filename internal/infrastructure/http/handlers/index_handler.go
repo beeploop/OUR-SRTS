@@ -7,13 +7,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type IndexHandler struct{}
+type indexHandler struct{}
 
-func NewIndexHandler() *IndexHandler {
-	return &IndexHandler{}
+func NewIndexHandler() *indexHandler {
+	return &indexHandler{}
 }
 
-func (h *IndexHandler) RenderIndex(c echo.Context) error {
+func (h *indexHandler) RenderIndex(c echo.Context) error {
 	page := index.IndexPage()
 	return page.Render(context.Background(), c.Response().Writer)
 }

@@ -69,6 +69,10 @@ func (a *Admin) UpdatePassword(password string) error {
 	return a.validate()
 }
 
+func (a *Admin) IsPasswordCorrect(password string) bool {
+	return a.Password == password
+}
+
 func (a *Admin) Disable() error {
 	a.Enabled = false
 	a.UpdatedAt = time.Now()

@@ -2,6 +2,9 @@ tempDir/
 logs/
 nas/
 node_modules
+mysql/
+bin/
+tmp/
 
 Registrar-SRTS*
 

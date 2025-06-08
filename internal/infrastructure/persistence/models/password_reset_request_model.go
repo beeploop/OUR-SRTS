@@ -8,9 +8,9 @@ import (
 
 type PasswordResetRequestModel struct {
 	ID        string                      `db:"id"`
-	AdminID   string                      `db:"adminid"`
+	AdminID   string                      `db:"admin_id"`
 	Token     string                      `db:"token"`
-	ExpiresAt time.Time                   `db:"expiresat"`
+	ExpiresAt time.Time                   `db:"expires_at"`
 	Status    entities.ResetRequestStatus `db:"status"`
 	CreatedAt time.Time                   `db:"created_at"`
 	UpdatedAt time.Time                   `db:"updated_at"`

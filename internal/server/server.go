@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/beeploop/our-srts/internal/config"
@@ -14,7 +15,7 @@ type Server struct {
 func NewServer(cfg *config.Config, handler http.Handler) *Server {
 	return &Server{
 		httpServer: &http.Server{
-			Addr:    cfg.PORT,
+			Addr:    fmt.Sprintf(":%s", cfg.PORT),
 			Handler: handler,
 		},
 	}

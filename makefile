@@ -1,7 +1,11 @@
-include .env
+include .env .db.env
+
+all: templates tailwind build
 
 build:
+	@echo "building..."
 	@go build -o bin/our-srts cmd/main.go
+	@echo "built binary in /bin"
 
 run: 
 	@go run cmd/main.go
@@ -12,7 +16,7 @@ test:
 clean:
 	@rm -rf bin
 
-watch:
+server-watch:
 	@air --build.cmd "go build -o tmp/main cmd/main.go" \
 		--build.bin "tmp/main" --build.delay "100" \
 		--build.exclude_dir [] --build.include_ext "go" \
@@ -30,3 +34,14 @@ tailwind:
 
 tailwind-watch:
 	@pnpm tailwindcss -i ./web/assets/styles/tailwind.css -o ./web/assets/styles/style.css --watch
+
+migrate-up:
+	@goose mysql ${DSN} -dir migrations up
+
+migrate-reset:
+	@goose mysql ${DSN} -dir migrations reset
+
+watch:
+	make -j3 templates-watch tailwind-watch server-watch
+
+.PHONY: all build run test clean server-watch templates templates-watch tailwind tailwind-watch migrate-up migrate-reset

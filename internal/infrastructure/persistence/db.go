@@ -1,4 +1,4 @@
-package mysql
+package persistence
 
 import (
 	"github.com/go-sql-driver/mysql"

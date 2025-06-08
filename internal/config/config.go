@@ -9,13 +9,29 @@ import (
 
 type Config struct {
 	PORT string
+
+	DB_USER string
+	DB_PASS string
+	DB_NET  string
+	DB_PORT string
+	DB_HOST string
+	DB_NAME string
+
+	SECRET_KEY string
 }
 
 func Load() *Config {
 	godotenv.Load()
 
 	return &Config{
-		PORT: mustGetEnv("PORT"),
+		PORT:       mustGetEnv("PORT"),
+		DB_USER:    mustGetEnv("DB_USER"),
+		DB_PASS:    mustGetEnv("DB_PASS"),
+		DB_NET:     mustGetEnv("DB_NET"),
+		DB_PORT:    mustGetEnv("DB_PORT"),
+		DB_HOST:    mustGetEnv("DB_HOST"),
+		DB_NAME:    mustGetEnv("DB_NAME"),
+		SECRET_KEY: mustGetEnv("SECRET_KEY"),
 	}
 }
 

@@ -1,0 +1,17 @@
+package app
+
+import (
+	"github.com/beeploop/our-srts/internal/infrastructure/http/viewmodel"
+	"github.com/beeploop/our-srts/web/views/layouts"
+)
+
+templ SearchPage(admin viewmodel.Admin) {
+	@layouts.MainLayout(admin) {
+		<h1>search page</h1>
+		<form action="/auth/logout" method="POST">
+			<div>
+				<button type="submit" class="bg-primary rounded-md px-3 py-1.5 text-white hover:opacity-75">Logout</button>
+			</div>
+		</form>
+	}
+}

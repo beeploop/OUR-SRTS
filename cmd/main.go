@@ -9,15 +9,30 @@ import (
 
 	"github.com/beeploop/our-srts/internal/config"
 	"github.com/beeploop/our-srts/internal/infrastructure/http"
+	"github.com/beeploop/our-srts/internal/infrastructure/persistence"
 	"github.com/beeploop/our-srts/internal/server"
+	"github.com/go-sql-driver/mysql"
 )
 
 func main() {
 	cfg := config.Load()
 
-	handler := http.SetupRouter()
+	db, err := persistence.NewMysql(mysql.Config{
+		User:                 cfg.DB_USER,
+		Passwd:               cfg.DB_PASS,
+		Net:                  cfg.DB_NET,
+		Addr:                 cfg.DB_HOST + ":" + cfg.DB_PORT,
+		DBName:               cfg.DB_NAME,
+		AllowNativePasswords: true,
+		ParseTime:            true,
+	})
+	if err != nil {
+		log.Fatalf("could not start db: %s\n", err.Error())
+	}
 
-	srv := server.NewServer(cfg, handler)
+	handler := http.NewRouter(cfg, db)
+
+	srv := server.NewServer(cfg, handler.Echo)
 
 	go func() {
 		log.Printf("starting server on %s\n", cfg.PORT)

@@ -1,0 +1,11 @@
+services:
+  db:
+    image: mysql:latest
+    container_name: db
+    restart: on-failure
+    env_file:
+        - ./.db.env
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql:/var/lib/mysql
