@@ -9,7 +9,7 @@ import (
 )
 
 type StudentModel struct {
-	ID              string               `db:"id"`
+	ControlNumber   string               `db:"control_number"`
 	FirstName       string               `db:"first_name"`
 	MiddleName      string               `db:"middle_name"`
 	LastName        string               `db:"last_name"`
@@ -26,7 +26,7 @@ type StudentModel struct {
 
 func (m *StudentModel) ToDomain() *entities.Student {
 	return &entities.Student{
-		ID:              m.ID,
+		ControlNumber:   m.ControlNumber,
 		FirstName:       m.FirstName,
 		MiddleName:      m.MiddleName,
 		LastName:        m.LastName,

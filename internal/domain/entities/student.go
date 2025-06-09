@@ -22,7 +22,7 @@ const (
 )
 
 type Student struct {
-	ID              string
+	ControlNumber   string
 	FirstName       string
 	MiddleName      string
 	LastName        string
@@ -38,7 +38,7 @@ type Student struct {
 }
 
 func NewStudent(
-	id string,
+	controlNumber string,
 	firstname string,
 	middlename string,
 	lastname string,
@@ -50,7 +50,7 @@ func NewStudent(
 	archiveLocation string,
 ) *Student {
 	return &Student{
-		ID:              id,
+		ControlNumber:   controlNumber,
 		FirstName:       firstname,
 		MiddleName:      middlename,
 		LastName:        lastname,
@@ -114,7 +114,7 @@ func (s *Student) AddDocument(document Document) {
 
 func (s *Student) Copy() *Student {
 	return &Student{
-		ID:              s.ID,
+		ControlNumber:   s.ControlNumber,
 		FirstName:       s.FirstName,
 		MiddleName:      s.MiddleName,
 		LastName:        s.LastName,

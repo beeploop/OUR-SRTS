@@ -9,10 +9,10 @@ import (
 type SearchType string
 
 const (
-	SEARCH_BY_FIRSTNAME  SearchType = "firstname"
-	SEARCH_BY_MIDDLENAME SearchType = "middlename"
-	SEARCH_BY_LASTNAME   SearchType = "lastname"
-	SEARCH_BY_ID         SearchType = "student_id"
+	SEARCH_BY_FIRSTNAME      SearchType = "firstname"
+	SEARCH_BY_MIDDLENAME     SearchType = "middlename"
+	SEARCH_BY_LASTNAME       SearchType = "lastname"
+	SEARCH_BY_CONTROL_NUMBER SearchType = "control_number"
 )
 
 type StudentFilter struct {

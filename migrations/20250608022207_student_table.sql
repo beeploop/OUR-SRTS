@@ -1,6 +1,6 @@
 -- +goose Up
 CREATE TABLE IF NOT EXISTS student (
-    id varchar(255) not null,
+    control_number varchar(255) not null,
     first_name varchar(255) not null,
     middle_name varchar(255),
     last_name varchar(255) not null,
@@ -12,10 +12,10 @@ CREATE TABLE IF NOT EXISTS student (
     archive_location varchar(255) not null,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp on update current_timestamp,
-    PRIMARY KEY(id),
+    PRIMARY KEY(control_number),
     FOREIGN KEY(program_id) REFERENCES program(id),
     FOREIGN KEY(major_id) REFERENCES major(id),
-    INDEX (id, first_name, last_name)
+    INDEX (control_number, first_name, last_name)
 );
 -- +goose StatementBegin
 SELECT 'up SQL query';

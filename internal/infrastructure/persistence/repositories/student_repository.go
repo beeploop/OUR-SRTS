@@ -24,7 +24,7 @@ func NewStudentRepository(db *sqlx.DB) *StudentRepository {
 
 func (r *StudentRepository) Create(ctx context.Context, student *entities.Student) (*entities.Student, error) {
 	columns := []string{
-		"id",
+		"control_number",
 		"first_name",
 		"middle_name",
 		"last_name",
@@ -39,7 +39,7 @@ func (r *StudentRepository) Create(ctx context.Context, student *entities.Studen
 	}
 
 	values := []interface{}{
-		student.ID,
+		student.ControlNumber,
 		student.FirstName,
 		student.MiddleName,
 		student.LastName,
@@ -78,8 +78,8 @@ func (r *StudentRepository) Search(ctx context.Context, filter repositories.Stud
 		queryBuilder.Where(sq.Eq{"middle_name": filter.Query})
 	case repositories.SEARCH_BY_LASTNAME:
 		queryBuilder.Where(sq.Eq{"last_name": filter.Query})
-	case repositories.SEARCH_BY_ID:
-		queryBuilder.Where(sq.Eq{"id": filter.Query})
+	case repositories.SEARCH_BY_CONTROL_NUMBER:
+		queryBuilder.Where(sq.Eq{"control_number": filter.Query})
 	}
 
 	if filter.ProgramID != "" {
@@ -121,7 +121,7 @@ func (r *StudentRepository) Save(ctx context.Context, student *entities.Student)
 			"created_at":       student.CreatedAt,
 			"updated_at":       student.UpdatedAt,
 		}).
-		Where(sq.Eq{"id": student.ID}).
+		Where(sq.Eq{"control_number": student.ControlNumber}).
 		ToSql()
 	if err != nil {
 		return err

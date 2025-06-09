@@ -11,7 +11,7 @@ type StudentListItem struct {
 
 func StudentItemFromDomain(student *entities.Student) StudentListItem {
 	return StudentListItem{
-		ID:         student.ID,
+		ID:         student.ControlNumber,
 		Firstname:  student.FirstName,
 		Middlename: student.MiddleName,
 		Lastname:   student.LastName,
