@@ -2,9 +2,11 @@
 CREATE TABLE IF NOT EXISTS major (
     id varchar(255) not null,
     title varchar(255) not null,
+    program_id varchar(255) not null,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp on update current_timestamp,
     PRIMARY KEY(id),
+    FOREIGN KEY(program_id) REFERENCES program(id),
     INDEX (id, title)
 );
 -- +goose StatementBegin

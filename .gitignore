@@ -1,10 +1,11 @@
-tempDir/
-logs/
-nas/
+tempDir
+logs
+nas
 node_modules
-mysql/
-bin/
-tmp/
+mysql
+bin
+tmp
+seed_files
 
 Registrar-SRTS*
 

@@ -16,8 +16,10 @@ type Major struct {
 
 func NewMajor(name string) *Major {
 	return &Major{
-		ID:    uuid.New().String(),
-		Title: name,
+		ID:        uuid.New().String(),
+		Title:     name,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
 	}
 }
 

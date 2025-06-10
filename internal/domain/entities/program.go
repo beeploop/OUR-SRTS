@@ -4,6 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 type Program struct {
@@ -15,7 +17,13 @@ type Program struct {
 }
 
 func NewProgram(title string) *Program {
-	return &Program{Title: title}
+	return &Program{
+		ID:        uuid.New().String(),
+		Title:     title,
+		Majors:    make([]Major, 0),
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
 }
 
 func (p *Program) validate() error {

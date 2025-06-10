@@ -4,11 +4,11 @@ all: templates tailwind build
 
 build:
 	@echo "building..."
-	@go build -o bin/our-srts cmd/main.go
+	@go build -o bin/our-srts cmd/srts/main.go
 	@echo "built binary in /bin"
 
 run: 
-	@go run cmd/main.go
+	@go run cmd/srts/main.go
 
 test:
 	@grc go test -v -failfast -cover ./...
@@ -17,7 +17,7 @@ clean:
 	@rm -rf bin
 
 server-watch:
-	@air --build.cmd "go build -o tmp/main cmd/main.go" \
+	@air --build.cmd "go build -o tmp/main cmd/srts/main.go" \
 		--build.bin "tmp/main" --build.delay "100" \
 		--build.exclude_dir [] --build.include_ext "go" \
 		--build.stop_on_error "false" \
