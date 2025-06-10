@@ -35,7 +35,7 @@ func (u *UseCase) Search(ctx context.Context, params url.Values) ([]*entities.St
 	filter := repositories.StudentFilter{
 		Query:      params.Get("query"),
 		SearchType: repositories.SearchType(params.Get("type")),
-		ProgramID:  utils.Ternary(params.Get("program") != "all", params.Get("program"), "all"),
+		ProgramID:  utils.Ternary(params.Get("program") != "all", params.Get("program"), ""),
 	}
 
 	return u.studentRepo.Search(ctx, filter)
