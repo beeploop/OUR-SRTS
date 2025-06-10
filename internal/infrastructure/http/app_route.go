@@ -1,6 +1,7 @@
 package http
 
 import (
+	"github.com/beeploop/our-srts/internal/application/usecases/program"
 	"github.com/beeploop/our-srts/internal/application/usecases/student"
 	"github.com/beeploop/our-srts/internal/infrastructure/http/handlers"
 	"github.com/beeploop/our-srts/internal/infrastructure/http/middleware"
@@ -18,7 +19,10 @@ func (r *Router) appRouterHandler(g *echo.Group) {
 	studentRepo := repositories.NewStudentRepository(r.db)
 	studentUseCase := student.NewUseCase(studentRepo)
 
-	handler := handlers.NewAppHandler(sessionManager, studentUseCase)
+	programRepo := repositories.NewProgramRepository(r.db)
+	programUseCase := program.NewUseCase(programRepo)
+
+	handler := handlers.NewAppHandler(sessionManager, studentUseCase, programUseCase)
 
 	g.GET("/search", handler.RenderSearch)
 	g.GET("/add-student", handler.RenderAddStudentPage)

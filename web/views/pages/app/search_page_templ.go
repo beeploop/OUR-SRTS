@@ -14,7 +14,7 @@ import (
 	"github.com/beeploop/our-srts/web/views/layouts"
 )
 
-func SearchPage(admin viewmodel.Admin, students []viewmodel.StudentListItem) templ.Component {
+func SearchPage(admin viewmodel.Admin, programs []viewmodel.Program, students []viewmodel.StudentListItem) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -57,7 +57,7 @@ func SearchPage(admin viewmodel.Admin, students []viewmodel.StudentListItem) tem
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = searchbar().Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = searchbar(programs).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -157,7 +157,7 @@ func SearchPage(admin viewmodel.Admin, students []viewmodel.StudentListItem) tem
 	})
 }
 
-func searchbar() templ.Component {
+func searchbar(programs []viewmodel.Program) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -178,7 +178,43 @@ func searchbar() templ.Component {
 			templ_7745c5c3_Var8 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<form><div class=\"flex gap-4 justify-end my-4\"><input type=\"text\" name=\"query\" id=\"searchbar\" placeholder=\"search...\" autocomplete=\"off\" class=\"outline-1 outline-gray rounded-sm p-2 focus:outline-primary w-full\"> <select name=\"type\" id=\"search-type\" class=\"outline-1 outline-gray rounded-sm p-2 focus:outline-primary w-full\"><option value=\"firstname\">Firstname</option> <option value=\"middlename\">Middlename</option> <option value=\"lastname\">Lastname</option> <option value=\"control_number\">Student ID</option></select> <select id=\"programs\" name=\"program\" class=\"outline-1 outline-gray rounded-sm p-2 focus:outline-primary w-full\"><option value=\"all\">All</option></select><div><button type=\"submit\" class=\"bg-primary text-white px-3 py-2 border-none hover:opacity-75 cursor-pointer rounded-sm flex items-center gap-2\"><svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"size-4\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z\"></path></svg><p>Search</p></button></div></div><script>\n            (function() {\n                const searchbar = document.getElementById(\"searchbar\");\n                const searchtype = document.getElementById(\"search-type\");\n                const programs = document.getElementById(\"programs\");\n\n                const params = new URLSearchParams(window.location.search);\n                \n                if (params.has(\"query\")) {\n                    searchbar.value = params.get(\"query\");\n                }\n\n                if (params.has(\"type\")) {\n                    searchtype.value = params.get(\"type\");\n                }\n\n                if (params.has(\"program\")) {\n                    programs.value = params.get(\"program\");\n                }\n             })();\n        </script></form>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<form><div class=\"flex gap-4 justify-end my-4\"><input type=\"text\" name=\"query\" id=\"searchbar\" placeholder=\"search...\" autocomplete=\"off\" class=\"outline-1 outline-gray rounded-sm p-2 focus:outline-primary w-full\"> <select name=\"type\" id=\"search-type\" class=\"outline-1 outline-gray rounded-sm p-2 focus:outline-primary w-full\"><option value=\"firstname\">Firstname</option> <option value=\"middlename\">Middlename</option> <option value=\"lastname\">Lastname</option> <option value=\"control_number\">Student ID</option></select> <select id=\"programs\" name=\"program\" class=\"outline-1 outline-gray rounded-sm p-2 focus:outline-primary w-full\"><option value=\"all\">All</option> ")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		for _, program := range programs {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<option value=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var9 string
+			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(program.ID)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/search_page.templ`, Line: 83, Col: 31}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var10 string
+			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(program.Title)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/search_page.templ`, Line: 83, Col: 49}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "</option>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "</select><div><button type=\"submit\" class=\"bg-primary text-white px-3 py-2 border-none hover:opacity-75 cursor-pointer rounded-sm flex items-center gap-2\"><svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"size-4\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z\"></path></svg><p>Search</p></button></div></div><script>\n            (function() {\n                const searchbar = document.getElementById(\"searchbar\");\n                const searchtype = document.getElementById(\"search-type\");\n                const programs = document.getElementById(\"programs\");\n\n                const params = new URLSearchParams(window.location.search);\n                \n                if (params.has(\"query\")) {\n                    searchbar.value = params.get(\"query\");\n                }\n\n                if (params.has(\"type\")) {\n                    searchtype.value = params.get(\"type\");\n                }\n\n                if (params.has(\"program\")) {\n                    programs.value = params.get(\"program\");\n                }\n             })();\n        </script></form>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

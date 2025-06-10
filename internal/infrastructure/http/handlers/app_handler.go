@@ -1,9 +1,11 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"slices"
 
+	"github.com/beeploop/our-srts/internal/application/usecases/program"
 	"github.com/beeploop/our-srts/internal/application/usecases/student"
 	"github.com/beeploop/our-srts/internal/domain/entities"
 	"github.com/beeploop/our-srts/internal/infrastructure/http/viewmodel"
@@ -17,12 +19,18 @@ import (
 type appHandler struct {
 	sm             *session.SessionManager
 	studentUseCase *student.UseCase
+	programUseCase *program.UseCase
 }
 
-func NewAppHandler(sm *session.SessionManager, studentUseCase *student.UseCase) *appHandler {
+func NewAppHandler(
+	sm *session.SessionManager,
+	studentUseCase *student.UseCase,
+	programUseCase *program.UseCase,
+) *appHandler {
 	return &appHandler{
 		sm:             sm,
 		studentUseCase: studentUseCase,
+		programUseCase: programUseCase,
 	}
 }
 
@@ -36,8 +44,7 @@ func (h *appHandler) RenderSearch(c echo.Context) error {
 
 	students, err := h.studentUseCase.Search(ctx, c.QueryParams())
 	if err != nil {
-		page := app.SearchPage(admin, make([]viewmodel.StudentListItem, 0))
-		return page.Render(c.Request().Context(), c.Response().Writer)
+		fmt.Println("error search student: ", err.Error())
 	}
 
 	studentModels := slices.AppendSeq(
@@ -47,7 +54,19 @@ func (h *appHandler) RenderSearch(c echo.Context) error {
 		}),
 	)
 
-	page := app.SearchPage(admin, studentModels)
+	programs, err := h.programUseCase.GetProgramList(ctx)
+	if err != nil {
+		fmt.Println("error get program list: ", err.Error())
+	}
+
+	programModels := slices.AppendSeq(
+		make([]viewmodel.Program, 0),
+		utils.Map(programs, func(program *entities.Program) viewmodel.Program {
+			return viewmodel.ProgramFromDomain(program)
+		}),
+	)
+
+	page := app.SearchPage(admin, programModels, studentModels)
 	return page.Render(c.Request().Context(), c.Response().Writer)
 }
 

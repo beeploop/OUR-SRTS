@@ -82,6 +82,7 @@ func (r *ProgramRepository) FindById(ctx context.Context, id string) (*entities.
 func (r *ProgramRepository) FindAll(ctx context.Context) ([]*entities.Program, error) {
 	query, args, err := sq.Select("*").
 		From("program").
+		OrderBy("title ASC").
 		ToSql()
 	if err != nil {
 		return nil, err
