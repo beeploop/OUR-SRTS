@@ -38,5 +38,14 @@ func main() {
 		log.Fatalf("failed to seed programs: %s\n", err.Error())
 	}
 
+	studentSourceFile := "./seed_files/tagum-trimmed.csv"
+	studentRepo := repositories.NewStudentRepository(db)
+	studentSeeder := seeder.NewStudentSeeder(studentSourceFile, studentRepo)
+	studentLimit := 10
+
+	if err := studentSeeder.Execute(ctx, &studentLimit); err != nil {
+		log.Fatalf("failed to seed students: %s\n", err.Error())
+	}
+
 	log.Printf("seeding complete\n")
 }
