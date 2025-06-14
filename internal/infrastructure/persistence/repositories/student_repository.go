@@ -73,17 +73,17 @@ func (r *StudentRepository) Search(ctx context.Context, filter repositories.Stud
 
 	switch filter.SearchType {
 	case repositories.SEARCH_BY_FIRSTNAME:
-		queryBuilder.Where(sq.Eq{"first_name": filter.Query})
+		queryBuilder = queryBuilder.Where(sq.Like{"first_name": "%" + filter.Query + "%"})
 	case repositories.SEARCH_BY_MIDDLENAME:
-		queryBuilder.Where(sq.Eq{"middle_name": filter.Query})
+		queryBuilder = queryBuilder.Where(sq.Like{"middle_name": "%" + filter.Query + "%"})
 	case repositories.SEARCH_BY_LASTNAME:
-		queryBuilder.Where(sq.Eq{"last_name": filter.Query})
+		queryBuilder = queryBuilder.Where(sq.Like{"last_name": "%" + filter.Query + "%"})
 	case repositories.SEARCH_BY_CONTROL_NUMBER:
-		queryBuilder.Where(sq.Eq{"control_number": filter.Query})
+		queryBuilder = queryBuilder.Where(sq.Like{"control_number": "%" + filter.Query + "%"})
 	}
 
 	if filter.ProgramID != "" {
-		queryBuilder.Where(sq.Eq{"program_id": filter.ProgramID})
+		queryBuilder = queryBuilder.Where(sq.Eq{"program_id": filter.ProgramID})
 	}
 
 	query, args, err := queryBuilder.ToSql()
