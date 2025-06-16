@@ -2,11 +2,139 @@ package app
 
 import (
 	"github.com/beeploop/our-srts/internal/infrastructure/http/viewmodel"
+	"github.com/beeploop/our-srts/web/views/components"
 	"github.com/beeploop/our-srts/web/views/layouts"
 )
 
-templ AddStudentPage(admin viewmodel.Admin) {
+var scriptLoader = templ.NewOnceHandle()
+
+templ AddStudentPage(admin viewmodel.Admin, programWithMajors []viewmodel.ProgramWithMajors) {
 	@layouts.MainLayout(admin) {
-		<h1>Add Student Page</h1>
+		@templ.JSONScript("programs", programWithMajors)
+		<div class="max-w-3xl mx-auto">
+			@components.Banner(components.BannerProps{
+				Title: "Add Student",
+			})
+			@components.Divider()
+			<form action="/app/add-student" method="POST" class="grid gap-4 mt-4">
+				<div class="flex gap-4">
+					<div class="w-full">
+						<label for="lastname">Lastname</label>
+						<br/>
+						<input
+							id="lastname"
+							type="text"
+							required
+							autofocus
+							autocomplete="off"
+							name="lastname"
+							placeholder="lastname"
+							class="w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none"
+						/>
+					</div>
+					<div class="w-full">
+						<label for="firstname">Firstname</label>
+						<br/>
+						<input
+							id="firstname"
+							type="text"
+							required
+							autocomplete="off"
+							name="firstname"
+							placeholder="firstname"
+							class="w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none"
+						/>
+					</div>
+					<div class="w-full">
+						<label for="middlename">Middlename</label>
+						<br/>
+						<input
+							id="middlename"
+							type="text"
+							required
+							autocomplete="off"
+							name="middlename"
+							placeholder="middlename"
+							class="w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none"
+						/>
+					</div>
+				</div>
+				<div class="flex gap-4">
+					<div class="w-full">
+						<label for="controlNumber">File Control Number</label>
+						<br/>
+						<input
+							id="controlNumber"
+							type="text"
+							required
+							autocomplete="off"
+							name="controlNumber"
+							placeholder="xxxxx"
+							class="w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none"
+						/>
+					</div>
+					<div class="w-full">
+						<label for="fileLocation">File Location</label>
+						<br/>
+						<input
+							id="fileLocation"
+							type="text"
+							required
+							autocomplete="off"
+							name="fileLocation"
+							placeholder="xxxxx"
+							class="w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none"
+						/>
+					</div>
+				</div>
+				<div class="flex gap-4">
+					<div class="w-full">
+						<label for="type">Student Type</label>
+						<br/>
+						<select id="type" name="type" class="w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none">
+							<option selected value="non_transferee">Non-Transferee</option>
+							<option value="transferee">Transferee</option>
+							<option value="graduate">Graduate</option>
+						</select>
+					</div>
+					<div class="w-full">
+						<label for="civilStatus">Civil Status</label>
+						<br/>
+						<select id="civilStatus" name="civilStatus" class="w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none">
+							<option selected value="single">Single</option>
+							<option value="married">Married</option>
+						</select>
+					</div>
+				</div>
+				<div class="flex gap-4">
+					<div class="w-full">
+						<label for="program">Program</label>
+						<br/>
+						<select id="program" name="program" class="w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none">
+							<option value="" selected>Select a program</option>
+							for _, program := range programWithMajors {
+								<option value={ program.Program.ID }>{ program.Program.Title }</option>
+							}
+						</select>
+					</div>
+					<div class="w-full">
+						<label for="major">Major</label>
+						<br/>
+						<select id="major" name="major" class="w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none">
+							<option value="" selected>Select a major</option>
+						</select>
+					</div>
+				</div>
+				<div class="flex justify-end">
+					<button
+						type="submit"
+						class="rounded-md bg-primary px-3 py-1.5 text-white cursor-pointer hover:opacity-75"
+					>Save Student</button>
+				</div>
+			</form>
+		</div>
+		@scriptLoader.Once() {
+			<script src="/assets/scripts/program_selector.js"></script>
+		}
 	}
 }

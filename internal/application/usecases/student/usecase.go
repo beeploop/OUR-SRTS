@@ -19,6 +19,14 @@ func NewUseCase(studentRepo repositories.StudentRepository) *UseCase {
 	}
 }
 
+func (u *UseCase) AddStudent(ctx context.Context, student *entities.Student) error {
+	if _, err := u.studentRepo.Create(ctx, student); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (u *UseCase) Search(ctx context.Context, params url.Values) ([]*entities.Student, error) {
 	if !params.Has("query") || params.Get("query") == "" {
 		return make([]*entities.Student, 0), nil

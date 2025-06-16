@@ -78,8 +78,61 @@ func (h *appHandler) RenderAddStudentPage(c echo.Context) error {
 		return c.Redirect(http.StatusSeeOther, "/auth/login")
 	}
 
-	page := app.AddStudentPage(admin)
+	programs, err := h.programUseCase.GetProgramList(ctx)
+	if err != nil {
+		fmt.Println("error get program list: ", err.Error())
+	}
+
+	programModels := slices.AppendSeq(
+		make([]viewmodel.ProgramWithMajors, 0),
+		utils.Map(programs, func(program *entities.Program) viewmodel.ProgramWithMajors {
+			return viewmodel.ProgramWithMajors{
+				Program: viewmodel.ProgramFromDomain(program),
+				Majors: slices.AppendSeq(
+					make([]viewmodel.Major, 0),
+					utils.Map(program.Majors, func(major entities.Major) viewmodel.Major {
+						return viewmodel.MajorFromDomain(&major)
+					}),
+				),
+			}
+		}),
+	)
+
+	page := app.AddStudentPage(admin, programModels)
 	return page.Render(c.Request().Context(), c.Response().Writer)
+}
+
+func (h *appHandler) HandleAddStudent(c echo.Context) error {
+	ctx := c.Request().Context()
+
+	lastname := c.FormValue("lastname")
+	firstname := c.FormValue("firstname")
+	middlename := c.FormValue("middlename")
+	control_number := c.FormValue("controlNumber")
+	archive_location := c.FormValue("fileLocaton")
+	student_type := c.FormValue("type")
+	civil_status := c.FormValue("civilStatus")
+	program_id := c.FormValue("program")
+	major_id := c.FormValue("major")
+
+	student := entities.NewStudent(
+		control_number,
+		firstname,
+		middlename,
+		lastname,
+		"",
+		entities.StudentType(student_type),
+		entities.CivilStatus(civil_status),
+		program_id,
+		major_id,
+		archive_location,
+	)
+
+	if err := h.studentUseCase.AddStudent(ctx, student); err != nil {
+		return c.Redirect(http.StatusSeeOther, "/app/add-student")
+	}
+
+	return c.Redirect(http.StatusSeeOther, "/app/add-student")
 }
 
 func (h *appHandler) RenderManageStaffPage(c echo.Context) error {

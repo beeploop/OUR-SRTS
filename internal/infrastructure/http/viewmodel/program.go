@@ -13,3 +13,20 @@ func ProgramFromDomain(program *entities.Program) Program {
 		Title: program.Title,
 	}
 }
+
+type Major struct {
+	ID    string
+	Title string
+}
+
+func MajorFromDomain(major *entities.Major) Major {
+	return Major{
+		ID:    major.ID,
+		Title: major.Title,
+	}
+}
+
+type ProgramWithMajors struct {
+	Program Program
+	Majors  []Major
+}

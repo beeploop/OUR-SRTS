@@ -11,6 +11,7 @@ templ SearchPage(admin viewmodel.Admin, programs []viewmodel.Program, students [
 		@components.Banner(components.BannerProps{
 			Title: "Search Student",
 		})
+		@components.Divider()
 		<div>
 			@searchbar(programs)
 			<table class="w-full outline-1 outline-gray rounded-sm">

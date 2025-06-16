@@ -93,6 +93,23 @@ func (r *ProgramRepository) FindAll(ctx context.Context) ([]*entities.Program, e
 		return nil, err
 	}
 
+	for _, program := range programs {
+		query, args, err := sq.Select("*").
+			From("major").
+			Where(sq.Eq{"program_id": program.ID}).
+			ToSql()
+		if err != nil {
+			return nil, err
+		}
+
+		majors := make([]models.MajorModel, 0)
+		if err := r.db.SelectContext(ctx, &majors, query, args...); err != nil {
+			return nil, err
+		}
+
+		program.Majors = majors
+	}
+
 	results := slices.AppendSeq(
 		make([]*entities.Program, 0),
 		utils.Map(programs, func(program *models.ProgramModel) *entities.Program {

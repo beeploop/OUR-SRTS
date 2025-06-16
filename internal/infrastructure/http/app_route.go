@@ -26,6 +26,7 @@ func (r *Router) appRouterHandler(g *echo.Group) {
 
 	g.GET("/search", handler.RenderSearch)
 	g.GET("/add-student", handler.RenderAddStudentPage)
+	g.POST("/add-student", handler.HandleAddStudent)
 	g.GET("/manage-staff", handler.RenderManageStaffPage)
 	g.GET("/requests", handler.RenderRequestsPage)
 }
