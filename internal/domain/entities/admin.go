@@ -38,7 +38,7 @@ func NewAdmin(fullname, username, password string, role AdminRole) *Admin {
 	}
 }
 
-func (a *Admin) validate() error {
+func (a *Admin) Validate() error {
 	if a.Fullname == "" {
 		return errors.New("fullname must not be empty")
 	}
@@ -54,19 +54,19 @@ func (a *Admin) validate() error {
 func (a *Admin) UpdateName(fullname string) error {
 	a.Fullname = fullname
 	a.UpdatedAt = time.Now()
-	return a.validate()
+	return a.Validate()
 }
 
 func (a *Admin) UpdateUsername(username string) error {
 	a.Username = username
 	a.UpdatedAt = time.Now()
-	return a.validate()
+	return a.Validate()
 }
 
 func (a *Admin) UpdatePassword(password string) error {
 	a.Password = password
 	a.UpdatedAt = time.Now()
-	return a.validate()
+	return a.Validate()
 }
 
 func (a *Admin) IsPasswordCorrect(password string) bool {
@@ -76,11 +76,11 @@ func (a *Admin) IsPasswordCorrect(password string) bool {
 func (a *Admin) Disable() error {
 	a.Enabled = false
 	a.UpdatedAt = time.Now()
-	return a.validate()
+	return a.Validate()
 }
 
 func (a *Admin) Enable() error {
 	a.Enabled = true
 	a.UpdatedAt = time.Now()
-	return a.validate()
+	return a.Validate()
 }

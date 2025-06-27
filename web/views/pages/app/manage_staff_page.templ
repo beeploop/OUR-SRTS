@@ -15,7 +15,7 @@ templ ManageStaffPage(admin viewmodel.Admin, accounts []viewmodel.Admin) {
 		})
 		@components.Divider()
 		<div>
-			<div class="flex justify-end mt-2">
+			<div class="mt-2 flex justify-end">
 				@components.OffCanvas(components.OffCanvasProps{
 					ID: "add-staff",
 					Button: components.OCButton(components.OCButtonProps{
@@ -23,11 +23,11 @@ templ ManageStaffPage(admin viewmodel.Admin, accounts []viewmodel.Admin) {
 						Variant: components.DEFAULT_BTN,
 					}),
 				}) {
-					<h1>Add Staff page</h1>
+					@addStaffForm()
 				}
 			</div>
 			<div class="mt-2">
-				<table class="w-full outline-1 outline-gray rounded-sm">
+				<table class="w-full rounded-sm outline-1 outline-gray">
 					<thead class="bg-primary text-white">
 						<tr>
 							<td class="p-2">Name</td>
@@ -97,4 +97,67 @@ templ ManageStaffPage(admin viewmodel.Admin, accounts []viewmodel.Admin) {
 			</div>
 		</div>
 	}
+}
+
+templ addStaffForm() {
+	<form action="/app/manage-staff" method="POST">
+		<h2 class="text-bold text-lg">Add Staff</h2>
+		<div class="mt-4 grid gap-4">
+			<div class="">
+				<label for="fullname">Fullname</label>
+				<br/>
+				<input
+					type="text"
+					name="fullname"
+					autofocus
+					autocomplete="off"
+					required
+					class="mt-1.5 w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none"
+					id="fullname"
+					placeholder="fullname"
+				/>
+			</div>
+			<div class="">
+				<label for="username">Username</label>
+				<br/>
+				<input
+					type="text"
+					name="username"
+					autofocus
+					autocomplete="off"
+					required
+					class="mt-1.5 w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none"
+					id="username"
+					placeholder="username"
+				/>
+			</div>
+			<div class="">
+				<label for="password">Staff password</label>
+				<p class="text-xs text-red-700">
+					Password must be 
+					<strong>
+						at least 8 characters long, at least 1 uppercase, at least 1 lowercase, at least 1 special character,
+						and no whitespace
+					</strong>
+				</p>
+				<br/>
+				<input
+					type="password"
+					name="password"
+					autofocus
+					autocomplete="off"
+					required
+					class="mt-1.5 w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none"
+					id="password"
+					placeholder="password"
+				/>
+			</div>
+			<div class="flex justify-end gap-2">
+				<button
+					type="submit"
+					class="w-20 rounded-md bg-primary px-3 py-1.5 text-white hover:opacity-75 cursor-pointer"
+				>Save</button>
+			</div>
+		</div>
+	</form>
 }

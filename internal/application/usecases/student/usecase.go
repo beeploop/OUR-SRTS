@@ -20,6 +20,10 @@ func NewUseCase(studentRepo repositories.StudentRepository) *UseCase {
 }
 
 func (u *UseCase) AddStudent(ctx context.Context, student *entities.Student) error {
+	if err := student.Validate(); err != nil {
+		return err
+	}
+
 	if _, err := u.studentRepo.Create(ctx, student); err != nil {
 		return err
 	}

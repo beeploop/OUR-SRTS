@@ -49,3 +49,19 @@ func (h *accountHandler) RenderManageStaffPage(c echo.Context) error {
 	page := app.ManageStaffPage(admin, accounts)
 	return page.Render(c.Request().Context(), c.Response().Writer)
 }
+
+func (h *accountHandler) HandleAddStaff(c echo.Context) error {
+	ctx := c.Request().Context()
+
+	fullname := c.FormValue("fullname")
+	username := c.FormValue("username")
+	password := c.FormValue("password")
+
+	admin := entities.NewAdmin(fullname, username, password, entities.ROLE_STAFF)
+
+	if err := h.adminUseCase.CreateStaff(ctx, admin); err != nil {
+		return c.Redirect(http.StatusSeeOther, "/app/manage-staff")
+	}
+
+	return c.Redirect(http.StatusSeeOther, "/app/manage-staff")
+}

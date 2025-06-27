@@ -20,3 +20,15 @@ func NewUseCase(adminRepo repositories.AdminRepository) *UseCase {
 func (u *UseCase) GetAccounts(ctx context.Context) ([]*entities.Admin, error) {
 	return u.adminRepo.FindAll(ctx)
 }
+
+func (u *UseCase) CreateStaff(ctx context.Context, admin *entities.Admin) error {
+	if err := admin.Validate(); err != nil {
+		return err
+	}
+
+	if _, err := u.adminRepo.Create(ctx, admin); err != nil {
+		return err
+	}
+
+	return nil
+}

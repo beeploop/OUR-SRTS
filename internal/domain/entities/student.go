@@ -66,7 +66,7 @@ func NewStudent(
 	}
 }
 
-func (s *Student) validate() error {
+func (s *Student) Validate() error {
 	if s.FirstName == "" {
 		return errors.New("firstname must not be empty")
 	}
@@ -95,17 +95,17 @@ func (s *Student) UpdateName(firstname, middlename, lastname, suffix string) err
 	s.MiddleName = middlename
 	s.LastName = lastname
 	s.Suffix = suffix
-	return s.validate()
+	return s.Validate()
 }
 
 func (s *Student) UpdateType(studentType StudentType) error {
 	s.StudentType = studentType
-	return s.validate()
+	return s.Validate()
 }
 
 func (s *Student) UpdateCivilStatus(civilStatus CivilStatus) error {
 	s.CivilStatus = civilStatus
-	return s.validate()
+	return s.Validate()
 }
 
 func (s *Student) AddDocument(document Document) {
