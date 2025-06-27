@@ -24,7 +24,7 @@ func (u *UseCase) GetAccounts(ctx context.Context) ([]*entities.Admin, error) {
 	return u.adminRepo.FindAll(ctx)
 }
 
-func (u *UseCase) CreateStaff(ctx context.Context, admin *entities.Admin) error {
+func (u *UseCase) CreateAccount(ctx context.Context, admin *entities.Admin) error {
 	if err := admin.Validate(); err != nil {
 		return err
 	}
@@ -36,9 +36,9 @@ func (u *UseCase) CreateStaff(ctx context.Context, admin *entities.Admin) error 
 	return nil
 }
 
-func (u *UseCase) DeleteStaff(ctx context.Context, staffID, password string) error {
-	if staffID == "" {
-		return errors.New("invalid staff ID")
+func (u *UseCase) DeleteAccount(ctx context.Context, accountID, password string) error {
+	if accountID == "" {
+		return errors.New("invalid account ID")
 	}
 
 	session, ok := ctx.Value(contextkeys.SessionKey).(viewmodel.Admin)
@@ -55,5 +55,5 @@ func (u *UseCase) DeleteStaff(ctx context.Context, staffID, password string) err
 		return errors.New("unauthorized access")
 	}
 
-	return u.adminRepo.Delete(ctx, staffID)
+	return u.adminRepo.Delete(ctx, accountID)
 }

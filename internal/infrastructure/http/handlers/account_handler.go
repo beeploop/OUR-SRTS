@@ -50,7 +50,7 @@ func (h *accountHandler) RenderManageStaffPage(c echo.Context) error {
 	return page.Render(c.Request().Context(), c.Response().Writer)
 }
 
-func (h *accountHandler) HandleAddStaff(c echo.Context) error {
+func (h *accountHandler) HandleAddAccount(c echo.Context) error {
 	ctx := c.Request().Context()
 
 	fullname := c.FormValue("fullname")
@@ -59,22 +59,32 @@ func (h *accountHandler) HandleAddStaff(c echo.Context) error {
 
 	admin := entities.NewAdmin(fullname, username, password, entities.ROLE_STAFF)
 
-	if err := h.adminUseCase.CreateStaff(ctx, admin); err != nil {
+	if err := h.adminUseCase.CreateAccount(ctx, admin); err != nil {
 		return c.Redirect(http.StatusSeeOther, "/app/manage-staff")
 	}
 
 	return c.Redirect(http.StatusSeeOther, "/app/manage-staff")
 }
 
-func (h *accountHandler) HandleDeleteStaff(c echo.Context) error {
+func (h *accountHandler) HandleDeleteAccount(c echo.Context) error {
 	ctx := c.Request().Context()
 
+	accountID := c.FormValue("accountID")
+	password := c.FormValue("password")
+
+	if err := h.adminUseCase.DeleteAccount(ctx, accountID, password); err != nil {
+		return c.Redirect(http.StatusSeeOther, "/app/manage-staff")
+	}
+
+	return c.Redirect(http.StatusSeeOther, "/app/manage-staff")
+}
+
+func (h *accountHandler) HandleDisableAccount(c echo.Context) error {
 	staffID := c.FormValue("staffID")
 	password := c.FormValue("password")
 
-	if err := h.adminUseCase.DeleteStaff(ctx, staffID, password); err != nil {
-		return c.Redirect(http.StatusSeeOther, "/app/manage-staff")
-	}
+	_ = staffID
+	_ = password
 
 	return c.Redirect(http.StatusSeeOther, "/app/manage-staff")
 }
