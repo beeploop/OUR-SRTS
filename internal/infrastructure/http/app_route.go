@@ -16,6 +16,7 @@ func (r *Router) appRouterHandler(g *echo.Group) {
 
 	g.Use(middleware.EnsureLoggedIn(sessionManager))
 	g.Use(middleware.SessionMiddleware(sessionManager))
+	g.Use(middleware.RBACMiddleware(sessionManager))
 
 	adminRepo := repositories.NewAdminRepository(r.db)
 	adminUseCase := admin.NewUseCase(adminRepo)
