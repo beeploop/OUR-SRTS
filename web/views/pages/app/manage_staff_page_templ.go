@@ -9,11 +9,14 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
+	"github.com/beeploop/our-srts/internal/domain/entities"
 	"github.com/beeploop/our-srts/internal/infrastructure/http/viewmodel"
+	"github.com/beeploop/our-srts/internal/pkg/utils"
+	"github.com/beeploop/our-srts/web/views/components"
 	"github.com/beeploop/our-srts/web/views/layouts"
 )
 
-func ManageStaffPage(admin viewmodel.Admin) templ.Component {
+func ManageStaffPage(admin viewmodel.Admin, accounts []viewmodel.Admin) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -46,7 +49,126 @@ func ManageStaffPage(admin viewmodel.Admin) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<h1>Manage Staff Page</h1>")
+			templ_7745c5c3_Err = components.Banner(components.BannerProps{
+				Title: "Staff Management",
+			}).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, " ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = components.Divider().Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " <div><div class=\"flex justify-end mt-2\"><button type=\"button\" class=\"bg-primary text-white rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75\">Add Staff</button></div><div class=\"mt-2\"><table class=\"w-full outline-1 outline-gray rounded-sm\"><thead class=\"bg-primary text-white\"><tr><td class=\"p-2\">Name</td><td class=\"p-2\">Username</td><td class=\"p-2\">Role</td><td class=\"p-2\">Status</td><td class=\"p-2\">Actions</td></tr></thead> <tbody class=\"divide-y divide-gray\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			if len(accounts) == 0 {
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<tr class=\"\"><td class=\"p-2\" colspan=\"5\" align=\"center\">Empty</td></tr>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			} else {
+				for _, account := range accounts {
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<tr class=\"\"><td class=\"p-2\">")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+					var templ_7745c5c3_Var3 string
+					templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(account.Fullname)
+					if templ_7745c5c3_Err != nil {
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/manage_staff_page.templ`, Line: 42, Col: 43}
+					}
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</td><td class=\"p-2\">")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+					var templ_7745c5c3_Var4 string
+					templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(account.Username)
+					if templ_7745c5c3_Err != nil {
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/manage_staff_page.templ`, Line: 43, Col: 43}
+					}
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</td><td class=\"p-2\">")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+					templ_7745c5c3_Err = components.SoftBadge(components.BadgeProps{
+						Title:   utils.StripUnderscore(account.Role),
+						Variant: utils.Ternary(account.Role == string(entities.ROLE_SUPER_ADMIN), components.SUCCESS_BADGE, components.WARNING_BADGE),
+					}).Render(ctx, templ_7745c5c3_Buffer)
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</td><td class=\"p-2\">")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+					if account.Enabled {
+						templ_7745c5c3_Err = components.SolidBadge(components.BadgeProps{
+							Title:   "Enabled",
+							Variant: components.SUCCESS_BADGE,
+						}).Render(ctx, templ_7745c5c3_Buffer)
+						if templ_7745c5c3_Err != nil {
+							return templ_7745c5c3_Err
+						}
+					} else {
+						templ_7745c5c3_Err = components.SolidBadge(components.BadgeProps{
+							Title:   "Disabled",
+							Variant: components.ERROR_BADGE,
+						}).Render(ctx, templ_7745c5c3_Buffer)
+						if templ_7745c5c3_Err != nil {
+							return templ_7745c5c3_Err
+						}
+					}
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</td><td class=\"p-2\"><span class=\"flex gap-2\"><!-- disable button -->")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+					if admin.ID == account.ID {
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<button type=\"button\" class=\"bg-warning text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75 disabled:bg-gray\" disabled>Disable</button>")
+						if templ_7745c5c3_Err != nil {
+							return templ_7745c5c3_Err
+						}
+					} else {
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<button type=\"button\" class=\"bg-warning text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75 disabled:bg-gray\">Disable</button>")
+						if templ_7745c5c3_Err != nil {
+							return templ_7745c5c3_Err
+						}
+					}
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<!-- delete button -->")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+					if admin.ID == account.ID {
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<button type=\"button\" class=\"bg-error text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75 disabled:bg-gray\" disabled>Delete</button>")
+						if templ_7745c5c3_Err != nil {
+							return templ_7745c5c3_Err
+						}
+					} else {
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<button type=\"button\" class=\"bg-error text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75 disabled:bg-gray\">Delete</button>")
+						if templ_7745c5c3_Err != nil {
+							return templ_7745c5c3_Err
+						}
+					}
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "</span></td></tr>")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+				}
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "</tbody></table></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

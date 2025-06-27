@@ -2,10 +2,12 @@ package repositories
 
 import (
 	"context"
+	"slices"
 
 	sq "github.com/Masterminds/squirrel"
 	"github.com/beeploop/our-srts/internal/domain/entities"
 	"github.com/beeploop/our-srts/internal/infrastructure/persistence/models"
+	"github.com/beeploop/our-srts/internal/pkg/utils"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -67,6 +69,30 @@ func (r *AdminRepository) FindByUsername(ctx context.Context, username string) (
 	}
 
 	return admin.ToDomain(), nil
+}
+
+func (r *AdminRepository) FindAll(ctx context.Context) ([]*entities.Admin, error) {
+	query, args, err := sq.Select("*").
+		From("admin").
+		OrderBy("created_at DESC").
+		ToSql()
+	if err != nil {
+		return nil, err
+	}
+
+	modelAccounts := make([]*models.AdminModel, 0)
+	if err := r.db.SelectContext(ctx, &modelAccounts, query, args...); err != nil {
+		return nil, err
+	}
+
+	domainAccounts := slices.AppendSeq(
+		make([]*entities.Admin, 0),
+		utils.Map(modelAccounts, func(account *models.AdminModel) *entities.Admin {
+			return account.ToDomain()
+		}),
+	)
+
+	return domainAccounts, nil
 }
 
 func (r *AdminRepository) Save(ctx context.Context, admin *entities.Admin) error {

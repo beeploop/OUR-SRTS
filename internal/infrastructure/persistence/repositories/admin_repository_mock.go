@@ -26,6 +26,10 @@ func (r *AdminRepositoryMock) FindByUsername(ctx context.Context, username strin
 	return admin, nil
 }
 
+func (r *AdminRepositoryMock) FindAll(ctx context.Context) ([]*entities.Admin, error) {
+	return make([]*entities.Admin, 0), nil
+}
+
 func (r *AdminRepositoryMock) Save(ctx context.Context, admin *entities.Admin) error {
 	return nil
 }

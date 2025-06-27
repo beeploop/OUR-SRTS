@@ -10,6 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"github.com/beeploop/our-srts/internal/infrastructure/http/viewmodel"
+	"github.com/beeploop/our-srts/internal/pkg/utils"
 	"github.com/beeploop/our-srts/web/views/components"
 )
 
@@ -40,7 +41,7 @@ func MainLayout(admin viewmodel.Admin) templ.Component {
 		}
 		templ_7745c5c3_Err = components.Avatar(components.AvatarProps{
 			Name: admin.Fullname,
-			Role: admin.Role,
+			Role: utils.StripUnderscore(admin.Role),
 		}).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

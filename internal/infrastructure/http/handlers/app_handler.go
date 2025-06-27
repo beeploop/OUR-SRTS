@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"slices"
 
+	"github.com/beeploop/our-srts/internal/application/usecases/admin"
 	"github.com/beeploop/our-srts/internal/application/usecases/program"
 	"github.com/beeploop/our-srts/internal/application/usecases/student"
 	"github.com/beeploop/our-srts/internal/domain/entities"
@@ -18,17 +19,20 @@ import (
 
 type appHandler struct {
 	sm             *session.SessionManager
+	adminUseCase   *admin.UseCase
 	studentUseCase *student.UseCase
 	programUseCase *program.UseCase
 }
 
 func NewAppHandler(
 	sm *session.SessionManager,
+	adminUseCase *admin.UseCase,
 	studentUseCase *student.UseCase,
 	programUseCase *program.UseCase,
 ) *appHandler {
 	return &appHandler{
 		sm:             sm,
+		adminUseCase:   adminUseCase,
 		studentUseCase: studentUseCase,
 		programUseCase: programUseCase,
 	}
@@ -143,7 +147,20 @@ func (h *appHandler) RenderManageStaffPage(c echo.Context) error {
 		return c.Redirect(http.StatusSeeOther, "/auth/login")
 	}
 
-	page := app.ManageStaffPage(admin)
+	accountModels, err := h.adminUseCase.GetAccounts(ctx)
+	if err != nil {
+		page := app.ManageStaffPage(admin, make([]viewmodel.Admin, 0))
+		return page.Render(c.Request().Context(), c.Response().Writer)
+	}
+
+	accounts := slices.AppendSeq(
+		make([]viewmodel.Admin, 0),
+		utils.Map(accountModels, func(account *entities.Admin) viewmodel.Admin {
+			return viewmodel.AdminFromDomain(account)
+		}),
+	)
+
+	page := app.ManageStaffPage(admin, accounts)
 	return page.Render(c.Request().Context(), c.Response().Writer)
 }
 

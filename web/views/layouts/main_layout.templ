@@ -2,6 +2,7 @@ package layouts
 
 import (
 	"github.com/beeploop/our-srts/internal/infrastructure/http/viewmodel"
+	"github.com/beeploop/our-srts/internal/pkg/utils"
 	"github.com/beeploop/our-srts/web/views/components"
 )
 
@@ -43,7 +44,7 @@ templ MainLayout(admin viewmodel.Admin) {
 						</div>
 						@components.Avatar(components.AvatarProps{
 							Name: admin.Fullname,
-							Role: admin.Role,
+							Role: utils.StripUnderscore(admin.Role),
 						})
 					</div>
 				</div>

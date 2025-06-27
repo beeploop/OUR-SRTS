@@ -7,6 +7,7 @@ type SessionModel struct {
 	Fullname string
 	Username string
 	Role     string
+	Enabled  bool
 }
 
 func FromDomain(admin *entities.Admin) SessionModel {
@@ -15,5 +16,6 @@ func FromDomain(admin *entities.Admin) SessionModel {
 		Fullname: admin.Fullname,
 		Username: admin.Username,
 		Role:     string(admin.Role),
+		Enabled:  admin.Enabled,
 	}
 }
