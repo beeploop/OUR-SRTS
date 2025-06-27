@@ -73,12 +73,16 @@ templ ManageStaffPage(admin viewmodel.Admin, accounts []viewmodel.Admin) {
 											@components.OffCanvas(components.OffCanvasProps{
 												ID: account.ID,
 												Button: components.OCButton(components.OCButtonProps{
-													Label:    "Disable",
+													Label:    utils.Ternary(account.Enabled, "Disable", "Enable"),
 													Disabled: utils.Ternary(admin.ID == account.ID, true, false),
-													Variant:  components.WARNING_BTN,
+													Variant:  utils.Ternary(account.Enabled, components.WARNING_BTN, components.SUCCESS_BTN),
 												}),
 											}) {
-												@disableStaffForm(account.ID)
+												if account.Enabled {
+													@disableStaffForm(account.ID)
+												} else {
+													@enableStaffForm(account.ID)
+												}
 											}
 											@components.OffCanvas(components.OffCanvasProps{
 												ID: account.ID,
@@ -168,7 +172,60 @@ templ addStaffForm() {
 templ disableStaffForm(accountID string) {
 	<div>
 		<h1>Disable Account</h1>
-		<p>{ accountID }</p>
+		<form action={ templ.SafeURL(fmt.Sprintf("/app/manage-staff/%s/disable", accountID)) } method="POST">
+			<div>
+				<input type="text" hidden="true" name="accountID" value={ accountID }/>
+			</div>
+			<div class="mt-4">
+				<label for="password" class="">Confirmation Password</label>
+				<br/>
+				<input
+					type="password"
+					id="password"
+					name="password"
+					required
+					autocomplete="off"
+					placeholder="password"
+					class="outline-1 outline-gray p-2 rounded-sm mt-1.5 w-full focus:outline-primary"
+				/>
+			</div>
+			<div class="mt-2 flex justify-end">
+				<button
+					type="submit"
+					class="bg-primary text-white text-xs cursor-pointer px-3 py-1.5 rounded-sm hover:opacity-75"
+				>Continue</button>
+			</div>
+		</form>
+	</div>
+}
+
+templ enableStaffForm(accountID string) {
+	<div>
+		<h1>Enable Account</h1>
+		<form action={ templ.SafeURL(fmt.Sprintf("/app/manage-staff/%s/enable", accountID)) } method="POST">
+			<div>
+				<input type="text" hidden="true" name="accountID" value={ accountID }/>
+			</div>
+			<div class="mt-4">
+				<label for="password" class="">Confirmation Password</label>
+				<br/>
+				<input
+					type="password"
+					id="password"
+					name="password"
+					required
+					autocomplete="off"
+					placeholder="password"
+					class="outline-1 outline-gray p-2 rounded-sm mt-1.5 w-full focus:outline-primary"
+				/>
+			</div>
+			<div class="mt-2 flex justify-end">
+				<button
+					type="submit"
+					class="bg-primary text-white text-xs cursor-pointer px-3 py-1.5 rounded-sm hover:opacity-75"
+				>Continue</button>
+			</div>
+		</form>
 	</div>
 }
 

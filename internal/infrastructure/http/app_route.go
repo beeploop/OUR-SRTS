@@ -37,5 +37,6 @@ func (r *Router) appRouterHandler(g *echo.Group) {
 	g.POST("/manage-staff", accountHandler.HandleAddAccount)
 	g.POST("/manage-staff/:id/delete", accountHandler.HandleDeleteAccount)
 	g.POST("/manage-staff/:id/disable", accountHandler.HandleDisableAccount)
+	g.POST("/manage-staff/:id/enable", accountHandler.HandleEnableAccount)
 	g.GET("/requests", resetHandler.RenderRequestsPage)
 }

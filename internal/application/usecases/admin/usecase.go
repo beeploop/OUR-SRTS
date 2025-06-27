@@ -46,7 +46,7 @@ func (u *UseCase) DeleteAccount(ctx context.Context, accountID, password string)
 		return errors.New("unauthorized access")
 	}
 
-	admin, err := u.adminRepo.FindByUsername(ctx, session.Username)
+	admin, err := u.adminRepo.FindById(ctx, session.ID)
 	if err != nil {
 		return err
 	}
@@ -56,4 +56,58 @@ func (u *UseCase) DeleteAccount(ctx context.Context, accountID, password string)
 	}
 
 	return u.adminRepo.Delete(ctx, accountID)
+}
+
+func (u *UseCase) DisableAccount(ctx context.Context, accountID, password string) error {
+	session, ok := ctx.Value(contextkeys.SessionKey).(viewmodel.Admin)
+	if !ok {
+		return errors.New("unauthorized access")
+	}
+
+	admin, err := u.adminRepo.FindById(ctx, session.ID)
+	if err != nil {
+		return err
+	}
+
+	if !admin.IsPasswordCorrect(password) {
+		return errors.New("unauthorized access")
+	}
+
+	account, err := u.adminRepo.FindById(ctx, accountID)
+	if err != nil {
+		return err
+	}
+
+	if err := account.Disable(); err != nil {
+		return err
+	}
+
+	return u.adminRepo.Save(ctx, account)
+}
+
+func (u *UseCase) EnableAccount(ctx context.Context, accountID, password string) error {
+	session, ok := ctx.Value(contextkeys.SessionKey).(viewmodel.Admin)
+	if !ok {
+		return errors.New("unauthorized access")
+	}
+
+	admin, err := u.adminRepo.FindById(ctx, session.ID)
+	if err != nil {
+		return err
+	}
+
+	if !admin.IsPasswordCorrect(password) {
+		return errors.New("unauthorized access")
+	}
+
+	account, err := u.adminRepo.FindById(ctx, accountID)
+	if err != nil {
+		return err
+	}
+
+	if err := account.Enable(); err != nil {
+		return err
+	}
+
+	return u.adminRepo.Save(ctx, account)
 }

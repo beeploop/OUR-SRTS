@@ -80,11 +80,27 @@ func (h *accountHandler) HandleDeleteAccount(c echo.Context) error {
 }
 
 func (h *accountHandler) HandleDisableAccount(c echo.Context) error {
-	staffID := c.FormValue("staffID")
+	ctx := c.Request().Context()
+
+	accountID := c.FormValue("accountID")
 	password := c.FormValue("password")
 
-	_ = staffID
-	_ = password
+	if err := h.adminUseCase.DisableAccount(ctx, accountID, password); err != nil {
+		return c.Redirect(http.StatusSeeOther, "/app/manage-staff")
+	}
+
+	return c.Redirect(http.StatusSeeOther, "/app/manage-staff")
+}
+
+func (h *accountHandler) HandleEnableAccount(c echo.Context) error {
+	ctx := c.Request().Context()
+
+	accountID := c.FormValue("accountID")
+	password := c.FormValue("password")
+
+	if err := h.adminUseCase.EnableAccount(ctx, accountID, password); err != nil {
+		return c.Redirect(http.StatusSeeOther, "/app/manage-staff")
+	}
 
 	return c.Redirect(http.StatusSeeOther, "/app/manage-staff")
 }
