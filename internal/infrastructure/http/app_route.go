@@ -26,11 +26,13 @@ func (r *Router) appRouterHandler(g *echo.Group) {
 	programRepo := repositories.NewProgramRepository(r.db)
 	programUseCase := program.NewUseCase(programRepo)
 
-	handler := handlers.NewAppHandler(sessionManager, adminUseCase, studentUseCase, programUseCase)
+	studentHandler := handlers.NewStudentHandler(studentUseCase, programUseCase)
+	accountHandler := handlers.NewAccountHandler(adminUseCase)
+	resetHandler := handlers.NewResetHandler()
 
-	g.GET("/search", handler.RenderSearch)
-	g.GET("/add-student", handler.RenderAddStudentPage)
-	g.POST("/add-student", handler.HandleAddStudent)
-	g.GET("/manage-staff", handler.RenderManageStaffPage)
-	g.GET("/requests", handler.RenderRequestsPage)
+	g.GET("/search", studentHandler.RenderSearch)
+	g.GET("/add-student", studentHandler.RenderAddStudentPage)
+	g.POST("/add-student", studentHandler.HandleAddStudent)
+	g.GET("/manage-staff", accountHandler.RenderManageStaffPage)
+	g.GET("/requests", resetHandler.RenderRequestsPage)
 }

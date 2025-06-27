@@ -5,40 +5,32 @@ import (
 	"net/http"
 	"slices"
 
-	"github.com/beeploop/our-srts/internal/application/usecases/admin"
 	"github.com/beeploop/our-srts/internal/application/usecases/program"
 	"github.com/beeploop/our-srts/internal/application/usecases/student"
 	"github.com/beeploop/our-srts/internal/domain/entities"
 	"github.com/beeploop/our-srts/internal/infrastructure/http/viewmodel"
-	"github.com/beeploop/our-srts/internal/infrastructure/session"
 	"github.com/beeploop/our-srts/internal/pkg/contextkeys"
 	"github.com/beeploop/our-srts/internal/pkg/utils"
 	"github.com/beeploop/our-srts/web/views/pages/app"
 	"github.com/labstack/echo/v4"
 )
 
-type appHandler struct {
-	sm             *session.SessionManager
-	adminUseCase   *admin.UseCase
+type studentHandler struct {
 	studentUseCase *student.UseCase
 	programUseCase *program.UseCase
 }
 
-func NewAppHandler(
-	sm *session.SessionManager,
-	adminUseCase *admin.UseCase,
+func NewStudentHandler(
 	studentUseCase *student.UseCase,
 	programUseCase *program.UseCase,
-) *appHandler {
-	return &appHandler{
-		sm:             sm,
-		adminUseCase:   adminUseCase,
+) *studentHandler {
+	return &studentHandler{
 		studentUseCase: studentUseCase,
 		programUseCase: programUseCase,
 	}
 }
 
-func (h *appHandler) RenderSearch(c echo.Context) error {
+func (h *studentHandler) RenderSearch(c echo.Context) error {
 	ctx := c.Request().Context()
 
 	admin, ok := ctx.Value(contextkeys.SessionKey).(viewmodel.Admin)
@@ -74,7 +66,7 @@ func (h *appHandler) RenderSearch(c echo.Context) error {
 	return page.Render(c.Request().Context(), c.Response().Writer)
 }
 
-func (h *appHandler) RenderAddStudentPage(c echo.Context) error {
+func (h *studentHandler) RenderAddStudentPage(c echo.Context) error {
 	ctx := c.Request().Context()
 
 	admin, ok := ctx.Value(contextkeys.SessionKey).(viewmodel.Admin)
@@ -106,7 +98,7 @@ func (h *appHandler) RenderAddStudentPage(c echo.Context) error {
 	return page.Render(c.Request().Context(), c.Response().Writer)
 }
 
-func (h *appHandler) HandleAddStudent(c echo.Context) error {
+func (h *studentHandler) HandleAddStudent(c echo.Context) error {
 	ctx := c.Request().Context()
 
 	lastname := c.FormValue("lastname")
@@ -137,41 +129,4 @@ func (h *appHandler) HandleAddStudent(c echo.Context) error {
 	}
 
 	return c.Redirect(http.StatusSeeOther, "/app/add-student")
-}
-
-func (h *appHandler) RenderManageStaffPage(c echo.Context) error {
-	ctx := c.Request().Context()
-
-	admin, ok := ctx.Value(contextkeys.SessionKey).(viewmodel.Admin)
-	if !ok {
-		return c.Redirect(http.StatusSeeOther, "/auth/login")
-	}
-
-	accountModels, err := h.adminUseCase.GetAccounts(ctx)
-	if err != nil {
-		page := app.ManageStaffPage(admin, make([]viewmodel.Admin, 0))
-		return page.Render(c.Request().Context(), c.Response().Writer)
-	}
-
-	accounts := slices.AppendSeq(
-		make([]viewmodel.Admin, 0),
-		utils.Map(accountModels, func(account *entities.Admin) viewmodel.Admin {
-			return viewmodel.AdminFromDomain(account)
-		}),
-	)
-
-	page := app.ManageStaffPage(admin, accounts)
-	return page.Render(c.Request().Context(), c.Response().Writer)
-}
-
-func (h *appHandler) RenderRequestsPage(c echo.Context) error {
-	ctx := c.Request().Context()
-
-	admin, ok := ctx.Value(contextkeys.SessionKey).(viewmodel.Admin)
-	if !ok {
-		return c.Redirect(http.StatusSeeOther, "/auth/login")
-	}
-
-	page := app.RequestsPage(admin)
-	return page.Render(c.Request().Context(), c.Response().Writer)
 }
