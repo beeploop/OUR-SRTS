@@ -118,3 +118,18 @@ func (r *AdminRepository) Save(ctx context.Context, admin *entities.Admin) error
 
 	return nil
 }
+
+func (r *AdminRepository) Delete(ctx context.Context, id string) error {
+	query, args, err := sq.Delete("admin").
+		Where(sq.Eq{"id": id}).
+		ToSql()
+	if err != nil {
+		return err
+	}
+
+	if _, err := r.db.ExecContext(ctx, query, args...); err != nil {
+		return err
+	}
+
+	return nil
+}

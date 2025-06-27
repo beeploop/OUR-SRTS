@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"github.com/beeploop/our-srts/internal/domain/entities"
 	"github.com/beeploop/our-srts/internal/infrastructure/http/viewmodel"
 	"github.com/beeploop/our-srts/internal/pkg/utils"
@@ -72,20 +73,22 @@ templ ManageStaffPage(admin viewmodel.Admin, accounts []viewmodel.Admin) {
 											@components.OffCanvas(components.OffCanvasProps{
 												ID: account.ID,
 												Button: components.OCButton(components.OCButtonProps{
-													Label:   "Disable",
-													Variant: components.WARNING_BTN,
+													Label:    "Disable",
+													Disabled: utils.Ternary(admin.ID == account.ID, true, false),
+													Variant:  components.WARNING_BTN,
 												}),
 											}) {
-												<h1>Disable Account</h1>
+												@disableStaffForm(account.ID)
 											}
 											@components.OffCanvas(components.OffCanvasProps{
 												ID: account.ID,
 												Button: components.OCButton(components.OCButtonProps{
-													Label:   "Delete",
-													Variant: components.ERROR_BTN,
+													Label:    "Delete",
+													Disabled: utils.Ternary(admin.ID == account.ID, true, false),
+													Variant:  components.ERROR_BTN,
 												}),
 											}) {
-												<h1>Delete Account</h1>
+												@deleteStaffForm(account.ID)
 											}
 										</span>
 									</td>
@@ -160,4 +163,41 @@ templ addStaffForm() {
 			</div>
 		</div>
 	</form>
+}
+
+templ disableStaffForm(accountID string) {
+	<div>
+		<h1>Disable Account</h1>
+		<p>{ accountID }</p>
+	</div>
+}
+
+templ deleteStaffForm(accountID string) {
+	<div>
+		<h1>Delete Account</h1>
+		<form action={ templ.SafeURL(fmt.Sprintf("/app/manage-staff/%s/delete", accountID)) } method="POST">
+			<div>
+				<input type="text" hidden="true" name="staffID" value={ accountID }/>
+			</div>
+			<div class="mt-4">
+				<label for="password" class="">Confirmation Password</label>
+				<br/>
+				<input
+					type="password"
+					id="password"
+					name="password"
+					required
+					autocomplete="off"
+					placeholder="password"
+					class="outline-1 outline-gray p-2 rounded-sm mt-1.5 w-full focus:outline-primary"
+				/>
+			</div>
+			<div class="mt-2 flex justify-end">
+				<button
+					type="submit"
+					class="bg-primary text-white text-xs cursor-pointer px-3 py-1.5 rounded-sm hover:opacity-75"
+				>Continue</button>
+			</div>
+		</form>
+	</div>
 }

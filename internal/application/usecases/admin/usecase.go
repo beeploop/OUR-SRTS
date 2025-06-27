@@ -2,9 +2,12 @@ package admin
 
 import (
 	"context"
+	"errors"
 
 	"github.com/beeploop/our-srts/internal/domain/entities"
 	"github.com/beeploop/our-srts/internal/domain/repositories"
+	"github.com/beeploop/our-srts/internal/infrastructure/http/viewmodel"
+	"github.com/beeploop/our-srts/internal/pkg/contextkeys"
 )
 
 type UseCase struct {
@@ -31,4 +34,26 @@ func (u *UseCase) CreateStaff(ctx context.Context, admin *entities.Admin) error 
 	}
 
 	return nil
+}
+
+func (u *UseCase) DeleteStaff(ctx context.Context, staffID, password string) error {
+	if staffID == "" {
+		return errors.New("invalid staff ID")
+	}
+
+	session, ok := ctx.Value(contextkeys.SessionKey).(viewmodel.Admin)
+	if !ok {
+		return errors.New("unauthorized access")
+	}
+
+	admin, err := u.adminRepo.FindByUsername(ctx, session.Username)
+	if err != nil {
+		return err
+	}
+
+	if !admin.IsPasswordCorrect(password) {
+		return errors.New("unauthorized access")
+	}
+
+	return u.adminRepo.Delete(ctx, staffID)
 }

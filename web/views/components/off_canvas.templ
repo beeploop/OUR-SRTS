@@ -17,36 +17,73 @@ const (
 )
 
 type OCButtonProps struct {
-	Label   string
-	Variant OCButtonVariant
+	Label    string
+	Disabled bool
+	Variant  OCButtonVariant
 }
 
 templ OCButton(props OCButtonProps) {
 	switch (props.Variant) {
 		case SUCCESS_BTN:
-			<button
-				type="button"
-				class="bg-success text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75 disabled:bg-gray focus:border-none focus:outline-none"
-				x-on:click="open()"
-			>{ props.Label }</button>
+			if props.Disabled {
+				<button
+					type="button"
+					class="bg-success text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75 disabled:bg-gray focus:border-none focus:outline-none"
+					x-on:click="open()"
+					disabled
+				>{ props.Label }</button>
+			} else {
+				<button
+					type="button"
+					class="bg-success text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75 disabled:bg-gray focus:border-none focus:outline-none"
+					x-on:click="open()"
+				>{ props.Label }</button>
+			}
 		case ERROR_BTN:
-			<button
-				type="button"
-				class="bg-error text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75 disabled:bg-gray focus:border-none focus:outline-none"
-				x-on:click="open()"
-			>{ props.Label }</button>
+			if props.Disabled {
+				<button
+					type="button"
+					class="bg-error text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75 disabled:bg-gray focus:border-none focus:outline-none"
+					x-on:click="open()"
+					disabled
+				>{ props.Label }</button>
+			} else {
+				<button
+					type="button"
+					class="bg-error text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75 disabled:bg-gray focus:border-none focus:outline-none"
+					x-on:click="open()"
+				>{ props.Label }</button>
+			}
 		case WARNING_BTN:
-			<button
-				type="button"
-				class="bg-warning text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75 disabled:bg-gray focus:border-none focus:outline-none"
-				x-on:click="open()"
-			>{ props.Label }</button>
+			if props.Disabled {
+				<button
+					type="button"
+					class="bg-warning text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75 disabled:bg-gray focus:border-none focus:outline-none"
+					x-on:click="open()"
+					disabled
+				>{ props.Label }</button>
+			} else {
+				<button
+					type="button"
+					class="bg-warning text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75 disabled:bg-gray focus:border-none focus:outline-none"
+					x-on:click="open()"
+				>{ props.Label }</button>
+			}
 		case DEFAULT_BTN:
-			<button
-				type="button"
-				class="bg-primary text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75 disabled:bg-gray focus:border-none focus:outline-none"
-				x-on:click="open()"
-			>{ props.Label }</button>
+			if props.Disabled {
+				<button
+					type="button"
+					class="bg-primary text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75 disabled:bg-gray focus:border-none focus:outline-none"
+					x-on:click="open()"
+					disabled
+				>{ props.Label }</button>
+			} else {
+				<button
+					type="button"
+					class="bg-primary text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75 disabled:bg-gray focus:border-none focus:outline-none"
+					x-on:click="open()"
+				>{ props.Label }</button>
+			}
 	}
 }
 

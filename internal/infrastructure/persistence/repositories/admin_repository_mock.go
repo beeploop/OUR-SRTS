@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"context"
+	"errors"
 
 	"github.com/beeploop/our-srts/internal/domain/entities"
 )
@@ -31,5 +32,9 @@ func (r *AdminRepositoryMock) FindAll(ctx context.Context) ([]*entities.Admin, e
 }
 
 func (r *AdminRepositoryMock) Save(ctx context.Context, admin *entities.Admin) error {
-	return nil
+	return errors.New("unimplemented method")
+}
+
+func (r *AdminRepositoryMock) Delete(ctx context.Context, id string) error {
+	return errors.New("unimplemented method")
 }

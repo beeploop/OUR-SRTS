@@ -12,4 +12,5 @@ type AdminRepository interface {
 	FindByUsername(ctx context.Context, username string) (*entities.Admin, error)
 	FindAll(ctx context.Context) ([]*entities.Admin, error)
 	Save(ctx context.Context, admin *entities.Admin) error
+	Delete(ctx context.Context, id string) error
 }

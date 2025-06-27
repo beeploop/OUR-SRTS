@@ -35,5 +35,6 @@ func (r *Router) appRouterHandler(g *echo.Group) {
 	g.POST("/add-student", studentHandler.HandleAddStudent)
 	g.GET("/manage-staff", accountHandler.RenderManageStaffPage)
 	g.POST("/manage-staff", accountHandler.HandleAddStaff)
+	g.POST("/manage-staff/:id/delete", accountHandler.HandleDeleteStaff)
 	g.GET("/requests", resetHandler.RenderRequestsPage)
 }

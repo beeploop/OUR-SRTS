@@ -65,3 +65,16 @@ func (h *accountHandler) HandleAddStaff(c echo.Context) error {
 
 	return c.Redirect(http.StatusSeeOther, "/app/manage-staff")
 }
+
+func (h *accountHandler) HandleDeleteStaff(c echo.Context) error {
+	ctx := c.Request().Context()
+
+	staffID := c.FormValue("staffID")
+	password := c.FormValue("password")
+
+	if err := h.adminUseCase.DeleteStaff(ctx, staffID, password); err != nil {
+		return c.Redirect(http.StatusSeeOther, "/app/manage-staff")
+	}
+
+	return c.Redirect(http.StatusSeeOther, "/app/manage-staff")
+}
