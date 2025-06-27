@@ -16,9 +16,15 @@ templ ManageStaffPage(admin viewmodel.Admin, accounts []viewmodel.Admin) {
 		@components.Divider()
 		<div>
 			<div class="flex justify-end mt-2">
-				<button type="button" class="bg-primary text-white rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75">
-					Add Staff
-				</button>
+				@components.OffCanvas(components.OffCanvasProps{
+					ID: "add-staff",
+					Button: components.OCButton(components.OCButtonProps{
+						Label:   "Add Staff",
+						Variant: components.DEFAULT_BTN,
+					}),
+				}) {
+					<h1>Add Staff page</h1>
+				}
 			</div>
 			<div class="mt-2">
 				<table class="w-full outline-1 outline-gray rounded-sm">
@@ -63,30 +69,23 @@ templ ManageStaffPage(admin viewmodel.Admin, accounts []viewmodel.Admin) {
 									<td class="p-2">
 										<span class="flex gap-2">
 											<!-- disable button -->
-											if admin.ID == account.ID {
-												<button
-													type="button"
-													class="bg-warning text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75 disabled:bg-gray"
-													disabled
-												>Disable</button>
-											} else {
-												<button
-													type="button"
-													class="bg-warning text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75 disabled:bg-gray"
-												>Disable</button>
+											@components.OffCanvas(components.OffCanvasProps{
+												ID: account.ID,
+												Button: components.OCButton(components.OCButtonProps{
+													Label:   "Disable",
+													Variant: components.WARNING_BTN,
+												}),
+											}) {
+												<h1>Disable Account</h1>
 											}
-											<!-- delete button -->
-											if admin.ID == account.ID {
-												<button
-													type="button"
-													class="bg-error text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75 disabled:bg-gray"
-													disabled
-												>Delete</button>
-											} else {
-												<button
-													type="button"
-													class="bg-error text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75 disabled:bg-gray"
-												>Delete</button>
+											@components.OffCanvas(components.OffCanvasProps{
+												ID: account.ID,
+												Button: components.OCButton(components.OCButtonProps{
+													Label:   "Delete",
+													Variant: components.ERROR_BTN,
+												}),
+											}) {
+												<h1>Delete Account</h1>
 											}
 										</span>
 									</td>
