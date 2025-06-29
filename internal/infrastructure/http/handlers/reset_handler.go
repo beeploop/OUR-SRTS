@@ -3,19 +3,46 @@ package handlers
 import (
 	"net/http"
 
+	"github.com/beeploop/our-srts/internal/application/usecases/reset"
 	"github.com/beeploop/our-srts/internal/infrastructure/http/viewmodel"
 	"github.com/beeploop/our-srts/internal/pkg/contextkeys"
 	"github.com/beeploop/our-srts/web/views/pages/app"
+	"github.com/beeploop/our-srts/web/views/pages/auth"
 	"github.com/labstack/echo/v4"
 )
 
-type resetHandler struct{}
-
-func NewResetHandler() *resetHandler {
-	return &resetHandler{}
+type resetHandler struct {
+	resetUseCase *reset.UseCase
 }
 
-func (h *resetHandler) RenderRequestsPage(c echo.Context) error {
+func NewResetHandler(
+	resetUseCase *reset.UseCase,
+) *resetHandler {
+	return &resetHandler{
+		resetUseCase: resetUseCase,
+	}
+}
+
+func (h *resetHandler) RenderRequestResetPage(c echo.Context) error {
+	ctx := c.Request().Context()
+
+	page := auth.ResetRequestPage()
+	return page.Render(ctx, c.Response().Writer)
+}
+
+func (h *resetHandler) HandleRequestReset(c echo.Context) error {
+	ctx := c.Request().Context()
+
+	username := c.FormValue("username")
+
+	if err := h.resetUseCase.RequestPasswordReset(ctx, username); err != nil {
+		return c.Redirect(http.StatusSeeOther, "/auth/login")
+	}
+
+	return c.Redirect(http.StatusSeeOther, "/auth/login")
+}
+
+func (h *resetHandler) RenderRequestsListPage(c echo.Context) error {
 	ctx := c.Request().Context()
 
 	admin, ok := ctx.Value(contextkeys.SessionKey).(viewmodel.Admin)
@@ -24,5 +51,5 @@ func (h *resetHandler) RenderRequestsPage(c echo.Context) error {
 	}
 
 	page := app.RequestsPage(admin)
-	return page.Render(c.Request().Context(), c.Response().Writer)
+	return page.Render(ctx, c.Response().Writer)
 }

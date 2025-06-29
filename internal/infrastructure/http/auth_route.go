@@ -2,6 +2,7 @@ package http
 
 import (
 	"github.com/beeploop/our-srts/internal/application/usecases/auth"
+	"github.com/beeploop/our-srts/internal/application/usecases/reset"
 	"github.com/beeploop/our-srts/internal/infrastructure/http/handlers"
 	"github.com/beeploop/our-srts/internal/infrastructure/http/middleware"
 	"github.com/beeploop/our-srts/internal/infrastructure/persistence/repositories"
@@ -15,9 +16,15 @@ func (r *Router) authRouteHandler(g *echo.Group) {
 	adminRepo := repositories.NewAdminRepository(r.db)
 	authUseCase := auth.NewUseCase(adminRepo)
 
-	handler := handlers.NewAuthHandler(authUseCase, sessionManager)
+	resetRepo := repositories.NewPasswordResetRepository(r.db)
+	resetUseCase := reset.NewUseCase(adminRepo, resetRepo)
 
-	g.GET("/login", handler.RenderLogin, middleware.PreventLogin(sessionManager))
-	g.POST("/login", handler.HandleLogin, middleware.PreventLogin(sessionManager))
-	g.POST("/logout", handler.HandleLogout)
+	authHandler := handlers.NewAuthHandler(authUseCase, sessionManager)
+	resetHandler := handlers.NewResetHandler(resetUseCase)
+
+	g.GET("/login", authHandler.RenderLogin, middleware.PreventLogin(sessionManager))
+	g.POST("/login", authHandler.HandleLogin, middleware.PreventLogin(sessionManager))
+	g.POST("/logout", authHandler.HandleLogout)
+	g.GET("/reset/request", resetHandler.RenderRequestResetPage)
+	g.POST("/reset/request", resetHandler.HandleRequestReset)
 }

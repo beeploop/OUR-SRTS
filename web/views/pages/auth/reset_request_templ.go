@@ -10,7 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/beeploop/our-srts/web/views/layouts"
 
-func LoginPage() templ.Component {
+func ResetRequestPage() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -43,7 +43,7 @@ func LoginPage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"mx-auto my-0 mt-8 max-w-sm text-center\"><div class=\"mb-8\"><div class=\"mb-4 flex justify-center\"><img src=\"/assets/images/logo.png\" alt=\"University logo\" class=\"aspect-square w-20\"></div><div class=\"\"><h2 class=\"text-2xl font-bold\">Welcome OUR Personnel!</h2><p>Login to get started</p></div></div><form action=\"/auth/login\" method=\"POST\" class=\"\"><div class=\"mb-4\"><input type=\"text\" autofocus autocomplete=\"off\" name=\"username\" placeholder=\"username\" class=\"w-full rounded-md border border-gray-400 p-2 focus:border-primary focus:outline-none\"></div><div class=\"mb-4\"><input type=\"password\" name=\"password\" placeholder=\"password\" class=\"w-full rounded-md border border-gray-400 p-2 focus:border-primary focus:outline-none\"></div><div><button type=\"submit\" class=\"w-full cursor-pointer rounded-md bg-primary px-3 py-1.5 text-white hover:opacity-75\">Login</button></div></form><div class=\"mt-2\"><a href=\"/auth/reset/request\" class=\"text-xs text-primary hover:underline\">Request password reset</a></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"mx-auto mt-8 max-w-sm\"><div class=\"mb-4 flex justify-center\"><img src=\"/assets/images/logo.png\" alt=\"University logo\" class=\"aspect-square w-20\"></div><div class=\"text-center\"><h2 class=\"text-2xl font-bold\">Password Reset Request</h2><p class=\"mt-1.5 text-xs\">Enter your account username to submit a request.</p></div><form class=\"mt-4\" action=\"/auth/reset/request\" method=\"POST\"><div><input type=\"text\" id=\"username\" name=\"username\" required autocomplete=\"off\" placeholder=\"username\" autofocus class=\"mt-1.5 w-full rounded-sm p-2 outline-1 outline-gray focus:outline-primary\"></div><div class=\"mt-4\"><button type=\"submit\" class=\"w-full cursor-pointer rounded-sm bg-primary px-3 py-1.5 text-xs text-white hover:opacity-75\">Submit</button></div></form></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

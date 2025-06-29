@@ -2,7 +2,6 @@
 CREATE TABLE IF NOT EXISTS reset_request (
     id varchar(255) not null,
     admin_id varchar(255) not null,
-    token varchar(255) not null,
     expires_at timestamp not null,
     status enum('pending', 'fulfilled', 'rejected') default 'pending',
     created_at timestamp default current_timestamp,

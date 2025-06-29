@@ -36,7 +36,7 @@ func (h *accountHandler) RenderManageStaffPage(c echo.Context) error {
 	accountModels, err := h.adminUseCase.GetAccounts(ctx)
 	if err != nil {
 		page := app.ManageStaffPage(admin, make([]viewmodel.Admin, 0))
-		return page.Render(c.Request().Context(), c.Response().Writer)
+		return page.Render(ctx, c.Response().Writer)
 	}
 
 	accounts := slices.AppendSeq(
@@ -47,7 +47,7 @@ func (h *accountHandler) RenderManageStaffPage(c echo.Context) error {
 	)
 
 	page := app.ManageStaffPage(admin, accounts)
-	return page.Render(c.Request().Context(), c.Response().Writer)
+	return page.Render(ctx, c.Response().Writer)
 }
 
 func (h *accountHandler) HandleAddAccount(c echo.Context) error {

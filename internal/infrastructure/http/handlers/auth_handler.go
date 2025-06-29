@@ -22,8 +22,10 @@ func NewAuthHandler(authUseCase *uc.UseCase, sm *session.SessionManager) *authHa
 }
 
 func (h *authHandler) RenderLogin(c echo.Context) error {
+	ctx := c.Request().Context()
+
 	page := auth.LoginPage()
-	return page.Render(c.Request().Context(), c.Response().Writer)
+	return page.Render(ctx, c.Response().Writer)
 }
 
 func (h *authHandler) HandleLogin(c echo.Context) error {

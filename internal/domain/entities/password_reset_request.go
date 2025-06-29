@@ -15,34 +15,33 @@ const (
 	REQUEST_STATUS_REJECTED  ResetRequestStatus = "rejected"
 )
 
+var (
+	DEFAULT_DURATION = time.Now().Add(time.Hour * 24 * 7)
+)
+
 type PasswordResetRequest struct {
 	ID        string
 	AdminID   string
-	Token     string
 	ExpiresAt time.Time
 	Status    ResetRequestStatus
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
 
-func NewResetRequest(adminID, token string, expiresAt time.Time) *PasswordResetRequest {
+func NewResetRequest(adminID string) *PasswordResetRequest {
 	return &PasswordResetRequest{
 		ID:        uuid.New().String(),
 		AdminID:   adminID,
-		Token:     token,
-		ExpiresAt: expiresAt,
+		ExpiresAt: DEFAULT_DURATION,
 		Status:    REQUEST_STATUS_PENDING,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}
 }
 
-func (r *PasswordResetRequest) validate() error {
+func (r *PasswordResetRequest) Validate() error {
 	if r.AdminID == "" {
 		return errors.New("admin ID must not be empty")
-	}
-	if r.Token == "" {
-		return errors.New("token must not be empty")
 	}
 	if r.ExpiresAt.Before(time.Now()) {
 		return errors.New("expires_at must not be before current time")
@@ -61,7 +60,7 @@ func (r *PasswordResetRequest) Fulfill() error {
 
 	r.Status = REQUEST_STATUS_FULFILLED
 	r.UpdatedAt = time.Now()
-	return r.validate()
+	return r.Validate()
 }
 
 func (r *PasswordResetRequest) Reject() error {
@@ -75,7 +74,7 @@ func (r *PasswordResetRequest) Reject() error {
 
 	r.Status = REQUEST_STATUS_REJECTED
 	r.UpdatedAt = time.Now()
-	return r.validate()
+	return r.Validate()
 }
 
 func (r *PasswordResetRequest) IsExpired() bool {

@@ -63,7 +63,7 @@ func (h *studentHandler) RenderSearch(c echo.Context) error {
 	)
 
 	page := app.SearchPage(admin, programModels, studentModels)
-	return page.Render(c.Request().Context(), c.Response().Writer)
+	return page.Render(ctx, c.Response().Writer)
 }
 
 func (h *studentHandler) RenderAddStudentPage(c echo.Context) error {
@@ -95,7 +95,7 @@ func (h *studentHandler) RenderAddStudentPage(c echo.Context) error {
 	)
 
 	page := app.AddStudentPage(admin, programModels)
-	return page.Render(c.Request().Context(), c.Response().Writer)
+	return page.Render(ctx, c.Response().Writer)
 }
 
 func (h *studentHandler) HandleAddStudent(c echo.Context) error {
