@@ -2,12 +2,71 @@ package app
 
 import (
 	"github.com/beeploop/our-srts/internal/infrastructure/http/viewmodel"
+	"github.com/beeploop/our-srts/internal/pkg/utils"
 	"github.com/beeploop/our-srts/web/views/components"
 	"github.com/beeploop/our-srts/web/views/layouts"
 )
 
 templ RequestsPage(admin viewmodel.Admin, requests []viewmodel.PasswordResetRequest) {
 	@layouts.MainLayout(admin) {
-		@components.PrintJSON(requests)
+		@components.Banner(components.BannerProps{
+			Title: "Password Reset Requests",
+		})
+		@components.Divider()
+		<div class="mt-4">
+			<table class="w-full rounded-sm outline-1 outline-gray">
+				<thead class="bg-primary text-white">
+					<tr>
+						<td class="p-2">Name</td>
+						<td class="p-2">Username</td>
+						<td class="p-2">Date Requested</td>
+						<td class="p-2">Actions</td>
+					</tr>
+				</thead>
+				<tbody class="divide-y divide-gray">
+					if len(requests) == 0 {
+						<tr class="">
+							<td class="p-2" colspan="4" align="center">Empty</td>
+						</tr>
+					} else {
+						for _, request := range requests {
+							<tr>
+								<td class="p-2">{ request.Admin.Fullname }</td>
+								<td class="p-2">{ request.Admin.Username }</td>
+								<td class="p-2">{ utils.TimeToString(request.CreatedAt) }</td>
+								<td class="p-2">
+									<span class="flex gap-2">
+										@components.OffCanvas(components.OffCanvasProps{
+											ID: request.ID,
+											Button: components.OCButton(components.OCButtonProps{
+												Label:    "Fulfill",
+												Disabled: false,
+												Variant:  components.SUCCESS_BTN,
+											}),
+										}) {
+											<div>
+												<h1>Fulfill Request</h1>
+											</div>
+										}
+										@components.OffCanvas(components.OffCanvasProps{
+											ID: request.ID,
+											Button: components.OCButton(components.OCButtonProps{
+												Label:    "Reject",
+												Disabled: false,
+												Variant:  components.WARNING_BTN,
+											}),
+										}) {
+											<div>
+												<h1>Reject Request</h1>
+											</div>
+										}
+									</span>
+								</td>
+							</tr>
+						}
+					}
+				</tbody>
+			</table>
+		</div>
 	}
 }
