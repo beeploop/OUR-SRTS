@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"github.com/beeploop/our-srts/internal/infrastructure/http/viewmodel"
 	"github.com/beeploop/our-srts/internal/pkg/utils"
 	"github.com/beeploop/our-srts/web/views/components"
@@ -44,21 +45,17 @@ templ RequestsPage(admin viewmodel.Admin, requests []viewmodel.PasswordResetRequ
 												Variant:  components.SUCCESS_BTN,
 											}),
 										}) {
-											<div>
-												<h1>Fulfill Request</h1>
-											</div>
+											@fulfillForm(request.ID)
 										}
 										@components.OffCanvas(components.OffCanvasProps{
 											ID: request.ID,
 											Button: components.OCButton(components.OCButtonProps{
 												Label:    "Reject",
 												Disabled: false,
-												Variant:  components.WARNING_BTN,
+												Variant:  components.ERROR_BTN,
 											}),
 										}) {
-											<div>
-												<h1>Reject Request</h1>
-											</div>
+											@rejectForm(request.ID)
 										}
 									</span>
 								</td>
@@ -69,4 +66,86 @@ templ RequestsPage(admin viewmodel.Admin, requests []viewmodel.PasswordResetRequ
 			</table>
 		</div>
 	}
+}
+
+templ fulfillForm(requestID string) {
+	<div>
+		<form action={ templ.SafeURL(fmt.Sprintf("/app/requests/%s/fulfill", requestID)) } method="POST">
+			<h2 class="font-medium">Fulfill Request</h2>
+			<div>
+				<input hidden="true" name="requestID" value={ requestID }/>
+			</div>
+			<div class="mt-4">
+				<label for="newPassword">New staff password</label>
+				<p class="text-xs text-primary">
+					Password must be 
+					<strong>
+						at least 8 characters long, at least 1 uppercase, at least 1 lowercase, at least 1 special character,
+						and no whitespace
+					</strong>
+				</p>
+				<input
+					type="password"
+					name="newPassword"
+					autofocus
+					autocomplete="off"
+					required
+					class="mt-1.5 w-full rounded-sm p-2 outline-1 outline-gray focus:border-none focus:outline-primary"
+					id="newPassword"
+					placeholder="new staff password"
+				/>
+			</div>
+			<div class="mt-4">
+				<label for="password">Admin Password</label>
+				<br/>
+				<input
+					type="password"
+					name="password"
+					autofocus
+					autocomplete="off"
+					required
+					class="mt-1.5 w-full rounded-sm p-2 outline-1 outline-gray focus:border-none focus:outline-primary"
+					id="password"
+					placeholder="admin password"
+				/>
+			</div>
+			<div class="flex justify-end mt-2">
+				<button
+					type="submit"
+					class="bg-primary text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75"
+				>Submit</button>
+			</div>
+		</form>
+	</div>
+}
+
+templ rejectForm(requestID string) {
+	<div>
+		<form action={ templ.SafeURL(fmt.Sprintf("/app/requests/%s/reject", requestID)) } method="POST">
+			<h2 class="font-medium">Reject Request</h2>
+			<div>
+				<input hidden="true" name="requestID" value={ requestID }/>
+			</div>
+			<div class="mt-4">
+				<label for="password">Admin Password</label>
+				<br/>
+				<input
+					type="password"
+					name="password"
+					autofocus
+					autocomplete="off"
+					required
+					class="mt-1.5 w-full rounded-sm p-2 outline-1 outline-gray focus:border-none focus:outline-primary"
+					id="password"
+					placeholder="admin password"
+				/>
+			</div>
+			<div class="flex justify-end mt-2">
+				<button
+					type="submit"
+					class="bg-primary text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75"
+				>Submit</button>
+			</div>
+		</form>
+	</div>
 }

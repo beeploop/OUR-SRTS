@@ -37,9 +37,41 @@ func (r *PasswordResetRepository) Create(ctx context.Context, request *entities.
 	return request, nil
 }
 
+func (r *PasswordResetRepository) FindByID(ctx context.Context, id string) (*entities.PasswordResetRequest, error) {
+	query, args, err := sq.Select("*").
+		From("reset_request").
+		Where(sq.Eq{"id": id}).
+		ToSql()
+	if err != nil {
+		return nil, err
+	}
+
+	request := new(models.PasswordResetRequestModel)
+	if err := r.db.GetContext(ctx, request, query, args...); err != nil {
+		return nil, err
+	}
+
+	{
+		query, args, err := sq.Select("*").
+			From("admin").
+			Where(sq.Eq{"id": request.AdminID}).
+			ToSql()
+		if err != nil {
+			return nil, err
+		}
+
+		if err := r.db.GetContext(ctx, &request.Admin, query, args...); err != nil {
+			return nil, err
+		}
+	}
+
+	return request.ToDomain(), nil
+}
+
 func (r *PasswordResetRepository) FindAll(ctx context.Context) ([]*entities.PasswordResetRequest, error) {
 	query, args, err := sq.Select("*").
 		From("reset_request").
+		Where(sq.Eq{"status": entities.REQUEST_STATUS_PENDING}).
 		OrderBy("created_at ASC").
 		ToSql()
 	if err != nil {

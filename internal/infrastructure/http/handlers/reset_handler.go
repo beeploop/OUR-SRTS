@@ -69,3 +69,30 @@ func (h *resetHandler) RenderRequestsListPage(c echo.Context) error {
 	page := app.RequestsPage(admin, requestModels)
 	return page.Render(ctx, c.Response().Writer)
 }
+
+func (h *resetHandler) HandleFulfillRequest(c echo.Context) error {
+	ctx := c.Request().Context()
+
+	requestID := c.FormValue("requestID")
+	newPassword := c.FormValue("newPassword")
+	password := c.FormValue("password")
+
+	if err := h.resetUseCase.FulfillRequest(ctx, requestID, newPassword, password); err != nil {
+		return c.Redirect(http.StatusSeeOther, "/app/requests")
+	}
+
+	return c.Redirect(http.StatusSeeOther, "/app/requests")
+}
+
+func (h *resetHandler) HandleRejectRequest(c echo.Context) error {
+	ctx := c.Request().Context()
+
+	requestID := c.FormValue("requestID")
+	password := c.FormValue("password")
+
+	if err := h.resetUseCase.RejectRequest(ctx, requestID, password); err != nil {
+		return c.Redirect(http.StatusSeeOther, "/app/requests")
+	}
+
+	return c.Redirect(http.StatusSeeOther, "/app/requests")
+}
