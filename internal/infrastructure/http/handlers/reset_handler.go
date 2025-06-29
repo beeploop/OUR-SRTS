@@ -2,10 +2,13 @@ package handlers
 
 import (
 	"net/http"
+	"slices"
 
 	"github.com/beeploop/our-srts/internal/application/usecases/reset"
+	"github.com/beeploop/our-srts/internal/domain/entities"
 	"github.com/beeploop/our-srts/internal/infrastructure/http/viewmodel"
 	"github.com/beeploop/our-srts/internal/pkg/contextkeys"
+	"github.com/beeploop/our-srts/internal/pkg/utils"
 	"github.com/beeploop/our-srts/web/views/pages/app"
 	"github.com/beeploop/our-srts/web/views/pages/auth"
 	"github.com/labstack/echo/v4"
@@ -50,6 +53,19 @@ func (h *resetHandler) RenderRequestsListPage(c echo.Context) error {
 		return c.Redirect(http.StatusSeeOther, "/auth/login")
 	}
 
-	page := app.RequestsPage(admin)
+	requests, err := h.resetUseCase.GetRequestList(ctx)
+	if err != nil {
+		page := app.RequestsPage(admin, make([]viewmodel.PasswordResetRequest, 0))
+		return page.Render(ctx, c.Response().Writer)
+	}
+
+	requestModels := slices.AppendSeq(
+		make([]viewmodel.PasswordResetRequest, 0),
+		utils.Map(requests, func(request *entities.PasswordResetRequest) viewmodel.PasswordResetRequest {
+			return viewmodel.PasswordResetRequestFromDomain(request)
+		}),
+	)
+
+	page := app.RequestsPage(admin, requestModels)
 	return page.Render(ctx, c.Response().Writer)
 }

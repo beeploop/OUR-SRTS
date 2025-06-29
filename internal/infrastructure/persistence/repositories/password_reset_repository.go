@@ -24,7 +24,7 @@ func NewPasswordResetRepository(db *sqlx.DB) *PasswordResetRepository {
 func (r *PasswordResetRepository) Create(ctx context.Context, request *entities.PasswordResetRequest) (*entities.PasswordResetRequest, error) {
 	query, args, err := sq.Insert("reset_request").
 		Columns("id", "admin_id", "expires_at", "status", "created_at", "updated_at").
-		Values(request.ID, request.AdminID, request.ExpiresAt, request.Status, request.CreatedAt, request.UpdatedAt).
+		Values(request.ID, request.Admin.ID, request.ExpiresAt, request.Status, request.CreatedAt, request.UpdatedAt).
 		ToSql()
 	if err != nil {
 		return nil, err
@@ -49,6 +49,20 @@ func (r *PasswordResetRepository) FindAll(ctx context.Context) ([]*entities.Pass
 	requests := make([]*models.PasswordResetRequestModel, 0)
 	if err := r.db.SelectContext(ctx, &requests, query, args...); err != nil {
 		return nil, err
+	}
+
+	for _, request := range requests {
+		query, args, err := sq.Select("*").
+			From("admin").
+			Where(sq.Eq{"id": request.AdminID}).
+			ToSql()
+		if err != nil {
+			return nil, err
+		}
+
+		if err := r.db.GetContext(ctx, &request.Admin, query, args...); err != nil {
+			return nil, err
+		}
 	}
 
 	results := slices.AppendSeq(

@@ -21,17 +21,17 @@ var (
 
 type PasswordResetRequest struct {
 	ID        string
-	AdminID   string
+	Admin     Admin
 	ExpiresAt time.Time
 	Status    ResetRequestStatus
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
 
-func NewResetRequest(adminID string) *PasswordResetRequest {
+func NewResetRequest(admin Admin) *PasswordResetRequest {
 	return &PasswordResetRequest{
 		ID:        uuid.New().String(),
-		AdminID:   adminID,
+		Admin:     admin,
 		ExpiresAt: DEFAULT_DURATION,
 		Status:    REQUEST_STATUS_PENDING,
 		CreatedAt: time.Now(),
@@ -40,9 +40,6 @@ func NewResetRequest(adminID string) *PasswordResetRequest {
 }
 
 func (r *PasswordResetRequest) Validate() error {
-	if r.AdminID == "" {
-		return errors.New("admin ID must not be empty")
-	}
 	if r.ExpiresAt.Before(time.Now()) {
 		return errors.New("expires_at must not be before current time")
 	}

@@ -2,11 +2,12 @@ package app
 
 import (
 	"github.com/beeploop/our-srts/internal/infrastructure/http/viewmodel"
+	"github.com/beeploop/our-srts/web/views/components"
 	"github.com/beeploop/our-srts/web/views/layouts"
 )
 
-templ RequestsPage(admin viewmodel.Admin) {
+templ RequestsPage(admin viewmodel.Admin, requests []viewmodel.PasswordResetRequest) {
 	@layouts.MainLayout(admin) {
-		<h1>Requests Page</h1>
+		@components.PrintJSON(requests)
 	}
 }
