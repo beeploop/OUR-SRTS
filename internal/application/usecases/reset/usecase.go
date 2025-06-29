@@ -33,6 +33,10 @@ func (u *UseCase) RequestPasswordReset(ctx context.Context, username string) err
 		return err
 	}
 
+	if !account.Enabled {
+		return errors.New("forbidden action")
+	}
+
 	request := entities.NewResetRequest(*account)
 	if _, err := u.passwordResetRepo.Create(ctx, request); err != nil {
 		return err
