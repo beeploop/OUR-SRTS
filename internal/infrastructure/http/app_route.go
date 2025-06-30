@@ -36,6 +36,7 @@ func (r *Router) appRouterHandler(g *echo.Group) {
 	resetHandler := handlers.NewResetHandler(resetUseCase)
 
 	g.GET("/search", studentHandler.RenderSearch)
+	g.GET("/search/:controlNumber", studentHandler.RenderStudentPage)
 	g.GET("/add-student", studentHandler.RenderAddStudentPage)
 	g.POST("/add-student", studentHandler.HandleAddStudent)
 	g.GET("/manage-staff", accountHandler.RenderManageStaffPage)

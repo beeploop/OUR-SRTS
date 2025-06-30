@@ -66,6 +66,28 @@ func (h *studentHandler) RenderSearch(c echo.Context) error {
 	return page.Render(ctx, c.Response().Writer)
 }
 
+func (h *studentHandler) RenderStudentPage(c echo.Context) error {
+	ctx := c.Request().Context()
+
+	admin, ok := ctx.Value(contextkeys.SessionKey).(viewmodel.Admin)
+	if !ok {
+		return c.Redirect(http.StatusSeeOther, "/auth/login")
+	}
+
+	control_number := c.Param("controlNumber")
+
+	student, err := h.studentUseCase.GetStudent(ctx, control_number)
+	if err != nil {
+		page := app.StudentPage(admin, viewmodel.Student{})
+		return page.Render(ctx, c.Response().Writer)
+	}
+
+	studentModel := viewmodel.StudentFromDomain(student)
+
+	page := app.StudentPage(admin, studentModel)
+	return page.Render(ctx, c.Response().Writer)
+}
+
 func (h *studentHandler) RenderAddStudentPage(c echo.Context) error {
 	ctx := c.Request().Context()
 

@@ -9,10 +9,11 @@ CREATE TABLE IF NOT EXISTS student (
     civil_status enum('single', 'married') default 'single',
     program_id varchar(255) not null,
     major_id varchar(255) not null,
-    archive_location varchar(255) not null,
+    envelope_id varchar(255) not null,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp on update current_timestamp,
     PRIMARY KEY(control_number),
+    FOREIGN KEY(envelope_id) REFERENCES envelope(id),
     INDEX (control_number, first_name, last_name)
 );
 -- +goose StatementBegin

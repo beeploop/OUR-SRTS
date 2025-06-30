@@ -10,6 +10,7 @@ type DocumentModel struct {
 	ID          string            `db:"id"`
 	TypeID      string            `db:"type_id"`
 	Type        DocumentTypeModel `db:"document_type"`
+	EnvelopeID  string            `db:"envelope_id"`
 	Filename    string            `db:"filename"`
 	StoragePath string            `db:"storage_path"`
 	UploadedAt  time.Time         `db:"uploaded_at"`

@@ -3,10 +3,7 @@ package entities
 import (
 	"errors"
 	"fmt"
-	"slices"
 	"time"
-
-	"github.com/beeploop/our-srts/internal/pkg/utils"
 )
 
 type StudentType string
@@ -22,19 +19,21 @@ const (
 )
 
 type Student struct {
-	ControlNumber   string
-	FirstName       string
-	MiddleName      string
-	LastName        string
-	Suffix          string
-	StudentType     StudentType
-	CivilStatus     CivilStatus
-	ProgramID       string
-	MajorID         string
-	ArchiveLocation string
-	Documents       []Document
-	CreatedAt       time.Time
-	UpdatedAt       time.Time
+	ControlNumber string
+	FirstName     string
+	MiddleName    string
+	LastName      string
+	Suffix        string
+	StudentType   StudentType
+	CivilStatus   CivilStatus
+	ProgramID     string
+	MajorID       string
+	Program       Program
+	Major         Major
+	ImagePath     string
+	Envelope      *Envelope
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
 }
 
 func NewStudent(
@@ -50,19 +49,18 @@ func NewStudent(
 	archiveLocation string,
 ) *Student {
 	return &Student{
-		ControlNumber:   controlNumber,
-		FirstName:       firstname,
-		MiddleName:      middlename,
-		LastName:        lastname,
-		Suffix:          suffix,
-		StudentType:     studentType,
-		CivilStatus:     status,
-		ProgramID:       programID,
-		MajorID:         majorID,
-		ArchiveLocation: archiveLocation,
-		Documents:       make([]Document, 0),
-		CreatedAt:       time.Now(),
-		UpdatedAt:       time.Now(),
+		ControlNumber: controlNumber,
+		FirstName:     firstname,
+		MiddleName:    middlename,
+		LastName:      lastname,
+		Suffix:        suffix,
+		StudentType:   studentType,
+		CivilStatus:   status,
+		ProgramID:     programID,
+		MajorID:       majorID,
+		Envelope:      NewEnvelope(fmt.Sprintf("%s_%s", controlNumber, lastname), archiveLocation),
+		CreatedAt:     time.Now(),
+		UpdatedAt:     time.Now(),
 	}
 }
 
@@ -109,28 +107,22 @@ func (s *Student) UpdateCivilStatus(civilStatus CivilStatus) error {
 }
 
 func (s *Student) AddDocument(document Document) {
-	s.Documents = append(s.Documents, document)
+	s.Envelope.AddDocument(document)
 }
 
 func (s *Student) Copy() *Student {
 	return &Student{
-		ControlNumber:   s.ControlNumber,
-		FirstName:       s.FirstName,
-		MiddleName:      s.MiddleName,
-		LastName:        s.LastName,
-		Suffix:          s.Suffix,
-		StudentType:     s.StudentType,
-		CivilStatus:     s.CivilStatus,
-		ProgramID:       s.ProgramID,
-		MajorID:         s.MajorID,
-		ArchiveLocation: s.ArchiveLocation,
-		Documents: slices.AppendSeq(
-			make([]Document, 0),
-			utils.Map(s.Documents, func(document Document) Document {
-				return document
-			}),
-		),
-		CreatedAt: s.CreatedAt,
-		UpdatedAt: s.UpdatedAt,
+		ControlNumber: s.ControlNumber,
+		FirstName:     s.FirstName,
+		MiddleName:    s.MiddleName,
+		LastName:      s.LastName,
+		Suffix:        s.Suffix,
+		StudentType:   s.StudentType,
+		CivilStatus:   s.CivilStatus,
+		ProgramID:     s.ProgramID,
+		MajorID:       s.MajorID,
+		Envelope:      s.Envelope.Copy(),
+		CreatedAt:     s.CreatedAt,
+		UpdatedAt:     s.UpdatedAt,
 	}
 }

@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"context"
+	"database/sql"
 	"slices"
 
 	sq "github.com/Masterminds/squirrel"
@@ -23,6 +24,28 @@ func NewStudentRepository(db *sqlx.DB) *StudentRepository {
 }
 
 func (r *StudentRepository) Create(ctx context.Context, student *entities.Student) (*entities.Student, error) {
+	tx, err := r.db.BeginTxx(ctx, nil)
+	if err != nil {
+		return nil, err
+	}
+	defer tx.Rollback()
+
+	{
+		// Create envelope
+		envelope := student.Envelope
+		query, args, err := sq.Insert("envelope").
+			Columns("id", "owner", "location", "created_at", "updated_at").
+			Values(envelope.ID, envelope.Owner, envelope.Location, envelope.CreatedAt, envelope.UpdatedAt).
+			ToSql()
+		if err != nil {
+			return nil, err
+		}
+
+		if _, err := tx.ExecContext(ctx, query, args...); err != nil {
+			return nil, err
+		}
+	}
+
 	columns := []string{
 		"control_number",
 		"first_name",
@@ -33,7 +56,7 @@ func (r *StudentRepository) Create(ctx context.Context, student *entities.Studen
 		"civil_status",
 		"program_id",
 		"major_id",
-		"archive_location",
+		"envelope_id",
 		"created_at",
 		"updated_at",
 	}
@@ -48,7 +71,7 @@ func (r *StudentRepository) Create(ctx context.Context, student *entities.Studen
 		student.CivilStatus,
 		student.ProgramID,
 		student.MajorID,
-		student.ArchiveLocation,
+		student.Envelope.ID,
 		student.CreatedAt,
 		student.UpdatedAt,
 	}
@@ -61,11 +84,38 @@ func (r *StudentRepository) Create(ctx context.Context, student *entities.Studen
 		return nil, err
 	}
 
-	if _, err := r.db.ExecContext(ctx, query, args...); err != nil {
+	if _, err := tx.ExecContext(ctx, query, args...); err != nil {
+		return nil, err
+	}
+
+	if err := tx.Commit(); err != nil {
 		return nil, err
 	}
 
 	return student, nil
+}
+
+func (r *StudentRepository) FindByControlNumber(ctx context.Context, controlNumber string) (*entities.Student, error) {
+	query, args, err := sq.Select("*").
+		From("student").
+		Where(sq.Eq{"control_number": controlNumber}).
+		ToSql()
+	if err != nil {
+		return nil, err
+	}
+
+	student := new(models.StudentModel)
+	if err := r.db.GetContext(ctx, student, query, args...); err != nil {
+		return nil, err
+	}
+
+	if envelope, err := r.findEnvelope(ctx, student.EnvelopeID); err != nil {
+		return nil, err
+	} else {
+		student.Envelope = *envelope
+	}
+
+	return student.ToDomain(), nil
 }
 
 func (r *StudentRepository) Search(ctx context.Context, filter repositories.StudentFilter) ([]*entities.Student, error) {
@@ -109,17 +159,17 @@ func (r *StudentRepository) Search(ctx context.Context, filter repositories.Stud
 func (r *StudentRepository) Save(ctx context.Context, student *entities.Student) error {
 	query, args, err := sq.Update("student").
 		SetMap(map[string]interface{}{
-			"first_name":       student.FirstName,
-			"middle_name":      student.MiddleName,
-			"last_name":        student.LastName,
-			"suffix":           student.Suffix,
-			"student_type":     student.StudentType,
-			"civil_status":     student.CivilStatus,
-			"program_id":       student.ProgramID,
-			"major_id":         student.MajorID,
-			"archive_location": student.ArchiveLocation,
-			"created_at":       student.CreatedAt,
-			"updated_at":       student.UpdatedAt,
+			"first_name":   student.FirstName,
+			"middle_name":  student.MiddleName,
+			"last_name":    student.LastName,
+			"suffix":       student.Suffix,
+			"student_type": student.StudentType,
+			"civil_status": student.CivilStatus,
+			"program_id":   student.ProgramID,
+			"major_id":     student.MajorID,
+			"envelope_id":  student.Envelope.ID,
+			"created_at":   student.CreatedAt,
+			"updated_at":   student.UpdatedAt,
 		}).
 		Where(sq.Eq{"control_number": student.ControlNumber}).
 		ToSql()
@@ -132,4 +182,75 @@ func (r *StudentRepository) Save(ctx context.Context, student *entities.Student)
 	}
 
 	return nil
+}
+
+func (r *StudentRepository) findEnvelope(ctx context.Context, envelopeID string) (*models.EnvelopeModel, error) {
+	query, args, err := sq.Select("*").
+		From("envelope").
+		Where(sq.Eq{"id": envelopeID}).
+		ToSql()
+	if err != nil {
+		return nil, err
+	}
+
+	envelope := new(models.EnvelopeModel)
+	if err := r.db.GetContext(ctx, envelope, query, args...); err != nil {
+		return nil, err
+	}
+
+	documentTypes, err := r.getDocumentTypes(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	{
+		for _, docType := range documentTypes {
+			query, args, err := sq.Select("*").
+				From("document").
+				Where(sq.And{
+					sq.Eq{"envelope_id": envelopeID},
+					sq.Eq{"type_id": docType.ID},
+				}).
+				ToSql()
+			if err != nil {
+				return nil, err
+			}
+
+			document := new(models.DocumentModel)
+			if err := r.db.GetContext(ctx, document, query, args...); err != nil {
+				if err != sql.ErrNoRows {
+					return nil, err
+				}
+			}
+
+			envelope.Documents = append(envelope.Documents, models.DocumentModel{
+				ID:          document.ID,
+				TypeID:      docType.ID,
+				Type:        *docType,
+				EnvelopeID:  envelopeID,
+				Filename:    document.Filename,
+				StoragePath: document.StoragePath,
+				UploadedAt:  document.UploadedAt,
+			})
+		}
+	}
+
+	return envelope, nil
+}
+
+func (r *StudentRepository) getDocumentTypes(ctx context.Context) ([]*models.DocumentTypeModel, error) {
+	query, args, err := sq.Select("*").
+		From("document_type").
+		OrderBy("name ASC").
+		ToSql()
+	if err != nil {
+		return nil, err
+	}
+
+	documentTypes := make([]*models.DocumentTypeModel, 0)
+	if err := r.db.SelectContext(ctx, &documentTypes, query, args...); err != nil {
+		return nil, err
+	}
+
+	return documentTypes, nil
 }

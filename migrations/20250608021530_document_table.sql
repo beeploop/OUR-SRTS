@@ -2,12 +2,13 @@
 CREATE TABLE IF NOT EXISTS document (
     id varchar(255) not null,
     type_id varchar(255) not null,
-    filename varchar(255) not null,
+    envelope_id varchar(255) not null,
+    filename varchar(255) not null unique,
     storage_path varchar(255) not null,
     uploaded_at timestamp default current_timestamp,
     PRIMARY KEY(id),
     FOREIGN KEY(type_id) REFERENCES document_type(id),
-    INDEX (id, type_id, filename)
+    INDEX (id, type_id, envelope_id)
 );
 -- +goose StatementBegin
 SELECT 'up SQL query';

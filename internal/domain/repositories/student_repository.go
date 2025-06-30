@@ -23,6 +23,7 @@ type StudentFilter struct {
 
 type StudentRepository interface {
 	Create(ctx context.Context, student *entities.Student) (*entities.Student, error)
+	FindByControlNumber(ctx context.Context, controlNumber string) (*entities.Student, error)
 	Search(ctx context.Context, filter StudentFilter) ([]*entities.Student, error)
 	Save(ctx context.Context, student *entities.Student) error
 }

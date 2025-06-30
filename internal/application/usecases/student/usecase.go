@@ -2,6 +2,7 @@ package student
 
 import (
 	"context"
+	"errors"
 	"net/url"
 
 	"github.com/beeploop/our-srts/internal/domain/entities"
@@ -51,4 +52,12 @@ func (u *UseCase) Search(ctx context.Context, params url.Values) ([]*entities.St
 	}
 
 	return u.studentRepo.Search(ctx, filter)
+}
+
+func (u *UseCase) GetStudent(ctx context.Context, controlNumber string) (*entities.Student, error) {
+	if controlNumber == "" {
+		return nil, errors.New("invalid control number")
+	}
+
+	return u.studentRepo.FindByControlNumber(ctx, controlNumber)
 }

@@ -102,9 +102,9 @@ func TestStudent(t *testing.T) {
 
 		student.AddDocument(*document)
 
-		assert.EqualValues(t, 1, len(student.Documents))
+		assert.EqualValues(t, 1, len(student.Envelope.Documents))
 
-		addedDoc := student.Documents[0]
+		addedDoc := student.Envelope.Documents[0]
 
 		assert.ObjectsAreEqualValues(document, addedDoc)
 	})
