@@ -198,7 +198,7 @@ func ManageStaffPage(admin viewmodel.Admin, accounts []viewmodel.Admin) templ.Co
 						ID: account.ID,
 						Button: components.OCButton(components.OCButtonProps{
 							Label:    utils.Ternary(account.Enabled, "Disable", "Enable"),
-							Disabled: utils.Ternary(admin.ID == account.ID, true, false),
+							Disabled: utils.Ternary(admin.Username == account.Username, true, false),
 							Variant:  utils.Ternary(account.Enabled, components.WARNING_BTN, components.SUCCESS_BTN),
 						}),
 					}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var6), templ_7745c5c3_Buffer)
@@ -227,7 +227,7 @@ func ManageStaffPage(admin viewmodel.Admin, accounts []viewmodel.Admin) templ.Co
 						ID: account.ID,
 						Button: components.OCButton(components.OCButtonProps{
 							Label:    "Delete",
-							Disabled: utils.Ternary(admin.ID == account.ID, true, false),
+							Disabled: utils.Ternary(admin.Username == account.Username, true, false),
 							Variant:  components.ERROR_BTN,
 						}),
 					}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var7), templ_7745c5c3_Buffer)

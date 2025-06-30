@@ -74,7 +74,7 @@ templ ManageStaffPage(admin viewmodel.Admin, accounts []viewmodel.Admin) {
 												ID: account.ID,
 												Button: components.OCButton(components.OCButtonProps{
 													Label:    utils.Ternary(account.Enabled, "Disable", "Enable"),
-													Disabled: utils.Ternary(admin.ID == account.ID, true, false),
+													Disabled: utils.Ternary(admin.Username == account.Username, true, false),
 													Variant:  utils.Ternary(account.Enabled, components.WARNING_BTN, components.SUCCESS_BTN),
 												}),
 											}) {
@@ -88,7 +88,7 @@ templ ManageStaffPage(admin viewmodel.Admin, accounts []viewmodel.Admin) {
 												ID: account.ID,
 												Button: components.OCButton(components.OCButtonProps{
 													Label:    "Delete",
-													Disabled: utils.Ternary(admin.ID == account.ID, true, false),
+													Disabled: utils.Ternary(admin.Username == account.Username, true, false),
 													Variant:  components.ERROR_BTN,
 												}),
 											}) {
