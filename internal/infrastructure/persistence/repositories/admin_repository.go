@@ -74,7 +74,7 @@ func (r *AdminRepository) FindByUsername(ctx context.Context, username string) (
 func (r *AdminRepository) FindAll(ctx context.Context) ([]*entities.Admin, error) {
 	query, args, err := sq.Select("*").
 		From("admin").
-		OrderBy("created_at DESC").
+		OrderBy("role ASC").
 		ToSql()
 	if err != nil {
 		return nil, err
