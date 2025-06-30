@@ -32,3 +32,15 @@ func EnvelopeFromDomain(envelope *entities.Envelope) Envelope {
 		UpdatedAt: envelope.UpdatedAt,
 	}
 }
+
+func (e Envelope) DocumentWithType(docType string) Document {
+	for _, document := range e.Documents {
+		if document.Type == docType {
+			return document
+		}
+
+		break
+	}
+
+	return Document{}
+}

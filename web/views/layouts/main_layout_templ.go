@@ -54,7 +54,7 @@ func MainLayout(admin viewmodel.Admin) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</aside><div class=\"col-span-10 rounded-sm p-1.5 overflow-y-scroll p-4\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</aside><div class=\"col-span-10 rounded-sm p-1.5 overflow-y-scroll p-4 overflow-y-scroll max-h-[calc(100vh-4rem)]\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
