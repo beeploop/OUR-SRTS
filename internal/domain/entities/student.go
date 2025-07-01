@@ -46,7 +46,7 @@ func NewStudent(
 	status CivilStatus,
 	programID string,
 	majorID string,
-	archiveLocation string,
+	fileLocation string,
 ) *Student {
 	return &Student{
 		ControlNumber: controlNumber,
@@ -58,7 +58,7 @@ func NewStudent(
 		CivilStatus:   status,
 		ProgramID:     programID,
 		MajorID:       majorID,
-		Envelope:      NewEnvelope(fmt.Sprintf("%s_%s", controlNumber, lastname), archiveLocation),
+		Envelope:      NewEnvelope(fmt.Sprintf("%s_%s", controlNumber, lastname), fileLocation),
 		CreatedAt:     time.Now(),
 		UpdatedAt:     time.Now(),
 	}
@@ -78,7 +78,7 @@ func (s *Student) Validate() error {
 		return errors.New("created_at must be before updated_at")
 	}
 
-	return nil
+	return s.Envelope.Validate()
 }
 
 func (s *Student) FullName() string {

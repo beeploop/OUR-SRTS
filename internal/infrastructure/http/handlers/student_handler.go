@@ -127,7 +127,7 @@ func (h *studentHandler) HandleAddStudent(c echo.Context) error {
 	firstname := c.FormValue("firstname")
 	middlename := c.FormValue("middlename")
 	control_number := c.FormValue("controlNumber")
-	archive_location := c.FormValue("fileLocaton")
+	file_location := c.FormValue("fileLocation")
 	student_type := c.FormValue("type")
 	civil_status := c.FormValue("civilStatus")
 	program_id := c.FormValue("program")
@@ -143,7 +143,7 @@ func (h *studentHandler) HandleAddStudent(c echo.Context) error {
 		entities.CivilStatus(civil_status),
 		program_id,
 		major_id,
-		archive_location,
+		file_location,
 	)
 
 	if err := h.studentUseCase.AddStudent(ctx, student); err != nil {

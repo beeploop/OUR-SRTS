@@ -29,6 +29,16 @@ func NewEnvelope(owner, location string) *Envelope {
 	}
 }
 
+func (e *Envelope) Validate() error {
+	if e.Owner == "" {
+		return errors.New("owner must not be empty")
+	}
+	if e.Location == "" {
+		return errors.New("file location must be set")
+	}
+	return nil
+}
+
 func (e *Envelope) AddDocument(document Document) {
 	e.Documents = append(e.Documents, document)
 	e.UpdatedAt = time.Now()
