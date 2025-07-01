@@ -109,6 +109,37 @@ func (r *StudentRepository) FindByControlNumber(ctx context.Context, controlNumb
 		return nil, err
 	}
 
+	{
+		// Retrieve program and major
+		query1, args1, err := sq.Select("*").
+			From("program").
+			Where(sq.Eq{"id": student.ProgramID}).
+			ToSql()
+		if err != nil {
+			return nil, err
+		}
+
+		if err := r.db.GetContext(ctx, &student.Program, query1, args1...); err != nil {
+			if err != sql.ErrNoRows {
+				return nil, err
+			}
+		}
+
+		query2, args2, err := sq.Select("*").
+			From("major").
+			Where(sq.Eq{"id": student.MajorID}).
+			ToSql()
+		if err != nil {
+			return nil, err
+		}
+
+		if err := r.db.GetContext(ctx, &student.Major, query2, args2...); err != nil {
+			if err != sql.ErrNoRows {
+				return nil, err
+			}
+		}
+	}
+
 	if envelope, err := r.findEnvelope(ctx, student.EnvelopeID); err != nil {
 		return nil, err
 	} else {

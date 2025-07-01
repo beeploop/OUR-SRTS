@@ -18,6 +18,9 @@
     --color-gray-400: oklch(70.7% 0.022 261.325);
     --color-gray-500: oklch(55.1% 0.027 264.364);
     --color-neutral-50: oklch(98.5% 0 0);
+    --color-neutral-100: oklch(97% 0 0);
+    --color-neutral-200: oklch(92.2% 0 0);
+    --color-neutral-300: oklch(87% 0 0);
     --color-neutral-400: oklch(70.8% 0 0);
     --color-neutral-600: oklch(43.9% 0 0);
     --color-white: #fff;
@@ -47,6 +50,7 @@
     --default-mono-font-family: var(--font-mono);
     --color-primary: var(--color-red-900);
     --color-gray: var(--color-neutral-400);
+    --color-gray-light: var(--color-neutral-300);
     --color-success: var(--color-green-700);
     --color-error: var(--color-red-800);
     --color-warning: var(--color-amber-600);
@@ -327,9 +331,6 @@
   .max-h-\[calc\(100vh-4rem\)\] {
     max-height: calc(100vh - 4rem);
   }
-  .max-h-screen {
-    max-height: 100vh;
-  }
   .min-h-\[1em\] {
     min-height: 1em;
   }
@@ -403,6 +404,9 @@
   }
   .justify-end {
     justify-content: flex-end;
+  }
+  .justify-evenly {
+    justify-content: space-evenly;
   }
   .gap-2 {
     gap: calc(var(--spacing) * 2);
@@ -741,6 +745,16 @@
   .disabled\:bg-gray {
     &:disabled {
       background-color: var(--color-gray);
+    }
+  }
+  .disabled\:bg-gray-light {
+    &:disabled {
+      background-color: var(--color-gray-light);
+    }
+  }
+  .disabled\:text-gray {
+    &:disabled {
+      color: var(--color-gray);
     }
   }
 }

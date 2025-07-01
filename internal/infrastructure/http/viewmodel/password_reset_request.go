@@ -7,11 +7,11 @@ import (
 )
 
 type PasswordResetRequest struct {
-	ID        string
-	Admin     Admin
-	Status    string
-	ExpiresAt time.Time
-	CreatedAt time.Time
+	ID        string    `json:"id"`
+	Admin     Admin     `json:"admin"`
+	Status    string    `json:"status"`
+	ExpiresAt time.Time `json:"expires_at"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 func PasswordResetRequestFromDomain(request *entities.PasswordResetRequest) PasswordResetRequest {

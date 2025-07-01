@@ -6,17 +6,14 @@ import (
 	"github.com/beeploop/our-srts/web/views/layouts"
 )
 
-var scriptLoader = templ.NewOnceHandle()
-
 templ AddStudentPage(admin viewmodel.Admin, programWithMajors []viewmodel.ProgramWithMajors) {
 	@layouts.MainLayout(admin) {
-		@templ.JSONScript("programs", programWithMajors)
 		<div class="max-w-3xl mx-auto">
 			@components.Banner(components.BannerProps{
 				Title: "Add Student",
 			})
 			@components.Divider()
-			<form action="/app/add-student" method="POST" class="grid gap-4 mt-4">
+			<form action="/app/add-student" method="POST" class="grid gap-4 mt-4" x-data="addStudent()">
 				<div class="flex gap-4">
 					<div class="w-full">
 						<label for="lastname">Lastname</label>
@@ -110,18 +107,33 @@ templ AddStudentPage(admin viewmodel.Admin, programWithMajors []viewmodel.Progra
 					<div class="w-full">
 						<label for="program">Program</label>
 						<br/>
-						<select id="program" name="program" class="w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none">
-							<option value="" selected>Select a program</option>
-							for _, program := range programWithMajors {
-								<option value={ program.Program.ID }>{ program.Program.Title }</option>
-							}
+						<select
+							id="program"
+							name="program"
+							x-model="selectedProgramID"
+							required
+							class="w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none"
+						>
+							<option value="">__select a program__</option>
+							<template x-for="item in data" :key="item.program.id">
+								<option :value="item.program.id" x-text="item.program.title"></option>
+							</template>
 						</select>
 					</div>
 					<div class="w-full">
 						<label for="major">Major</label>
 						<br/>
-						<select id="major" name="major" class="w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none">
-							<option value="" selected>Select a major</option>
+						<select
+							id="major"
+							name="major"
+							x-model="selectedMajorID"
+							:disabled="!majors().length"
+							class="w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none disabled:bg-gray-light disabled:text-gray"
+						>
+							<option value="">__select a major__</option>
+							<template x-for="major in majors()" :key="major.id">
+								<option :value="major.id" x-text="major.title"></option>
+							</template>
 						</select>
 					</div>
 				</div>
@@ -132,9 +144,28 @@ templ AddStudentPage(admin viewmodel.Admin, programWithMajors []viewmodel.Progra
 					>Save Student</button>
 				</div>
 			</form>
+			@templ.JSONScript("programs", programWithMajors)
+			<script>
+                (function() {
+                    document.addEventListener("alpine:init", () => {
+                        Alpine.data("addStudent", () => {
+                            return {
+                                data: null,
+                                selectedProgramID: "",
+                                selectedMajorID: "",
+                                init() {
+                                    const data = JSON.parse(document.getElementById("programs").textContent);
+                                    this.data = data;
+                                },
+                                majors() {
+                                    const found = this.data.find(item => item.program.id === this.selectedProgramID);
+                                    return found ? found.majors : [];
+                                },
+                            };
+                        });
+                    });
+                 })();
+            </script>
 		</div>
-		@scriptLoader.Once() {
-			<script src="/assets/scripts/program_selector.js"></script>
-		}
 	}
 }

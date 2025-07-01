@@ -3,8 +3,8 @@ package viewmodel
 import "github.com/beeploop/our-srts/internal/domain/entities"
 
 type Program struct {
-	ID    string
-	Title string
+	ID    string `json:"id"`
+	Title string `json:"title"`
 }
 
 func ProgramFromDomain(program *entities.Program) Program {
@@ -15,8 +15,8 @@ func ProgramFromDomain(program *entities.Program) Program {
 }
 
 type Major struct {
-	ID    string
-	Title string
+	ID    string `json:"id"`
+	Title string `json:"title"`
 }
 
 func MajorFromDomain(major *entities.Major) Major {
@@ -27,6 +27,16 @@ func MajorFromDomain(major *entities.Major) Major {
 }
 
 type ProgramWithMajors struct {
-	Program Program
-	Majors  []Major
+	Program Program `json:"program"`
+	Majors  []Major `json:"majors"`
+}
+
+func GetProgramWithTitle(programs []ProgramWithMajors, title string) Program {
+	for _, program := range programs {
+		if program.Program.Title == title {
+			return program.Program
+		}
+	}
+
+	return Program{}
 }

@@ -7,11 +7,11 @@ import (
 )
 
 type Document struct {
-	ID          string
-	Type        string
-	Filename    string
-	StoragePath string
-	UploadedAt  time.Time
+	ID          string    `json:"id"`
+	Type        string    `json:"type"`
+	Filename    string    `json:"filename"`
+	StoragePath string    `json:"storage_path"`
+	UploadedAt  time.Time `json:"uploaded_at"`
 }
 
 func DocumentFromDomain(document *entities.Document) Document {

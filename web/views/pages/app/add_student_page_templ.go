@@ -14,8 +14,6 @@ import (
 	"github.com/beeploop/our-srts/web/views/layouts"
 )
 
-var scriptLoader = templ.NewOnceHandle()
-
 func AddStudentPage(admin viewmodel.Admin, programWithMajors []viewmodel.ProgramWithMajors) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -49,11 +47,7 @@ func AddStudentPage(admin viewmodel.Admin, programWithMajors []viewmodel.Program
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templ.JSONScript("programs", programWithMajors).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, " <div class=\"max-w-3xl mx-auto\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"max-w-3xl mx-auto\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -67,65 +61,15 @@ func AddStudentPage(admin viewmodel.Admin, programWithMajors []viewmodel.Program
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<form action=\"/app/add-student\" method=\"POST\" class=\"grid gap-4 mt-4\"><div class=\"flex gap-4\"><div class=\"w-full\"><label for=\"lastname\">Lastname</label><br><input id=\"lastname\" type=\"text\" required autofocus autocomplete=\"off\" name=\"lastname\" placeholder=\"lastname\" class=\"w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\"></div><div class=\"w-full\"><label for=\"firstname\">Firstname</label><br><input id=\"firstname\" type=\"text\" required autocomplete=\"off\" name=\"firstname\" placeholder=\"firstname\" class=\"w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\"></div><div class=\"w-full\"><label for=\"middlename\">Middlename</label><br><input id=\"middlename\" type=\"text\" required autocomplete=\"off\" name=\"middlename\" placeholder=\"middlename\" class=\"w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\"></div></div><div class=\"flex gap-4\"><div class=\"w-full\"><label for=\"controlNumber\">File Control Number</label><br><input id=\"controlNumber\" type=\"text\" required autocomplete=\"off\" name=\"controlNumber\" placeholder=\"xxxxx\" class=\"w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\"></div><div class=\"w-full\"><label for=\"fileLocation\">File Location</label><br><input id=\"fileLocation\" type=\"text\" required autocomplete=\"off\" name=\"fileLocation\" placeholder=\"xxxxx\" class=\"w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\"></div></div><div class=\"flex gap-4\"><div class=\"w-full\"><label for=\"type\">Student Type</label><br><select id=\"type\" name=\"type\" class=\"w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none\"><option selected value=\"non_transferee\">Non-Transferee</option> <option value=\"transferee\">Transferee</option> <option value=\"graduate\">Graduate</option></select></div><div class=\"w-full\"><label for=\"civilStatus\">Civil Status</label><br><select id=\"civilStatus\" name=\"civilStatus\" class=\"w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none\"><option selected value=\"single\">Single</option> <option value=\"married\">Married</option></select></div></div><div class=\"flex gap-4\"><div class=\"w-full\"><label for=\"program\">Program</label><br><select id=\"program\" name=\"program\" class=\"w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none\"><option value=\"\" selected>Select a program</option> ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<form action=\"/app/add-student\" method=\"POST\" class=\"grid gap-4 mt-4\" x-data=\"addStudent()\"><div class=\"flex gap-4\"><div class=\"w-full\"><label for=\"lastname\">Lastname</label><br><input id=\"lastname\" type=\"text\" required autofocus autocomplete=\"off\" name=\"lastname\" placeholder=\"lastname\" class=\"w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\"></div><div class=\"w-full\"><label for=\"firstname\">Firstname</label><br><input id=\"firstname\" type=\"text\" required autocomplete=\"off\" name=\"firstname\" placeholder=\"firstname\" class=\"w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\"></div><div class=\"w-full\"><label for=\"middlename\">Middlename</label><br><input id=\"middlename\" type=\"text\" required autocomplete=\"off\" name=\"middlename\" placeholder=\"middlename\" class=\"w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\"></div></div><div class=\"flex gap-4\"><div class=\"w-full\"><label for=\"controlNumber\">File Control Number</label><br><input id=\"controlNumber\" type=\"text\" required autocomplete=\"off\" name=\"controlNumber\" placeholder=\"xxxxx\" class=\"w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\"></div><div class=\"w-full\"><label for=\"fileLocation\">File Location</label><br><input id=\"fileLocation\" type=\"text\" required autocomplete=\"off\" name=\"fileLocation\" placeholder=\"xxxxx\" class=\"w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\"></div></div><div class=\"flex gap-4\"><div class=\"w-full\"><label for=\"type\">Student Type</label><br><select id=\"type\" name=\"type\" class=\"w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none\"><option selected value=\"non_transferee\">Non-Transferee</option> <option value=\"transferee\">Transferee</option> <option value=\"graduate\">Graduate</option></select></div><div class=\"w-full\"><label for=\"civilStatus\">Civil Status</label><br><select id=\"civilStatus\" name=\"civilStatus\" class=\"w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none\"><option selected value=\"single\">Single</option> <option value=\"married\">Married</option></select></div></div><div class=\"flex gap-4\"><div class=\"w-full\"><label for=\"program\">Program</label><br><select id=\"program\" name=\"program\" x-model=\"selectedProgramID\" required class=\"w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none\"><option value=\"\">__select a program__</option><template x-for=\"item in data\" :key=\"item.program.id\"><option :value=\"item.program.id\" x-text=\"item.program.title\"></option></template></select></div><div class=\"w-full\"><label for=\"major\">Major</label><br><select id=\"major\" name=\"major\" x-model=\"selectedMajorID\" :disabled=\"!majors().length\" class=\"w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none disabled:bg-gray-light disabled:text-gray\"><option value=\"\">__select a major__</option><template x-for=\"major in majors()\" :key=\"major.id\"><option :value=\"major.id\" x-text=\"major.title\"></option></template></select></div></div><div class=\"flex justify-end\"><button type=\"submit\" class=\"rounded-md bg-primary px-3 py-1.5 text-white cursor-pointer hover:opacity-75\">Save Student</button></div></form>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			for _, program := range programWithMajors {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<option value=\"")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				var templ_7745c5c3_Var3 string
-				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(program.Program.ID)
-				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/add_student_page.templ`, Line: 116, Col: 42}
-				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\">")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				var templ_7745c5c3_Var4 string
-				templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(program.Program.Title)
-				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/add_student_page.templ`, Line: 116, Col: 68}
-				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</option>")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</select></div><div class=\"w-full\"><label for=\"major\">Major</label><br><select id=\"major\" name=\"major\" class=\"w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none\"><option value=\"\" selected>Select a major</option></select></div></div><div class=\"flex justify-end\"><button type=\"submit\" class=\"rounded-md bg-primary px-3 py-1.5 text-white cursor-pointer hover:opacity-75\">Save Student</button></div></form></div>")
+			templ_7745c5c3_Err = templ.JSONScript("programs", programWithMajors).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Var5 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-				templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-				templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-				if !templ_7745c5c3_IsBuffer {
-					defer func() {
-						templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-						if templ_7745c5c3_Err == nil {
-							templ_7745c5c3_Err = templ_7745c5c3_BufErr
-						}
-					}()
-				}
-				ctx = templ.InitializeContext(ctx)
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<script src=\"/assets/scripts/program_selector.js\"></script>")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				return nil
-			})
-			templ_7745c5c3_Err = scriptLoader.Once().Render(templ.WithChildren(ctx, templ_7745c5c3_Var5), templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<script>\n                (function() {\n                    document.addEventListener(\"alpine:init\", () => {\n                        Alpine.data(\"addStudent\", () => {\n                            return {\n                                data: null,\n                                selectedProgramID: \"\",\n                                selectedMajorID: \"\",\n                                init() {\n                                    const data = JSON.parse(document.getElementById(\"programs\").textContent);\n                                    this.data = data;\n                                },\n                                majors() {\n                                    const found = this.data.find(item => item.program.id === this.selectedProgramID);\n                                    return found ? found.majors : [];\n                                },\n                            };\n                        });\n                    });\n                 })();\n            </script></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

@@ -7,10 +7,10 @@ import (
 )
 
 type StudentListItem struct {
-	ControlNumber string
-	Firstname     string
-	Middlename    string
-	Lastname      string
+	ControlNumber string `json:"control_number"`
+	Firstname     string `json:"firstname"`
+	Middlename    string `json:"middlename"`
+	Lastname      string `json:"lastname"`
 }
 
 func StudentItemFromDomain(student *entities.Student) StudentListItem {
@@ -23,18 +23,18 @@ func StudentItemFromDomain(student *entities.Student) StudentListItem {
 }
 
 type Student struct {
-	ControlNumber string
-	FirstName     string
-	MiddleName    string
-	LastName      string
-	Suffix        string
-	StudentType   string
-	CivilStatus   string
-	Program       string
-	Major         string
-	Envelope      Envelope
-	CreatedAt     time.Time
-	UpdatedAt     time.Time
+	ControlNumber string    `json:"control_number"`
+	FirstName     string    `json:"firstname"`
+	MiddleName    string    `json:"middlename"`
+	LastName      string    `json:"lastname"`
+	Suffix        string    `json:"suffix"`
+	StudentType   string    `json:"student_type"`
+	CivilStatus   string    `json:"civil_status"`
+	Program       string    `json:"program"`
+	Major         string    `json:"major"`
+	Envelope      Envelope  `json:"envelope"`
+	CreatedAt     time.Time `json:"created_at"`
+	UpdatedAt     time.Time `json:"updated_at"`
 }
 
 func StudentFromDomain(student *entities.Student) Student {

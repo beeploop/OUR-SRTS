@@ -200,7 +200,7 @@ func searchbar(programs []viewmodel.Program) templ.Component {
 			templ_7745c5c3_Var9 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<form><div class=\"flex gap-4 justify-end my-4\"><input type=\"text\" name=\"query\" id=\"searchbar\" placeholder=\"search...\" autocomplete=\"off\" class=\"outline-1 outline-gray rounded-sm p-2 focus:outline-primary w-full\"> <select name=\"type\" id=\"search-type\" class=\"outline-1 outline-gray rounded-sm p-2 focus:outline-primary w-full\"><option value=\"lastname\">Lastname</option> <option value=\"firstname\">Firstname</option> <option value=\"middlename\">Middlename</option> <option value=\"control_number\">Control Number</option></select> <select id=\"programs\" name=\"program\" class=\"outline-1 outline-gray rounded-sm p-2 focus:outline-primary w-full\"><option value=\"all\">All</option> ")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<form><div class=\"flex gap-4 justify-end my-4\"><input type=\"text\" name=\"query\" id=\"searchbar\" placeholder=\"search...\" autocomplete=\"off\" autofocus class=\"outline-1 outline-gray rounded-sm p-2 focus:outline-primary w-full\"> <select name=\"type\" id=\"search-type\" class=\"outline-1 outline-gray rounded-sm p-2 focus:outline-primary w-full\"><option value=\"lastname\">Lastname</option> <option value=\"firstname\">Firstname</option> <option value=\"middlename\">Middlename</option> <option value=\"control_number\">Control Number</option></select> <select id=\"programs\" name=\"program\" class=\"outline-1 outline-gray rounded-sm p-2 focus:outline-primary w-full\"><option value=\"all\">All</option> ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -212,7 +212,7 @@ func searchbar(programs []viewmodel.Program) templ.Component {
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(program.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/search_page.templ`, Line: 85, Col: 31}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/search_page.templ`, Line: 86, Col: 31}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
@@ -225,7 +225,7 @@ func searchbar(programs []viewmodel.Program) templ.Component {
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(program.Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/search_page.templ`, Line: 85, Col: 49}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/search_page.templ`, Line: 86, Col: 49}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {

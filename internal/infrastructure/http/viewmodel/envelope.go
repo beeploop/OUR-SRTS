@@ -9,12 +9,12 @@ import (
 )
 
 type Envelope struct {
-	ID        string
-	Owner     string
-	Location  string
-	Documents []Document
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	ID        string     `json:"id"`
+	Owner     string     `json:"owner"`
+	Location  string     `json:"location"`
+	Documents []Document `json:"documents"`
+	CreatedAt time.Time  `json:"created_at"`
+	UpdatedAt time.Time  `json:"updated_at"`
 }
 
 func EnvelopeFromDomain(envelope *entities.Envelope) Envelope {

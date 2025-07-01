@@ -4,6 +4,9 @@
     --color-primary: var(--color-red-900);
 
     --color-gray: var(--color-neutral-400);
+    --color-gray-light: var(--color-neutral-300);
+    --color-gray-lighter: var(--color-neutral-100);
+
     --color-success: var(--color-green-700);
     --color-error: var(--color-red-800);
     --color-warning: var(--color-amber-600);

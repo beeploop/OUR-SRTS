@@ -78,13 +78,33 @@ func (h *studentHandler) RenderStudentPage(c echo.Context) error {
 
 	student, err := h.studentUseCase.GetStudent(ctx, control_number)
 	if err != nil {
-		page := app.StudentPage(admin, viewmodel.Student{})
+		page := app.StudentPage(admin, viewmodel.Student{}, make([]viewmodel.ProgramWithMajors, 0))
 		return page.Render(ctx, c.Response().Writer)
 	}
 
 	studentModel := viewmodel.StudentFromDomain(student)
 
-	page := app.StudentPage(admin, studentModel)
+	programs, err := h.programUseCase.GetProgramList(ctx)
+	if err != nil {
+		fmt.Println("error get program list: ", err.Error())
+	}
+
+	programModels := slices.AppendSeq(
+		make([]viewmodel.ProgramWithMajors, 0),
+		utils.Map(programs, func(program *entities.Program) viewmodel.ProgramWithMajors {
+			return viewmodel.ProgramWithMajors{
+				Program: viewmodel.ProgramFromDomain(program),
+				Majors: slices.AppendSeq(
+					make([]viewmodel.Major, 0),
+					utils.Map(program.Majors, func(major entities.Major) viewmodel.Major {
+						return viewmodel.MajorFromDomain(&major)
+					}),
+				),
+			}
+		}),
+	)
+
+	page := app.StudentPage(admin, studentModel, programModels)
 	return page.Render(ctx, c.Response().Writer)
 }
 

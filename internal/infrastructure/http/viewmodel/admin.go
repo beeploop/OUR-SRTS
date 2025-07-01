@@ -6,11 +6,11 @@ import (
 )
 
 type Admin struct {
-	ID       string
-	Fullname string
-	Username string
-	Role     string
-	Enabled  bool
+	ID       string `json:"id"`
+	Fullname string `json:"fullname"`
+	Username string `json:"username"`
+	Role     string `json:"role"`
+	Enabled  bool   `json:"enabled"`
 }
 
 func AdminModelFromSession(admin *session.SessionModel) Admin {
