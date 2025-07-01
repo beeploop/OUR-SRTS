@@ -10,153 +10,155 @@ import (
 
 templ StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithMajors []viewmodel.ProgramWithMajors) {
 	@layouts.MainLayout(admin) {
-		<div class="flex gap-2">
-			<div class="aspect-square h-40 w-40 outline-1 outline-gray">
-				if student.Envelope.DocumentWithType("photo").ID == "" {
-					<img
-						src="/assets/images/placeholder.jpg"
-						src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
-						alt="student image"
-						class="aspect-square h-40 w-40"
-					/>
-				} else {
-					<img
-						src={ student.Envelope.DocumentWithType("photo").StoragePath }
-						alt="student image"
-						class="aspect-square h-40 w-40"
-					/>
+		<div class="mx-auto max-w-4xl">
+			<div class="flex gap-2">
+				<div class="aspect-square h-40 w-40 outline-1 outline-gray">
+					if student.Envelope.DocumentWithType("photo").ID == "" {
+						<img
+							src="/assets/images/placeholder.jpg"
+							src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
+							alt="student image"
+							class="aspect-square h-40 w-40"
+						/>
+					} else {
+						<img
+							src={ student.Envelope.DocumentWithType("photo").StoragePath }
+							alt="student image"
+							class="aspect-square h-40 w-40"
+						/>
+					}
+				</div>
+			</div>
+			<!-- Student Data -->
+			<div>
+				<div class="mt-1.5 flex gap-2">
+					<span class="font-medium">Name:</span>
+					<p>{ student.LastName }, { student.FirstName } { student.MiddleName }</p>
+				</div>
+				<div class="mt-1.5 flex gap-2">
+					<span class="font-medium">Student Type:</span>
+					<p>{ utils.StripUnderscore(student.StudentType) }</p>
+				</div>
+				<div class="mt-1.5 flex gap-2">
+					<span class="font-medium">Civil Status:</span>
+					<p>{ utils.StripUnderscore(student.CivilStatus) }</p>
+				</div>
+				<div class="mt-1.5 flex gap-2">
+					<span class="font-medium">Program:</span>
+					<p>{ student.Program }</p>
+				</div>
+				<div class="mt-1.5 flex gap-2">
+					<span class="font-medium">Major:</span>
+					<p>{ student.Major }</p>
+				</div>
+				<div class="mt-1.5 flex gap-2">
+					<span class="font-medium">Control Number:</span>
+					<p>{ student.ControlNumber }</p>
+				</div>
+				<div class="mt-1.5 flex gap-2">
+					<span class="font-medium">File Location:</span>
+					<p>{ student.Envelope.Location }</p>
+				</div>
+				<div class="mt-1.5 flex gap-2">
+					<span class="font-medium">Date Added:</span>
+					<p>{ utils.TimeToString(student.CreatedAt) }</p>
+				</div>
+				<div class="mt-1.5 flex gap-2">
+					<span class="font-medium">Last Modified:</span>
+					<p>{ utils.TimeToString(student.UpdatedAt) }</p>
+				</div>
+			</div>
+			<!-- Actions -->
+			<div class="flex justify-end gap-2 mt-2">
+				@components.OffCanvas(components.OffCanvasProps{
+					ID: fmt.Sprintf("update_%s", student.ControlNumber),
+					Button: components.OCButton(components.OCButtonProps{
+						Label:    "Update Data",
+						Disabled: false,
+						Variant:  components.WARNING_BTN,
+					}),
+				}) {
+					@updateStudentDataForm(student, programWithMajors)
+				}
+				@components.OffCanvas(components.OffCanvasProps{
+					ID: fmt.Sprintf("upload_%s", student.ControlNumber),
+					Button: components.OCButton(components.OCButtonProps{
+						Label:    "New File",
+						Disabled: false,
+						Variant:  components.ERROR_BTN,
+					}),
+				}) {
+					<div>
+						<h2 class="font-medium">Upload Unlisted Document</h2>
+					</div>
 				}
 			</div>
-		</div>
-		<!-- Student Data -->
-		<div>
-			<div class="mt-1.5 flex gap-2">
-				<span class="font-medium">Name:</span>
-				<p>{ student.LastName }, { student.FirstName } { student.MiddleName }</p>
-			</div>
-			<div class="mt-1.5 flex gap-2">
-				<span class="font-medium">Student Type:</span>
-				<p>{ utils.StripUnderscore(student.StudentType) }</p>
-			</div>
-			<div class="mt-1.5 flex gap-2">
-				<span class="font-medium">Civil Status:</span>
-				<p>{ utils.StripUnderscore(student.CivilStatus) }</p>
-			</div>
-			<div class="mt-1.5 flex gap-2">
-				<span class="font-medium">Program:</span>
-				<p>{ student.Program }</p>
-			</div>
-			<div class="mt-1.5 flex gap-2">
-				<span class="font-medium">Major:</span>
-				<p>{ student.Major }</p>
-			</div>
-			<div class="mt-1.5 flex gap-2">
-				<span class="font-medium">Control Number:</span>
-				<p>{ student.ControlNumber }</p>
-			</div>
-			<div class="mt-1.5 flex gap-2">
-				<span class="font-medium">File Location:</span>
-				<p>{ student.Envelope.Location }</p>
-			</div>
-			<div class="mt-1.5 flex gap-2">
-				<span class="font-medium">Date Added:</span>
-				<p>{ utils.TimeToString(student.CreatedAt) }</p>
-			</div>
-			<div class="mt-1.5 flex gap-2">
-				<span class="font-medium">Last Modified:</span>
-				<p>{ utils.TimeToString(student.UpdatedAt) }</p>
-			</div>
-		</div>
-		<!-- Actions -->
-		<div class="flex justify-end gap-2 mt-2">
-			@components.OffCanvas(components.OffCanvasProps{
-				ID: fmt.Sprintf("update_%s", student.ControlNumber),
-				Button: components.OCButton(components.OCButtonProps{
-					Label:    "Update Data",
-					Disabled: false,
-					Variant:  components.WARNING_BTN,
-				}),
-			}) {
-				@updateStudentDataForm(student, programWithMajors)
-			}
-			@components.OffCanvas(components.OffCanvasProps{
-				ID: fmt.Sprintf("upload_%s", student.ControlNumber),
-				Button: components.OCButton(components.OCButtonProps{
-					Label:    "New File",
-					Disabled: false,
-					Variant:  components.ERROR_BTN,
-				}),
-			}) {
-				<div>
-					<h2 class="font-medium">Update Student Data</h2>
-				</div>
-			}
-		</div>
-		<!-- Files -->
-		<div class="mt-4">
-			<h2 class="font-medium text-xl">Files</h2>
-			<table class="w-full rounded-sm outline-1 outline-gray mt-2">
-				<thead class="bg-primary text-white">
-					<tr>
-						<td class="p-2">File</td>
-						<td class="p-2">Remarks</td>
-						<td class="p-2">Actions</td>
-					</tr>
-				</thead>
-				<tbody>
-					for _, document := range student.Envelope.Documents {
+			<!-- Files -->
+			<div class="mt-4">
+				<h2 class="font-medium text-xl">Files</h2>
+				<table class="w-full rounded-sm outline-1 outline-gray mt-2">
+					<thead class="bg-primary text-white">
 						<tr>
-							<td class="p-2">{ utils.StripUnderscore(document.Type) }</td>
-							<td class="p-2">
-								if document.ID == "" {
-									@components.SoftBadge(components.BadgeProps{
-										Title:   "Unavailable",
-										Variant: components.ERROR_BADGE,
-									})
-								} else {
-									@components.SoftBadge(components.BadgeProps{
-										Title:   "On-File",
-										Variant: components.SUCCESS_BADGE,
-									})
-								}
-							</td>
-							<td class="p-2">
-								<span class="flex gap-2">
-									if document.ID == "" {
-										<a
-											class="cursor-pointer rounded-sm rounded-sm bg-gray px-3 py-1.5 text-xs text-white hover:opacity-75"
-										>Open</a>
-									} else {
-										<a
-											href="#"
-											class="cursor-pointer rounded-sm rounded-sm bg-success px-3 py-1.5 text-xs text-white hover:opacity-75"
-										>Open</a>
-									}
-									@components.OffCanvas(components.OffCanvasProps{
-										ID: document.ID,
-										Button: components.OCButton(components.OCButtonProps{
-											Label:    "Add",
-											Disabled: utils.Ternary(document.ID != "", true, false),
-											Variant:  components.ERROR_BTN,
-										}),
-									}) {
-										<div>
-											<h2 class="font-medium">Add/Upload Document</h2>
-										</div>
-									}
-								</span>
-							</td>
+							<td class="p-2">File</td>
+							<td class="p-2">Remarks</td>
+							<td class="p-2">Actions</td>
 						</tr>
-					}
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						for _, document := range student.Envelope.Documents {
+							<tr>
+								<td class="p-2">{ utils.StripUnderscore(document.Type) }</td>
+								<td class="p-2">
+									if document.ID == "" {
+										@components.SoftBadge(components.BadgeProps{
+											Title:   "Unavailable",
+											Variant: components.ERROR_BADGE,
+										})
+									} else {
+										@components.SoftBadge(components.BadgeProps{
+											Title:   "On-File",
+											Variant: components.SUCCESS_BADGE,
+										})
+									}
+								</td>
+								<td class="p-2">
+									<span class="flex gap-2">
+										if document.ID == "" {
+											<a
+												class="cursor-pointer rounded-sm rounded-sm bg-gray px-3 py-1.5 text-xs text-white hover:opacity-75"
+											>Open</a>
+										} else {
+											<a
+												href="#"
+												class="cursor-pointer rounded-sm rounded-sm bg-success px-3 py-1.5 text-xs text-white hover:opacity-75"
+											>Open</a>
+										}
+										@components.OffCanvas(components.OffCanvasProps{
+											ID: document.ID,
+											Button: components.OCButton(components.OCButtonProps{
+												Label:    "Add",
+												Disabled: utils.Ternary(document.ID != "", true, false),
+												Variant:  components.ERROR_BTN,
+											}),
+										}) {
+											<div>
+												<h2 class="font-medium">Add/Upload { utils.Capitalize(utils.StripUnderscore(document.Type)) }</h2>
+											</div>
+										}
+									</span>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
 		</div>
 	}
 }
 
 templ updateStudentDataForm(student viewmodel.Student, programWithMajors []viewmodel.ProgramWithMajors) {
 	<div>
-		<h2>Update Student Data</h2>
+		<h2 class="font-medium">Update Student Data</h2>
 		<form action={ templ.SafeURL(fmt.Sprintf("/app/search/%s/update", student.ControlNumber)) } method="POST" class="mt-4">
 			<div class="grid gap-2">
 				<div class="flex justify-evenly gap-2">
