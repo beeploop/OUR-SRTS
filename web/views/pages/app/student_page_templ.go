@@ -495,46 +495,46 @@ func updateStudentDataForm(student viewmodel.Student, programWithMajors []viewmo
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 32, "\" class=\"w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\"></div><div class=\"w-full\"><label for=\"fileLocation\">File Location</label><br><input id=\"fileLocation\" type=\"text\" required autocomplete=\"off\" name=\"fileLocation\" placeholder=\"xxxxx\" value=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 32, "\" readonly=\"true\" class=\"w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none read-only:bg-gray-light read-only:text-gray\"></div><div class=\"w-full\"><label for=\"fileLocation\">File Location</label><br><input id=\"fileLocation\" type=\"text\" required autocomplete=\"off\" name=\"fileLocation\" placeholder=\"xxxxx\" value=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var27 string
 			templ_7745c5c3_Var27, templ_7745c5c3_Err = templ.JoinStringErrs(student.Envelope.Location)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 243, Col: 40}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 244, Col: 40}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var27))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, "\" class=\"w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\"></div><div class=\"w-full\"><label for=\"type\">Student Type</label><br><select id=\"type\" name=\"type\" value=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, "\" class=\"w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\"></div><div class=\"w-full\" x-data=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var28 string
-			templ_7745c5c3_Var28, templ_7745c5c3_Err = templ.JoinStringErrs(student.StudentType)
+			templ_7745c5c3_Var28, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("studentType('%s')", student.StudentType))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 253, Col: 34}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 248, Col: 87}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var28))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, "\" class=\"w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none\"><option selected value=\"non_transferee\">Non-Transferee</option> <option value=\"transferee\">Transferee</option> <option value=\"graduate\">Graduate</option></select></div><div class=\"w-full\"><label for=\"civilStatus\">Civil Status</label><br><select id=\"civilStatus\" name=\"civilStatus\" value=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, "\"><label for=\"type\">Student Type</label><br><select id=\"type\" name=\"type\" x-model=\"type\" class=\"w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none\"><option value=\"non_transferee\">Non-Transferee</option> <option value=\"transferee\">Transferee</option> <option value=\"graduate\">Graduate</option></select><script>\n                            (function() {\n                                document.addEventListener(\"alpine:init\", () => {\n                                    Alpine.data(\"studentType\", (t) => {\n                                        return {\n                                            type: t,\n                                        };\n                                    });\n                                })\n                             })();\n                        </script></div><div class=\"w-full\" x-data=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var29 string
-			templ_7745c5c3_Var29, templ_7745c5c3_Err = templ.JoinStringErrs(student.CivilStatus)
+			templ_7745c5c3_Var29, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("civilStatus('%s')", student.CivilStatus))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 267, Col: 34}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 273, Col: 87}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var29))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, "\" class=\"w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none\"><option selected value=\"single\">Single</option> <option value=\"married\">Married</option></select></div><div x-data=\"updateStudent()\"><div class=\"w-full\"><label for=\"program\">Program</label><br><select id=\"program\" name=\"program\" x-model=\"selectedProgramID\" required class=\"w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none\"><option value=\"\">__select a program__</option><template x-for=\"item in data\" :key=\"item.program.id\"><option :value=\"item.program.id\" x-text=\"item.program.title\" :selected=\"item.program.id === selectedProgramID\"></option></template></select></div><div class=\"w-full mt-2\"><label for=\"major\">Major</label><br><select id=\"major\" name=\"major\" x-model=\"selectedMajorID\" :disabled=\"!majors().length\" class=\"w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none disabled:bg-gray-light disabled:text-gray\"><option value=\"\">__select a major__</option><template x-for=\"major in majors()\" :key=\"major.id\"><option :value=\"major.id\" x-text=\"major.title\" :selected=\"major.id === selectedMajorID\"></option></template></select></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, "\"><label for=\"civilStatus\">Civil Status</label><br><select id=\"civilStatus\" name=\"civilStatus\" x-model=\"status\" class=\"w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none\"><option value=\"single\">Single</option> <option value=\"married\">Married</option></select><script>\n                            (function() {\n                                document.addEventListener(\"alpine:init\", () => {\n                                    Alpine.data(\"civilStatus\", (s) => {\n                                        return {\n                                            status: s,\n                                        };\n                                    });\n                                });\n                             })();\n                        </script></div><div x-data=\"updateStudent()\"><div class=\"w-full\"><label for=\"program\">Program</label><br><select id=\"program\" name=\"program\" x-model=\"selectedProgramID\" required class=\"w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none\"><option value=\"\">__select a program__</option><template x-for=\"item in data\" :key=\"item.program.id\"><option :value=\"item.program.id\" x-text=\"item.program.title\" :selected=\"item.program.id === selectedProgramID\"></option></template></select></div><div class=\"w-full mt-2\"><label for=\"major\">Major</label><br><select id=\"major\" name=\"major\" x-model=\"selectedMajorID\" :disabled=\"!majors().length\" class=\"w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none disabled:bg-gray-light disabled:text-gray\"><option value=\"\">__select a major__</option><template x-for=\"major in majors()\" :key=\"major.id\"><option :value=\"major.id\" x-text=\"major.title\" :selected=\"major.id === selectedMajorID\"></option></template></select></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -604,7 +604,7 @@ func uploadUnlistedDocForm(student viewmodel.Student) templ.Component {
 			var templ_7745c5c3_Var32 string
 			templ_7745c5c3_Var32, templ_7745c5c3_Err = templ.JoinStringErrs(student.Fullname())
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 375, Col: 31}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 398, Col: 31}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var32))
 			if templ_7745c5c3_Err != nil {

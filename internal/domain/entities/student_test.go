@@ -108,4 +108,19 @@ func TestStudent(t *testing.T) {
 
 		assert.ObjectsAreEqualValues(document, addedDoc)
 	})
+
+	t.Run("test full update", func(t *testing.T) {
+		student := testStudent.Copy()
+		updatedStudent := testStudent.Copy()
+		updatedStudent.FirstName = "foo"
+		updatedStudent.StudentType = GRADUATE
+		updatedStudent.CivilStatus = MARRIED
+
+		err := student.FullUpdate(updatedStudent)
+
+		assert.NoError(t, err)
+		if !assert.ObjectsAreEqualValues(student, updatedStudent) {
+			t.Fatalf("expected: %v, got: %v\n", updatedStudent, student)
+		}
+	})
 }

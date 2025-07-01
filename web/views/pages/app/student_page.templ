@@ -227,7 +227,8 @@ templ updateStudentDataForm(student viewmodel.Student, programWithMajors []viewm
 							name="controlNumber"
 							placeholder="xxxxx"
 							value={ student.ControlNumber }
-							class="w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none"
+							readonly="true"
+							class="w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none read-only:bg-gray-light read-only:text-gray"
 						/>
 					</div>
 					<div class="w-full">
@@ -244,32 +245,54 @@ templ updateStudentDataForm(student viewmodel.Student, programWithMajors []viewm
 							class="w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none"
 						/>
 					</div>
-					<div class="w-full">
+					<div class="w-full" x-data={ fmt.Sprintf("studentType('%s')", student.StudentType) }>
 						<label for="type">Student Type</label>
 						<br/>
 						<select
 							id="type"
 							name="type"
-							value={ student.StudentType }
+							x-model="type"
 							class="w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none"
 						>
-							<option selected value="non_transferee">Non-Transferee</option>
+							<option value="non_transferee">Non-Transferee</option>
 							<option value="transferee">Transferee</option>
 							<option value="graduate">Graduate</option>
 						</select>
+						<script>
+                            (function() {
+                                document.addEventListener("alpine:init", () => {
+                                    Alpine.data("studentType", (t) => {
+                                        return {
+                                            type: t,
+                                        };
+                                    });
+                                })
+                             })();
+                        </script>
 					</div>
-					<div class="w-full">
+					<div class="w-full" x-data={ fmt.Sprintf("civilStatus('%s')", student.CivilStatus) }>
 						<label for="civilStatus">Civil Status</label>
 						<br/>
 						<select
 							id="civilStatus"
 							name="civilStatus"
-							value={ student.CivilStatus }
+							x-model="status"
 							class="w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none"
 						>
-							<option selected value="single">Single</option>
+							<option value="single">Single</option>
 							<option value="married">Married</option>
 						</select>
+						<script>
+                            (function() {
+                                document.addEventListener("alpine:init", () => {
+                                    Alpine.data("civilStatus", (s) => {
+                                        return {
+                                            status: s,
+                                        };
+                                    });
+                                });
+                             })();
+                        </script>
 					</div>
 					<div x-data="updateStudent()">
 						<div class="w-full">

@@ -188,7 +188,29 @@ func (r *StudentRepository) Search(ctx context.Context, filter repositories.Stud
 }
 
 func (r *StudentRepository) Save(ctx context.Context, student *entities.Student) error {
-	query, args, err := sq.Update("student").
+	tx, err := r.db.BeginTxx(ctx, nil)
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	query1, args1, err := sq.Update("envelope").
+		SetMap(map[string]interface{}{
+			"owner":      student.Envelope.Owner,
+			"location":   student.Envelope.Location,
+			"updated_at": student.Envelope.UpdatedAt,
+		}).
+		Where(sq.Eq{"id": student.Envelope.ID}).
+		ToSql()
+	if err != nil {
+		return err
+	}
+
+	if _, err := tx.ExecContext(ctx, query1, args1...); err != nil {
+		return err
+	}
+
+	query2, args2, err := sq.Update("student").
 		SetMap(map[string]interface{}{
 			"first_name":   student.FirstName,
 			"middle_name":  student.MiddleName,
@@ -198,7 +220,6 @@ func (r *StudentRepository) Save(ctx context.Context, student *entities.Student)
 			"civil_status": student.CivilStatus,
 			"program_id":   student.ProgramID,
 			"major_id":     student.MajorID,
-			"envelope_id":  student.Envelope.ID,
 			"created_at":   student.CreatedAt,
 			"updated_at":   student.UpdatedAt,
 		}).
@@ -208,7 +229,11 @@ func (r *StudentRepository) Save(ctx context.Context, student *entities.Student)
 		return err
 	}
 
-	if _, err := r.db.ExecContext(ctx, query, args...); err != nil {
+	if _, err := tx.ExecContext(ctx, query2, args2...); err != nil {
+		return err
+	}
+
+	if err := tx.Commit(); err != nil {
 		return err
 	}
 

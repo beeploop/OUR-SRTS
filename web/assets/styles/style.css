@@ -759,6 +759,16 @@
     --tw-outline-style: none;
     outline-style: none;
   }
+  .read-only\:bg-gray-light {
+    &:read-only {
+      background-color: var(--color-gray-light);
+    }
+  }
+  .read-only\:text-gray {
+    &:read-only {
+      color: var(--color-gray);
+    }
+  }
   .hover\:bg-gray\/75 {
     &:hover {
       @media (hover: hover) {

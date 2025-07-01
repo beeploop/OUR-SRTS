@@ -172,3 +172,36 @@ func (h *studentHandler) HandleAddStudent(c echo.Context) error {
 
 	return c.Redirect(http.StatusSeeOther, "/app/add-student")
 }
+
+func (h *studentHandler) HandleUpdateStudent(c echo.Context) error {
+	ctx := c.Request().Context()
+
+	lastname := c.FormValue("lastname")
+	firstname := c.FormValue("firstname")
+	middlename := c.FormValue("middlename")
+	control_number := c.FormValue("controlNumber")
+	file_location := c.FormValue("fileLocation")
+	student_type := c.FormValue("type")
+	civil_status := c.FormValue("civilStatus")
+	program_id := c.FormValue("program")
+	major_id := c.FormValue("major")
+
+	student := entities.NewStudent(
+		control_number,
+		firstname,
+		middlename,
+		lastname,
+		"",
+		entities.StudentType(student_type),
+		entities.CivilStatus(civil_status),
+		program_id,
+		major_id,
+		file_location,
+	)
+
+	if err := h.studentUseCase.UpdateStudent(ctx, student); err != nil {
+		return c.Redirect(http.StatusSeeOther, c.Request().Referer())
+	}
+
+	return c.Redirect(http.StatusSeeOther, c.Request().Referer())
+}

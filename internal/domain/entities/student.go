@@ -88,6 +88,21 @@ func (s *Student) FullName() string {
 	return fmt.Sprintf("%s %s %s", s.FirstName, s.MiddleName, s.LastName)
 }
 
+func (s *Student) FullUpdate(student *Student) error {
+	s.FirstName = student.FirstName
+	s.MiddleName = student.MiddleName
+	s.LastName = student.LastName
+	s.Suffix = student.Suffix
+	s.StudentType = student.StudentType
+	s.CivilStatus = student.CivilStatus
+	s.ProgramID = student.ProgramID
+	s.MajorID = student.MajorID
+	s.Envelope.UpdateLocation(student.Envelope.Location)
+	s.Envelope.UpdateOwner(fmt.Sprintf("%s_%s", student.ControlNumber, student.LastName))
+	s.UpdatedAt = student.UpdatedAt
+	return s.Validate()
+}
+
 func (s *Student) UpdateName(firstname, middlename, lastname, suffix string) error {
 	s.FirstName = firstname
 	s.MiddleName = middlename

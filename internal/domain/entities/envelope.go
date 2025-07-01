@@ -44,6 +44,12 @@ func (e *Envelope) AddDocument(document Document) {
 	e.UpdatedAt = time.Now()
 }
 
+func (e *Envelope) UpdateOwner(owner string) error {
+	e.Owner = owner
+	e.UpdatedAt = time.Now()
+	return e.Validate()
+}
+
 func (e *Envelope) UpdateLocation(location string) error {
 	if location == "" {
 		return errors.New("invalid location")
@@ -51,7 +57,7 @@ func (e *Envelope) UpdateLocation(location string) error {
 
 	e.Location = location
 	e.UpdatedAt = time.Now()
-	return nil
+	return e.Validate()
 }
 
 func (e *Envelope) Copy() *Envelope {

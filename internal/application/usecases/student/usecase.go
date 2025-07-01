@@ -61,3 +61,20 @@ func (u *UseCase) GetStudent(ctx context.Context, controlNumber string) (*entiti
 
 	return u.studentRepo.FindByControlNumber(ctx, controlNumber)
 }
+
+func (u *UseCase) UpdateStudent(ctx context.Context, student *entities.Student) error {
+	if err := student.Validate(); err != nil {
+		return err
+	}
+
+	existing, err := u.studentRepo.FindByControlNumber(ctx, student.ControlNumber)
+	if err != nil {
+		return err
+	}
+
+	if err := existing.FullUpdate(student); err != nil {
+		return err
+	}
+
+	return u.studentRepo.Save(ctx, existing)
+}
