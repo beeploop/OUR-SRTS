@@ -1,6 +1,7 @@
 package viewmodel
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/beeploop/our-srts/internal/domain/entities"
@@ -52,4 +53,8 @@ func StudentFromDomain(student *entities.Student) Student {
 		CreatedAt:     student.CreatedAt,
 		UpdatedAt:     student.UpdatedAt,
 	}
+}
+
+func (s Student) Fullname() string {
+	return fmt.Sprintf("%s %s %s", s.FirstName, s.MiddleName, s.LastName)
 }
