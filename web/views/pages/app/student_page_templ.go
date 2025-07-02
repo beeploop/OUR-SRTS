@@ -700,18 +700,15 @@ func uploadDocumentForm(student viewmodel.Student, document viewmodel.Document) 
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			if document.Type == "photo" {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 42, "<input type=\"file\" id=\"file\" name=\"file\" accept=\"image/*\" class=\"mt-1.5 w-full cursor-pointer rounded-sm outline-1 outline-gray\">")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-			} else {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 43, "<input type=\"file\" id=\"file\" name=\"file\" accept=\".pdf\" class=\"mt-1.5 w-full cursor-pointer rounded-sm outline-1 outline-gray\">")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
+			templ_7745c5c3_Err = components.FilePicker(components.FilePickerProps{
+				ID:      "file",
+				Name:    "file",
+				Accepts: utils.Ternary(document.Type == "photo", []string{"images/*"}, []string{".pdf"}),
+			}).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 44, "</div><div class=\"mt-4 flex w-full justify-end\"><button type=\"submit\" class=\"cursor-pointer rounded-sm bg-primary px-3 py-1.5 text-xs text-white hover:opacity-75\">Upload</button></div></form></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 42, "</div><div class=\"mt-4 flex w-full justify-end\"><button type=\"submit\" class=\"cursor-pointer rounded-sm bg-primary px-3 py-1.5 text-xs text-white hover:opacity-75\">Upload</button></div></form></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

@@ -430,23 +430,11 @@ templ uploadDocumentForm(student viewmodel.Student, document viewmodel.Document)
 				<div class="w-full">
 					<label for="file" class="">Select file</label>
 					<br/>
-					if document.Type == "photo" {
-						<input
-							type="file"
-							id="file"
-							name="file"
-							accept="image/*"
-							class="mt-1.5 w-full cursor-pointer rounded-sm outline-1 outline-gray"
-						/>
-					} else {
-						<input
-							type="file"
-							id="file"
-							name="file"
-							accept=".pdf"
-							class="mt-1.5 w-full cursor-pointer rounded-sm outline-1 outline-gray"
-						/>
-					}
+					@components.FilePicker(components.FilePickerProps{
+						ID:      "file",
+						Name:    "file",
+						Accepts: utils.Ternary(document.Type == "photo", []string{"images/*"}, []string{".pdf"}),
+					})
 				</div>
 				<div class="mt-4 flex w-full justify-end">
 					<button
