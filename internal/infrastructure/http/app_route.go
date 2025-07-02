@@ -13,7 +13,7 @@ import (
 )
 
 func (r *Router) appRouterHandler(g *echo.Group) {
-	sessionManager := session.NewSessionManager([]byte("secret"))
+	sessionManager := session.NewSessionManager([]byte(r.cfg.SECRET_KEY))
 
 	g.Use(middleware.EnsureLoggedIn(sessionManager))
 	g.Use(middleware.SessionMiddleware(sessionManager))

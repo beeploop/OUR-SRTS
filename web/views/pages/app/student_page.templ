@@ -13,20 +13,12 @@ templ StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithM
 		<div class="mx-auto max-w-4xl">
 			<div class="flex gap-2">
 				<div class="aspect-square h-40 w-40 outline-1 outline-gray">
-					if student.Envelope.DocumentWithType("photo").ID == "" {
-						<img
-							src="/assets/images/placeholder.jpg"
-							src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
-							alt="student image"
-							class="aspect-square h-40 w-40"
-						/>
-					} else {
-						<img
-							src={ student.Envelope.DocumentWithType("photo").StoragePath }
-							alt="student image"
-							class="aspect-square h-40 w-40"
-						/>
-					}
+					@components.ProfileImage(components.ProfileImageProps{
+						Source: utils.Ternary(
+							student.Envelope.DocumentWithType("photo").ID == "",
+							"/assets/images/placeholder.jpg",
+							student.Envelope.DocumentWithType("photo").StoragePath),
+					})
 				</div>
 			</div>
 			<!-- Student Data -->

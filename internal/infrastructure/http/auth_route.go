@@ -11,7 +11,7 @@ import (
 )
 
 func (r *Router) authRouteHandler(g *echo.Group) {
-	sessionManager := session.NewSessionManager([]byte("secret"))
+	sessionManager := session.NewSessionManager([]byte(r.cfg.SECRET_KEY))
 
 	adminRepo := repositories.NewAdminRepository(r.db)
 	authUseCase := auth.NewUseCase(adminRepo)

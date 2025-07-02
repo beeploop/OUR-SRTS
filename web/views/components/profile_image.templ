@@ -1,0 +1,13 @@
+package components
+
+type ProfileImageProps struct {
+	Source string
+}
+
+templ ProfileImage(props ProfileImageProps) {
+	<img
+		src={ props.Source }
+		alt="student image"
+		class="aspect-square h-40 w-40"
+	/>
+}
