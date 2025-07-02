@@ -59,3 +59,20 @@ func (r *DocumentTypeRepository) FindAll(ctx context.Context) ([]*entities.Docum
 
 	return results, nil
 }
+
+func (r *DocumentTypeRepository) FindByName(ctx context.Context, name string) (*entities.DocumentType, error) {
+	query, args, err := sq.Select("*").
+		From("document_type").
+		Where(sq.Eq{"name": name}).
+		ToSql()
+	if err != nil {
+		return nil, err
+	}
+
+	documentType := new(models.DocumentTypeModel)
+	if err := r.db.GetContext(ctx, documentType, query, args...); err != nil {
+		return nil, err
+	}
+
+	return documentType.ToDomain(), nil
+}

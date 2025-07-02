@@ -17,6 +17,8 @@ type Config struct {
 	DB_HOST string
 	DB_NAME string
 
+	UPLOAD_DIR string
+
 	SECRET_KEY string
 }
 
@@ -31,6 +33,7 @@ func Load() *Config {
 		DB_PORT:    mustGetEnv("DB_PORT"),
 		DB_HOST:    mustGetEnv("DB_HOST"),
 		DB_NAME:    mustGetEnv("DB_NAME"),
+		UPLOAD_DIR: mustGetEnv("UPLOAD_DIR"),
 		SECRET_KEY: mustGetEnv("SECRET_KEY"),
 	}
 }

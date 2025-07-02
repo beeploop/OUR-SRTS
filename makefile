@@ -15,6 +15,7 @@ test:
 
 clean:
 	@rm -rf bin
+	@rm -rf uploads
 
 server-watch:
 	@air --build.cmd "go build -o tmp/main cmd/srts/main.go" \

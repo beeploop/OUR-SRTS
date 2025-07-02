@@ -69,7 +69,7 @@ templ StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithM
 				</div>
 			</div>
 			<!-- Actions -->
-			<div class="flex justify-end gap-2 mt-2">
+			<div class="mt-2 flex justify-end gap-2">
 				@components.OffCanvas(components.OffCanvasProps{
 					ID: fmt.Sprintf("update_%s", student.ControlNumber),
 					Button: components.OCButton(components.OCButtonProps{
@@ -93,8 +93,8 @@ templ StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithM
 			</div>
 			<!-- Files -->
 			<div class="mt-4">
-				<h2 class="font-medium text-xl">Files</h2>
-				<table class="w-full rounded-sm outline-1 outline-gray mt-2">
+				<h2 class="text-xl font-medium">Files</h2>
+				<table class="mt-2 w-full rounded-sm outline-1 outline-gray">
 					<thead class="bg-primary text-white">
 						<tr>
 							<td class="p-2">File</td>
@@ -132,16 +132,14 @@ templ StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithM
 											>Open</a>
 										}
 										@components.OffCanvas(components.OffCanvasProps{
-											ID: document.ID,
+											ID: document.Type,
 											Button: components.OCButton(components.OCButtonProps{
 												Label:    "Add",
 												Disabled: utils.Ternary(document.ID != "", true, false),
 												Variant:  components.ERROR_BTN,
 											}),
 										}) {
-											<div>
-												<h2 class="font-medium">Add/Upload { utils.Capitalize(utils.StripUnderscore(document.Type)) }</h2>
-											</div>
+											@uploadDocumentForm(student, document)
 										}
 									</span>
 								</td>
@@ -228,7 +226,7 @@ templ updateStudentDataForm(student viewmodel.Student, programWithMajors []viewm
 							placeholder="xxxxx"
 							value={ student.ControlNumber }
 							readonly="true"
-							class="w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none read-only:bg-gray-light read-only:text-gray"
+							class="w-full rounded-md border border-gray p-2 read-only:bg-gray-light read-only:text-gray focus:border-primary focus:outline-none"
 						/>
 					</div>
 					<div class="w-full">
@@ -311,7 +309,7 @@ templ updateStudentDataForm(student viewmodel.Student, programWithMajors []viewm
 								</template>
 							</select>
 						</div>
-						<div class="w-full mt-2">
+						<div class="mt-2 w-full">
 							<label for="major">Major</label>
 							<br/>
 							<select
@@ -367,10 +365,10 @@ templ updateStudentDataForm(student viewmodel.Student, programWithMajors []viewm
                      })();
                 </script>
 				</div>
-				<div class="flex justify-end mt-2">
+				<div class="mt-2 flex justify-end">
 					<button
 						type="submit"
-						class="rounded-md bg-primary px-3 py-1.5 text-white cursor-pointer hover:opacity-75"
+						class="cursor-pointer rounded-md bg-primary px-3 py-1.5 text-white hover:opacity-75"
 					>Save</button>
 				</div>
 			</form>
@@ -400,8 +398,61 @@ templ uploadUnlistedDocForm(student viewmodel.Student) {
 				<div class="mt-4 flex justify-end">
 					<button
 						type="submit"
-						class="rounded-md bg-primary px-3 py-1.5 text-white cursor-pointer hover:opacity-75"
+						class="cursor-pointer rounded-md bg-primary px-3 py-1.5 text-white hover:opacity-75"
 					>Submit</button>
+				</div>
+			</form>
+		</div>
+	}
+}
+
+templ uploadDocumentForm(student viewmodel.Student, document viewmodel.Document) {
+	@components.LoaderOverlay() {
+		<div>
+			<h2 class="font-medium">Add/Upload { utils.Capitalize(utils.StripUnderscore(document.Type)) }</h2>
+			<form
+				action={ templ.SafeURL(fmt.Sprintf("/app/search/%s/upload", student.ControlNumber)) }
+				method="POST"
+				enctype="multipart/form-data"
+				class="mt-4"
+				x-ref="form"
+				@submit.prevent="
+                    if ($refs.form.checkValidity()) {
+                        loading = true;
+                        $refs.form.submit();
+                    }
+                "
+			>
+				<div class="w-full">
+					<input value={ student.ControlNumber } name="controlNumber" hidden="true"/>
+					<input value={ document.Type } name="documentType" hidden="true"/>
+				</div>
+				<div class="w-full">
+					<label for="file" class="">Select file</label>
+					<br/>
+					if document.Type == "photo" {
+						<input
+							type="file"
+							id="file"
+							name="file"
+							accept="image/*"
+							class="mt-1.5 w-full cursor-pointer rounded-sm outline-1 outline-gray"
+						/>
+					} else {
+						<input
+							type="file"
+							id="file"
+							name="file"
+							accept=".pdf"
+							class="mt-1.5 w-full cursor-pointer rounded-sm outline-1 outline-gray"
+						/>
+					}
+				</div>
+				<div class="mt-4 flex w-full justify-end">
+					<button
+						type="submit"
+						class="cursor-pointer rounded-sm bg-primary px-3 py-1.5 text-xs text-white hover:opacity-75"
+					>Upload</button>
 				</div>
 			</form>
 		</div>

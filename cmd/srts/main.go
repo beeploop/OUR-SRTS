@@ -10,6 +10,7 @@ import (
 	"github.com/beeploop/our-srts/internal/config"
 	"github.com/beeploop/our-srts/internal/infrastructure/http"
 	"github.com/beeploop/our-srts/internal/infrastructure/persistence"
+	"github.com/beeploop/our-srts/internal/infrastructure/storage"
 	"github.com/beeploop/our-srts/internal/server"
 	"github.com/go-sql-driver/mysql"
 )
@@ -30,7 +31,9 @@ func main() {
 		log.Fatalf("could not start db: %s\n", err.Error())
 	}
 
-	handler := http.NewRouter(cfg, db)
+	fs := storage.NewDiskStorage(cfg.UPLOAD_DIR)
+
+	handler := http.NewRouter(cfg, db, fs)
 
 	srv := server.NewServer(cfg, handler.Echo)
 

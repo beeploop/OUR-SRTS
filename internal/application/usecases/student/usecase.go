@@ -3,20 +3,33 @@ package student
 import (
 	"context"
 	"errors"
+	"fmt"
+	"mime/multipart"
 	"net/url"
+	"path/filepath"
+	"slices"
 
+	"github.com/beeploop/our-srts/internal/application/interfaces"
 	"github.com/beeploop/our-srts/internal/domain/entities"
 	"github.com/beeploop/our-srts/internal/domain/repositories"
 	"github.com/beeploop/our-srts/internal/pkg/utils"
 )
 
 type UseCase struct {
-	studentRepo repositories.StudentRepository
+	studentRepo      repositories.StudentRepository
+	documentTypeRepo repositories.DocumentTypeRepository
+	fs               interfaces.Storage
 }
 
-func NewUseCase(studentRepo repositories.StudentRepository) *UseCase {
+func NewUseCase(
+	studentRepo repositories.StudentRepository,
+	documentTypeRepo repositories.DocumentTypeRepository,
+	fs interfaces.Storage,
+) *UseCase {
 	return &UseCase{
-		studentRepo: studentRepo,
+		studentRepo:      studentRepo,
+		documentTypeRepo: documentTypeRepo,
+		fs:               fs,
 	}
 }
 
@@ -77,4 +90,58 @@ func (u *UseCase) UpdateStudent(ctx context.Context, student *entities.Student) 
 	}
 
 	return u.studentRepo.Save(ctx, existing)
+}
+
+func (u *UseCase) UploadDocument(ctx context.Context, studentControlNumber, docType string, content *multipart.FileHeader) error {
+	if studentControlNumber == "" {
+		return errors.New("invalid control number")
+	}
+	if docType == "" {
+		return errors.New("invalid document type")
+	}
+
+	file, err := content.Open()
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	student, err := u.studentRepo.FindByControlNumber(ctx, studentControlNumber)
+	if err != nil {
+		return err
+	}
+
+	documentType, err := u.documentTypeRepo.FindByName(ctx, docType)
+	if err != nil {
+		return err
+	}
+
+	{
+		ext := filepath.Ext(content.Filename)
+		if documentType.Name == "photo" {
+			validFiles := []string{".png", ".jpg", ".jpeg"}
+
+			if !slices.Contains(validFiles, ext) {
+				return errors.New("invalid file type")
+			}
+		} else {
+			if ext != ".pdf" {
+				return errors.New("invalid file type")
+			}
+		}
+	}
+
+	filename := fmt.Sprintf("%s%s", documentType.Name, filepath.Ext(content.Filename))
+	folder := fmt.Sprintf("%s_%s", student.ControlNumber, utils.WhiteSpaceToUnderscore(student.LastName))
+	filepath := u.fs.ConstructPath(ctx, folder, filename)
+	if err := u.fs.Save(ctx, filepath, file); err != nil {
+		return err
+	}
+
+	document := entities.NewDocument(*documentType, filename, filepath)
+	if _, err := u.studentRepo.UploadDocument(ctx, document, student.Envelope); err != nil {
+		return err
+	}
+
+	return nil
 }

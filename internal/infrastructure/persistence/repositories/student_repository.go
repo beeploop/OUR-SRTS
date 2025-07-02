@@ -95,6 +95,22 @@ func (r *StudentRepository) Create(ctx context.Context, student *entities.Studen
 	return student, nil
 }
 
+func (r *StudentRepository) UploadDocument(ctx context.Context, document *entities.Document, envelope *entities.Envelope) (*entities.Document, error) {
+	query, args, err := sq.Insert("document").
+		Columns("id", "type_id", "envelope_id", "filename", "storage_path", "uploaded_at").
+		Values(document.ID, document.Type.ID, envelope.ID, document.Filename, document.StoragePath, document.UploadedAt).
+		ToSql()
+	if err != nil {
+		return nil, err
+	}
+
+	if _, err := r.db.ExecContext(ctx, query, args...); err != nil {
+		return nil, err
+	}
+
+	return document, nil
+}
+
 func (r *StudentRepository) FindByControlNumber(ctx context.Context, controlNumber string) (*entities.Student, error) {
 	query, args, err := sq.Select("*").
 		From("student").

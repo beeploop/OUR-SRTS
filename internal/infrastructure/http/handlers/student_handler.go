@@ -205,3 +205,22 @@ func (h *studentHandler) HandleUpdateStudent(c echo.Context) error {
 
 	return c.Redirect(http.StatusSeeOther, c.Request().Referer())
 }
+
+func (h *studentHandler) HandleUploadDocument(c echo.Context) error {
+	ctx := c.Request().Context()
+
+	controlNumber := c.FormValue("controlNumber")
+	documentType := c.FormValue("documentType")
+
+	file, err := c.FormFile("file")
+	if err != nil {
+		return c.Redirect(http.StatusSeeOther, c.Request().Referer())
+	}
+
+	if err := h.studentUseCase.UploadDocument(ctx, controlNumber, documentType, file); err != nil {
+		fmt.Println("error: ", err.Error())
+		return c.Redirect(http.StatusSeeOther, c.Request().Referer())
+	}
+
+	return c.Redirect(http.StatusSeeOther, c.Request().Referer())
+}

@@ -6,6 +6,7 @@ mysql
 bin
 tmp
 seed_files
+uploads
 
 Registrar-SRTS*
 

@@ -3,6 +3,7 @@ package http
 import (
 	"encoding/gob"
 
+	"github.com/beeploop/our-srts/internal/application/interfaces"
 	"github.com/beeploop/our-srts/internal/config"
 	"github.com/beeploop/our-srts/internal/infrastructure/session"
 	"github.com/jmoiron/sqlx"
@@ -11,20 +12,22 @@ import (
 )
 
 type Router struct {
-	cfg  *config.Config
-	db   *sqlx.DB
-	Echo *echo.Echo
+	cfg     *config.Config
+	db      *sqlx.DB
+	storage interfaces.Storage
+	Echo    *echo.Echo
 }
 
-func NewRouter(cfg *config.Config, db *sqlx.DB) *Router {
+func NewRouter(cfg *config.Config, db *sqlx.DB, storage interfaces.Storage) *Router {
 	r := echo.New()
 
 	gob.Register(session.SessionModel{})
 
 	router := &Router{
-		cfg:  cfg,
-		db:   db,
-		Echo: r,
+		cfg:     cfg,
+		db:      db,
+		storage: storage,
+		Echo:    r,
 	}
 
 	router.registerRoutes()

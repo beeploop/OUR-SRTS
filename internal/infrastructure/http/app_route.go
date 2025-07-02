@@ -19,11 +19,13 @@ func (r *Router) appRouterHandler(g *echo.Group) {
 	g.Use(middleware.SessionMiddleware(sessionManager))
 	g.Use(middleware.RBACMiddleware(sessionManager))
 
+	documentTypeRepo := repositories.NewDocumentTypeRepository(r.db)
+
 	adminRepo := repositories.NewAdminRepository(r.db)
 	adminUseCase := admin.NewUseCase(adminRepo)
 
 	studentRepo := repositories.NewStudentRepository(r.db)
-	studentUseCase := student.NewUseCase(studentRepo)
+	studentUseCase := student.NewUseCase(studentRepo, documentTypeRepo, r.storage)
 
 	programRepo := repositories.NewProgramRepository(r.db)
 	programUseCase := program.NewUseCase(programRepo)
@@ -38,6 +40,7 @@ func (r *Router) appRouterHandler(g *echo.Group) {
 	g.GET("/search", studentHandler.RenderSearch)
 	g.GET("/search/:controlNumber", studentHandler.RenderStudentPage)
 	g.POST("/search/:controlNumber/update", studentHandler.HandleUpdateStudent)
+	g.POST("/search/:controlNumber/upload", studentHandler.HandleUploadDocument)
 	g.GET("/add-student", studentHandler.RenderAddStudentPage)
 	g.POST("/add-student", studentHandler.HandleAddStudent)
 	g.GET("/manage-staff", accountHandler.RenderManageStaffPage)
