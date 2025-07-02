@@ -8,6 +8,7 @@ import (
 
 templ AddStudentPage(admin viewmodel.Admin, programWithMajors []viewmodel.ProgramWithMajors) {
 	@layouts.MainLayout(admin) {
+		@components.Toast()
 		<div class="max-w-3xl mx-auto">
 			@components.Banner(components.BannerProps{
 				Title: "Add Student",

@@ -11,6 +11,7 @@ import (
 
 templ ManageStaffPage(admin viewmodel.Admin, accounts []viewmodel.Admin) {
 	@layouts.MainLayout(admin) {
+		@components.Toast()
 		@components.Banner(components.BannerProps{
 			Title: "Staff Management",
 		})
@@ -139,7 +140,7 @@ templ addStaffForm() {
 				/>
 			</div>
 			<div class="">
-				<label for="password">Staff password</label>
+				<label>Staff password</label>
 				<p class="text-xs text-red-700">
 					Password must be 
 					<strong>
@@ -155,7 +156,6 @@ templ addStaffForm() {
 					autocomplete="off"
 					required
 					class="mt-1.5 w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none"
-					id="password"
 					placeholder="password"
 				/>
 			</div>
@@ -177,11 +177,10 @@ templ disableStaffForm(accountID string) {
 				<input type="text" hidden="true" name="accountID" value={ accountID }/>
 			</div>
 			<div class="mt-4">
-				<label for="password" class="">Confirmation Password</label>
+				<label class="">Confirmation Password</label>
 				<br/>
 				<input
 					type="password"
-					id="password"
 					name="password"
 					required
 					autocomplete="off"
@@ -207,11 +206,10 @@ templ enableStaffForm(accountID string) {
 				<input type="text" hidden="true" name="accountID" value={ accountID }/>
 			</div>
 			<div class="mt-4">
-				<label for="password" class="">Confirmation Password</label>
+				<label class="">Confirmation Password</label>
 				<br/>
 				<input
 					type="password"
-					id="password"
 					name="password"
 					required
 					autocomplete="off"
@@ -237,11 +235,10 @@ templ deleteStaffForm(accountID string) {
 				<input type="text" hidden="true" name="accountID" value={ accountID }/>
 			</div>
 			<div class="mt-4">
-				<label for="password" class="">Confirmation Password</label>
+				<label class="">Confirmation Password</label>
 				<br/>
 				<input
 					type="password"
-					id="password"
 					name="password"
 					required
 					autocomplete="off"

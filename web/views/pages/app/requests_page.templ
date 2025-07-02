@@ -10,6 +10,7 @@ import (
 
 templ RequestsPage(admin viewmodel.Admin, requests []viewmodel.PasswordResetRequest) {
 	@layouts.MainLayout(admin) {
+		@components.Toast()
 		@components.Banner(components.BannerProps{
 			Title: "Password Reset Requests",
 		})
