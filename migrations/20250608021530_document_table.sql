@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS document (
     id varchar(255) not null,
     type_id varchar(255) not null,
     envelope_id varchar(255) not null,
-    filename varchar(255) not null unique,
+    filename varchar(255) not null,
     storage_path varchar(255) not null,
     uploaded_at timestamp default current_timestamp,
     PRIMARY KEY(id),
