@@ -214,7 +214,7 @@ func (r *StudentRepository) Save(ctx context.Context, student *entities.Student)
 		SetMap(map[string]interface{}{
 			"owner":      student.Envelope.Owner,
 			"location":   student.Envelope.Location,
-			"updated_at": student.Envelope.UpdatedAt,
+			"updated_at": student.Envelope.UpdatedAt(),
 		}).
 		Where(sq.Eq{"id": student.Envelope.ID}).
 		ToSql()

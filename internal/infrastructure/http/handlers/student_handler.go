@@ -201,6 +201,7 @@ func (h *studentHandler) HandleUpdateStudent(c echo.Context) error {
 	)
 
 	if err := h.studentUseCase.UpdateStudent(ctx, student); err != nil {
+		fmt.Println("error: ", err.Error())
 		return c.Redirect(http.StatusSeeOther, utils.StripQueryParams(c.Request().Referer()))
 	}
 
