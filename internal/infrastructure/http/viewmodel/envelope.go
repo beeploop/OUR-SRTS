@@ -38,8 +38,6 @@ func (e Envelope) DocumentWithType(docType string) []Document {
 		if group.Type.Title == docType {
 			return group.Documents
 		}
-
-		break
 	}
 
 	return make([]Document, 0)

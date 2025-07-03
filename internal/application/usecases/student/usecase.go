@@ -92,7 +92,7 @@ func (u *UseCase) UpdateStudent(ctx context.Context, student *entities.Student) 
 	return u.studentRepo.Save(ctx, existing)
 }
 
-func (u *UseCase) UploadDocument(ctx context.Context, studentControlNumber, docType string, content *multipart.FileHeader) error {
+func (u *UseCase) UploadDocument(ctx context.Context, studentControlNumber, docType, filename string, content *multipart.FileHeader) error {
 	if studentControlNumber == "" {
 		return errors.New("invalid control number")
 	}
@@ -131,7 +131,7 @@ func (u *UseCase) UploadDocument(ctx context.Context, studentControlNumber, docT
 		}
 	}
 
-	filename := fmt.Sprintf("%s%s", documentType.Title, filepath.Ext(content.Filename))
+	filename = fmt.Sprintf("%s%s", filename, filepath.Ext(content.Filename))
 	folder := fmt.Sprintf("%s_%s", student.ControlNumber, utils.WhiteSpaceToUnderscore(student.LastName))
 	filepath := u.fs.ConstructPath(ctx, folder, filename)
 	if err := u.fs.Save(ctx, filepath, file); err != nil {

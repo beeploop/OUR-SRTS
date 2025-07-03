@@ -167,9 +167,29 @@ templ StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithM
 			<!-- Other Files -->
 			<div class="mt-4">
 				<h2 class="text-xl font-medium">Other Files</h2>
-				for _, document := range student.Envelope.DocumentWithType("other") {
-					<p>{ document.Filename }</p>
-				}
+				<table class="mt-2 w-full rounded-sm outline-1 outline-gray">
+					<thead class="bg-primary text-white">
+						<tr>
+							<td class="p-2">File</td>
+							<td class="p-2">Actions</td>
+						</tr>
+					</thead>
+					<tbody>
+						for _, document := range student.Envelope.DocumentWithType("other") {
+							<tr>
+								<td class="p-2 font-medium">{ document.Filename }</td>
+								<td class="p-2">
+									@components.LinkButton(components.LinkButtonProps{
+										Label:   "Open",
+										Href:    fmt.Sprintf("http://%s/%s", ctx.Value(contextkeys.HostKey).(string), document.StoragePath),
+										Target:  "_blank",
+										Disable: false,
+									})
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	}
@@ -421,19 +441,19 @@ templ uploadUnlistedDocForm(student viewmodel.Student) {
 					<input value="other" name="documentType" hidden="true"/>
 				</div>
 				<div class="w-full">
-					<label for="label" class="">File Label</label>
+					<label for="filename" class="font-medium">Filename</label>
 					<br/>
 					<input
 						type="text"
-						id="label"
-						name="label"
-						placeholder="label"
+						id="filename"
+						name="filename"
+						placeholder="filename"
 						required
 						class="rounded-sm p-2 outline-1 outline-gray focus:border-none focus:outline-primary mt-1.5 w-full"
 					/>
 				</div>
 				<div class="w-full">
-					<label for="file" class="">Select file</label>
+					<label for="file" class="font-medium">Select file</label>
 					<br/>
 					@components.FilePicker(components.FilePickerProps{
 						ID:      "file",

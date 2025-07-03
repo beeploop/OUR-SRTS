@@ -396,30 +396,43 @@ func StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithMa
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "</tbody></table></div><!-- Other Files --><div class=\"mt-4\"><h2 class=\"text-xl font-medium\">Other Files</h2>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "</tbody></table></div><!-- Other Files --><div class=\"mt-4\"><h2 class=\"text-xl font-medium\">Other Files</h2><table class=\"mt-2 w-full rounded-sm outline-1 outline-gray\"><thead class=\"bg-primary text-white\"><tr><td class=\"p-2\">File</td><td class=\"p-2\">Actions</td></tr></thead> <tbody>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			for _, document := range student.Envelope.DocumentWithType("other") {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "<p>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "<tr><td class=\"p-2 font-medium\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var18 string
 				templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(document.Filename)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 171, Col: 27}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 180, Col: 55}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "</p>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "</td><td class=\"p-2\">")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = components.LinkButton(components.LinkButtonProps{
+					Label:   "Open",
+					Href:    fmt.Sprintf("http://%s/%s", ctx.Value(contextkeys.HostKey).(string), document.StoragePath),
+					Target:  "_blank",
+					Disable: false,
+				}).Render(ctx, templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "</td></tr>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "</div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "</tbody></table></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -466,111 +479,111 @@ func updateStudentDataForm(student viewmodel.Student, programWithMajors []viewmo
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "<div><h2 class=\"font-medium\">Update Student Data</h2><form action=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "<div><h2 class=\"font-medium\">Update Student Data</h2><form action=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var21 templ.SafeURL
 			templ_7745c5c3_Var21, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("/app/search/%s/update", student.ControlNumber)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 183, Col: 87}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 203, Col: 87}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var21))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "\" method=\"POST\" class=\"mt-4\" x-ref=\"form\" @submit.prevent=\"\n                    if ($refs.form.checkValidity()) {\n                        loading = true;\n                        $refs.form.submit();\n                    }\n                \"><div class=\"grid gap-2\"><div class=\"flex justify-evenly gap-2\"><div class=\"w-full\"><label for=\"lastname\">Lastname</label><br><input id=\"lastname\" type=\"text\" required autofocus autocomplete=\"off\" name=\"lastname\" placeholder=\"lastname\" value=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "\" method=\"POST\" class=\"mt-4\" x-ref=\"form\" @submit.prevent=\"\n                    if ($refs.form.checkValidity()) {\n                        loading = true;\n                        $refs.form.submit();\n                    }\n                \"><div class=\"grid gap-2\"><div class=\"flex justify-evenly gap-2\"><div class=\"w-full\"><label for=\"lastname\">Lastname</label><br><input id=\"lastname\" type=\"text\" required autofocus autocomplete=\"off\" name=\"lastname\" placeholder=\"lastname\" value=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var22 string
 			templ_7745c5c3_Var22, templ_7745c5c3_Err = templ.JoinStringErrs(student.LastName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 207, Col: 32}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 227, Col: 32}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var22))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "\" class=\"w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\"></div><div class=\"w-full\"><label for=\"firstname\">Firstname</label><br><input id=\"firstname\" type=\"text\" required autocomplete=\"off\" name=\"firstname\" placeholder=\"firstname\" value=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "\" class=\"w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\"></div><div class=\"w-full\"><label for=\"firstname\">Firstname</label><br><input id=\"firstname\" type=\"text\" required autocomplete=\"off\" name=\"firstname\" placeholder=\"firstname\" value=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var23 string
 			templ_7745c5c3_Var23, templ_7745c5c3_Err = templ.JoinStringErrs(student.FirstName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 221, Col: 33}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 241, Col: 33}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var23))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "\" class=\"w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\"></div><div class=\"w-full\"><label for=\"middlename\">Middlename</label><br><input id=\"middlename\" type=\"text\" required autocomplete=\"off\" name=\"middlename\" placeholder=\"middlename\" value=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, "\" class=\"w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\"></div><div class=\"w-full\"><label for=\"middlename\">Middlename</label><br><input id=\"middlename\" type=\"text\" required autocomplete=\"off\" name=\"middlename\" placeholder=\"middlename\" value=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var24 string
 			templ_7745c5c3_Var24, templ_7745c5c3_Err = templ.JoinStringErrs(student.MiddleName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 235, Col: 34}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 255, Col: 34}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var24))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, "\" class=\"w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\"></div></div><div class=\"w-full\"><label for=\"controlNumber\">File Control Number</label><br><input id=\"controlNumber\" type=\"text\" required autocomplete=\"off\" name=\"controlNumber\" placeholder=\"xxxxx\" value=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, "\" class=\"w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\"></div></div><div class=\"w-full\"><label for=\"controlNumber\">File Control Number</label><br><input id=\"controlNumber\" type=\"text\" required autocomplete=\"off\" name=\"controlNumber\" placeholder=\"xxxxx\" value=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var25 string
 			templ_7745c5c3_Var25, templ_7745c5c3_Err = templ.JoinStringErrs(student.ControlNumber)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 250, Col: 36}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 270, Col: 36}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var25))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, "\" readonly=\"true\" class=\"w-full rounded-md border border-gray p-2 read-only:bg-gray-light read-only:text-gray focus:border-primary focus:outline-none\"></div><div class=\"w-full\"><label for=\"fileLocation\">File Location</label><br><input id=\"fileLocation\" type=\"text\" required autocomplete=\"off\" name=\"fileLocation\" placeholder=\"xxxxx\" value=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, "\" readonly=\"true\" class=\"w-full rounded-md border border-gray p-2 read-only:bg-gray-light read-only:text-gray focus:border-primary focus:outline-none\"></div><div class=\"w-full\"><label for=\"fileLocation\">File Location</label><br><input id=\"fileLocation\" type=\"text\" required autocomplete=\"off\" name=\"fileLocation\" placeholder=\"xxxxx\" value=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var26 string
 			templ_7745c5c3_Var26, templ_7745c5c3_Err = templ.JoinStringErrs(student.Envelope.Location)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 265, Col: 40}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 285, Col: 40}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var26))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, "\" class=\"w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\"></div><div class=\"w-full\" x-data=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 31, "\" class=\"w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\"></div><div class=\"w-full\" x-data=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var27 string
 			templ_7745c5c3_Var27, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("studentType('%s')", student.StudentType))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 269, Col: 87}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 289, Col: 87}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var27))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 31, "\"><label for=\"type\">Student Type</label><br><select id=\"type\" name=\"type\" x-model=\"type\" class=\"w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none\"><option value=\"non_transferee\">Non-Transferee</option> <option value=\"transferee\">Transferee</option> <option value=\"graduate\">Graduate</option></select><script>\n                            (function() {\n                                document.addEventListener(\"alpine:init\", () => {\n                                    Alpine.data(\"studentType\", (t) => {\n                                        return {\n                                            type: t,\n                                        };\n                                    });\n                                })\n                             })();\n                        </script></div><div class=\"w-full\" x-data=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 32, "\"><label for=\"type\">Student Type</label><br><select id=\"type\" name=\"type\" x-model=\"type\" class=\"w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none\"><option value=\"non_transferee\">Non-Transferee</option> <option value=\"transferee\">Transferee</option> <option value=\"graduate\">Graduate</option></select><script>\n                            (function() {\n                                document.addEventListener(\"alpine:init\", () => {\n                                    Alpine.data(\"studentType\", (t) => {\n                                        return {\n                                            type: t,\n                                        };\n                                    });\n                                })\n                             })();\n                        </script></div><div class=\"w-full\" x-data=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var28 string
 			templ_7745c5c3_Var28, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("civilStatus('%s')", student.CivilStatus))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 294, Col: 87}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 314, Col: 87}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var28))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 32, "\"><label for=\"civilStatus\">Civil Status</label><br><select id=\"civilStatus\" name=\"civilStatus\" x-model=\"status\" class=\"w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none\"><option value=\"single\">Single</option> <option value=\"married\">Married</option></select><script>\n                            (function() {\n                                document.addEventListener(\"alpine:init\", () => {\n                                    Alpine.data(\"civilStatus\", (s) => {\n                                        return {\n                                            status: s,\n                                        };\n                                    });\n                                });\n                             })();\n                        </script></div><div x-data=\"updateStudent()\"><div class=\"w-full\"><label for=\"program\">Program</label><br><select id=\"program\" name=\"program\" x-model=\"selectedProgramID\" required class=\"w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none\"><option value=\"\">__select a program__</option><template x-for=\"item in data\" :key=\"item.program.id\"><option :value=\"item.program.id\" x-text=\"item.program.title\" :selected=\"item.program.id === selectedProgramID\"></option></template></select></div><div class=\"mt-2 w-full\"><label for=\"major\">Major</label><br><select id=\"major\" name=\"major\" x-model=\"selectedMajorID\" :disabled=\"!majors().length\" class=\"w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none disabled:bg-gray-light disabled:text-gray\"><option value=\"\">__select a major__</option><template x-for=\"major in majors()\" :key=\"major.id\"><option :value=\"major.id\" x-text=\"major.title\" :selected=\"major.id === selectedMajorID\"></option></template></select></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, "\"><label for=\"civilStatus\">Civil Status</label><br><select id=\"civilStatus\" name=\"civilStatus\" x-model=\"status\" class=\"w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none\"><option value=\"single\">Single</option> <option value=\"married\">Married</option></select><script>\n                            (function() {\n                                document.addEventListener(\"alpine:init\", () => {\n                                    Alpine.data(\"civilStatus\", (s) => {\n                                        return {\n                                            status: s,\n                                        };\n                                    });\n                                });\n                             })();\n                        </script></div><div x-data=\"updateStudent()\"><div class=\"w-full\"><label for=\"program\">Program</label><br><select id=\"program\" name=\"program\" x-model=\"selectedProgramID\" required class=\"w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none\"><option value=\"\">__select a program__</option><template x-for=\"item in data\" :key=\"item.program.id\"><option :value=\"item.program.id\" x-text=\"item.program.title\" :selected=\"item.program.id === selectedProgramID\"></option></template></select></div><div class=\"mt-2 w-full\"><label for=\"major\">Major</label><br><select id=\"major\" name=\"major\" x-model=\"selectedMajorID\" :disabled=\"!majors().length\" class=\"w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none disabled:bg-gray-light disabled:text-gray\"><option value=\"\">__select a major__</option><template x-for=\"major in majors()\" :key=\"major.id\"><option :value=\"major.id\" x-text=\"major.title\" :selected=\"major.id === selectedMajorID\"></option></template></select></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -586,7 +599,7 @@ func updateStudentDataForm(student viewmodel.Student, programWithMajors []viewmo
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, "<script>\n                    (function() {\n                         document.addEventListener(\"alpine:init\", () => {\n                             Alpine.data(\"updateStudent\", () => {\n                                 return {\n                                     data: null,\n                                     selectedProgramID: \"\",\n                                     selectedMajorID: \"\",\n                                     init() {\n                                         const data = JSON.parse(document.getElementById(\"programs\").textContent);\n                                         this.data = data;\n\n                                         const selectedProgram = JSON.parse(document.getElementById(\"selectedProgram\").textContent);\n                                         const selectedMajor = JSON.parse(document.getElementById(\"selectedMajor\").textContent);\n\n                                         if (!selectedProgram) {\n                                             console.log(\"no preselected program\");\n                                             return;\n                                         }\n\n                                         const program = this.data.find(item => item.program.title === selectedProgram);\n                                         this.selectedProgramID = program ? program.program.id : \"\";\n\n                                         const major = program.majors.find(item => item.title === selectedMajor);\n                                         this.selectedMajorID = major ? major.id : \"\";\n                                     },\n                                     majors() {\n                                         const found = this.data.find(item => item.program.id === this.selectedProgramID);\n                                         return found ? found.majors : [];\n                                     },\n                                 };\n                             });\n                         });\n                     })();\n                </script></div><div class=\"mt-2 flex justify-end\"><button type=\"submit\" class=\"cursor-pointer rounded-md bg-primary px-3 py-1.5 text-white hover:opacity-75\">Save</button></div></form></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, "<script>\n                    (function() {\n                         document.addEventListener(\"alpine:init\", () => {\n                             Alpine.data(\"updateStudent\", () => {\n                                 return {\n                                     data: null,\n                                     selectedProgramID: \"\",\n                                     selectedMajorID: \"\",\n                                     init() {\n                                         const data = JSON.parse(document.getElementById(\"programs\").textContent);\n                                         this.data = data;\n\n                                         const selectedProgram = JSON.parse(document.getElementById(\"selectedProgram\").textContent);\n                                         const selectedMajor = JSON.parse(document.getElementById(\"selectedMajor\").textContent);\n\n                                         if (!selectedProgram) {\n                                             console.log(\"no preselected program\");\n                                             return;\n                                         }\n\n                                         const program = this.data.find(item => item.program.title === selectedProgram);\n                                         this.selectedProgramID = program ? program.program.id : \"\";\n\n                                         const major = program.majors.find(item => item.title === selectedMajor);\n                                         this.selectedMajorID = major ? major.id : \"\";\n                                     },\n                                     majors() {\n                                         const found = this.data.find(item => item.program.id === this.selectedProgramID);\n                                         return found ? found.majors : [];\n                                     },\n                                 };\n                             });\n                         });\n                     })();\n                </script></div><div class=\"mt-2 flex justify-end\"><button type=\"submit\" class=\"cursor-pointer rounded-md bg-primary px-3 py-1.5 text-white hover:opacity-75\">Save</button></div></form></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -633,33 +646,33 @@ func uploadUnlistedDocForm(student viewmodel.Student) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, "<div><h2 class=\"font-medium\">Add/Upload Unlisted Document</h2><form action=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, "<div><h2 class=\"font-medium\">Add/Upload Unlisted Document</h2><form action=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var31 templ.SafeURL
 			templ_7745c5c3_Var31, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("/app/search/%s/upload", student.ControlNumber)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 407, Col: 87}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 427, Col: 87}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var31))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, "\" method=\"POST\" enctype=\"multipart/form-data\" class=\"mt-4 grid gap-4\" x-ref=\"form\" @submit.prevent=\"\n                    if ($refs.form.checkValidity()) {\n                        loading = true;\n                        $refs.form.submit();\n                    }\n                \"><div class=\"w-full\"><input value=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 36, "\" method=\"POST\" enctype=\"multipart/form-data\" class=\"mt-4 grid gap-4\" x-ref=\"form\" @submit.prevent=\"\n                    if ($refs.form.checkValidity()) {\n                        loading = true;\n                        $refs.form.submit();\n                    }\n                \"><div class=\"w-full\"><input value=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var32 string
 			templ_7745c5c3_Var32, templ_7745c5c3_Err = templ.JoinStringErrs(student.ControlNumber)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 420, Col: 41}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 440, Col: 41}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var32))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 36, "\" name=\"controlNumber\" hidden=\"true\"> <input value=\"other\" name=\"documentType\" hidden=\"true\"></div><div class=\"w-full\"><label for=\"label\" class=\"\">File Label</label><br><input type=\"text\" id=\"label\" name=\"label\" placeholder=\"label\" required class=\"rounded-sm p-2 outline-1 outline-gray focus:border-none focus:outline-primary mt-1.5 w-full\"></div><div class=\"w-full\"><label for=\"file\" class=\"\">Select file</label><br>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 37, "\" name=\"controlNumber\" hidden=\"true\"> <input value=\"other\" name=\"documentType\" hidden=\"true\"></div><div class=\"w-full\"><label for=\"filename\" class=\"font-medium\">Filename</label><br><input type=\"text\" id=\"filename\" name=\"filename\" placeholder=\"filename\" required class=\"rounded-sm p-2 outline-1 outline-gray focus:border-none focus:outline-primary mt-1.5 w-full\"></div><div class=\"w-full\"><label for=\"file\" class=\"font-medium\">Select file</label><br>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -671,7 +684,7 @@ func uploadUnlistedDocForm(student viewmodel.Student) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 37, "</div><div class=\"mt-4 flex w-full justify-end\"><button type=\"submit\" class=\"cursor-pointer rounded-sm bg-primary px-3 py-1.5 text-xs text-white hover:opacity-75\">Upload</button></div></form></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 38, "</div><div class=\"mt-4 flex w-full justify-end\"><button type=\"submit\" class=\"cursor-pointer rounded-sm bg-primary px-3 py-1.5 text-xs text-white hover:opacity-75\">Upload</button></div></form></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -718,59 +731,59 @@ func uploadDocumentForm(student viewmodel.Student, doctype viewmodel.DocumentTyp
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 38, "<div><h2 class=\"font-medium\">Add/Upload ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 39, "<div><h2 class=\"font-medium\">Add/Upload ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var35 string
 			templ_7745c5c3_Var35, templ_7745c5c3_Err = templ.JoinStringErrs(doctype.FullTitle)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 458, Col: 57}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 478, Col: 57}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var35))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 39, "</h2><form action=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 40, "</h2><form action=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var36 templ.SafeURL
 			templ_7745c5c3_Var36, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("/app/search/%s/upload", student.ControlNumber)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 460, Col: 87}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 480, Col: 87}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var36))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 40, "\" method=\"POST\" enctype=\"multipart/form-data\" class=\"mt-4\" x-ref=\"form\" @submit.prevent=\"\n                    if ($refs.form.checkValidity()) {\n                        loading = true;\n                        $refs.form.submit();\n                    }\n                \"><div class=\"w-full\"><input value=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 41, "\" method=\"POST\" enctype=\"multipart/form-data\" class=\"mt-4\" x-ref=\"form\" @submit.prevent=\"\n                    if ($refs.form.checkValidity()) {\n                        loading = true;\n                        $refs.form.submit();\n                    }\n                \"><div class=\"w-full\"><input value=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var37 string
 			templ_7745c5c3_Var37, templ_7745c5c3_Err = templ.JoinStringErrs(student.ControlNumber)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 473, Col: 41}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 493, Col: 41}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var37))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 41, "\" name=\"controlNumber\" hidden=\"true\"> <input value=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 42, "\" name=\"controlNumber\" hidden=\"true\"> <input value=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var38 string
 			templ_7745c5c3_Var38, templ_7745c5c3_Err = templ.JoinStringErrs(doctype.Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 474, Col: 33}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 494, Col: 33}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var38))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 42, "\" name=\"documentType\" hidden=\"true\"></div><div class=\"w-full\"><label for=\"file\" class=\"\">Select file</label><br>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 43, "\" name=\"documentType\" hidden=\"true\"></div><div class=\"w-full\"><label for=\"file\" class=\"\">Select file</label><br>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -782,7 +795,7 @@ func uploadDocumentForm(student viewmodel.Student, doctype viewmodel.DocumentTyp
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 43, "</div><div class=\"mt-4 flex w-full justify-end\"><button type=\"submit\" class=\"cursor-pointer rounded-sm bg-primary px-3 py-1.5 text-xs text-white hover:opacity-75\">Upload</button></div></form></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 44, "</div><div class=\"mt-4 flex w-full justify-end\"><button type=\"submit\" class=\"cursor-pointer rounded-sm bg-primary px-3 py-1.5 text-xs text-white hover:opacity-75\">Upload</button></div></form></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

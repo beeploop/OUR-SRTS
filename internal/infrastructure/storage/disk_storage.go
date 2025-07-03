@@ -3,7 +3,6 @@ package storage
 import (
 	"context"
 	"errors"
-	"fmt"
 	"io"
 	"os"
 	"path/filepath"
@@ -20,7 +19,7 @@ func NewDiskStorage(uploadDir string) *DiskStorage {
 }
 
 func (s *DiskStorage) ConstructPath(ctx context.Context, folderName, filename string) string {
-	return fmt.Sprintf("%s/%s/%s", s.uploadDir, folderName, filename)
+	return filepath.Join(s.uploadDir, folderName, filename)
 }
 
 func (s *DiskStorage) Save(ctx context.Context, path string, content io.Reader) error {

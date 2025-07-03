@@ -212,13 +212,14 @@ func (h *studentHandler) HandleUploadDocument(c echo.Context) error {
 
 	controlNumber := c.FormValue("controlNumber")
 	documentType := c.FormValue("documentType")
+	filename := utils.Ternary(c.FormValue("filename") == "", documentType, c.FormValue("filename"))
 
 	file, err := c.FormFile("file")
 	if err != nil {
 		return c.Redirect(http.StatusSeeOther, c.Request().Referer())
 	}
 
-	if err := h.studentUseCase.UploadDocument(ctx, controlNumber, documentType, file); err != nil {
+	if err := h.studentUseCase.UploadDocument(ctx, controlNumber, documentType, filename, file); err != nil {
 		fmt.Println("error: ", err.Error())
 		return c.Redirect(http.StatusSeeOther, c.Request().Referer())
 	}
