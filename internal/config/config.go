@@ -20,6 +20,8 @@ type Config struct {
 	UPLOAD_DIR string
 
 	SECRET_KEY string
+
+	LOG_FILE string
 }
 
 func Load() *Config {
@@ -35,6 +37,7 @@ func Load() *Config {
 		DB_NAME:    mustGetEnv("DB_NAME"),
 		UPLOAD_DIR: mustGetEnv("UPLOAD_DIR"),
 		SECRET_KEY: mustGetEnv("SECRET_KEY"),
+		LOG_FILE:   mustGetEnv("LOG_FILE"),
 	}
 }
 

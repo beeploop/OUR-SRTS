@@ -3,6 +3,7 @@ package handlers
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"slices"
 
@@ -45,7 +46,7 @@ func (h *studentHandler) RenderSearch(c echo.Context) error {
 
 	students, err := h.studentUseCase.Search(ctx, c.QueryParams())
 	if err != nil {
-		fmt.Println("error search student: ", err.Error())
+		slog.Error("Search Student Failed", "error", err.Error())
 	}
 
 	studentModels := slices.AppendSeq(
@@ -57,7 +58,7 @@ func (h *studentHandler) RenderSearch(c echo.Context) error {
 
 	programs, err := h.programUseCase.GetProgramList(ctx)
 	if err != nil {
-		fmt.Println("error get program list: ", err.Error())
+		slog.Error("Get Program List Failed", "error", err.Error())
 	}
 
 	programModels := slices.AppendSeq(
@@ -88,7 +89,7 @@ func (h *studentHandler) RenderStudentPage(c echo.Context) error {
 
 	student, err := h.studentUseCase.GetStudent(ctx, control_number)
 	if err != nil {
-		fmt.Println("error: ", err.Error())
+		slog.Error("Get Student Failed", "error", err.Error())
 		page := app.StudentPage(admin, viewmodel.Student{}, make([]viewmodel.ProgramWithMajors, 0))
 		return page.Render(ctx, c.Response().Writer)
 	}
@@ -97,7 +98,7 @@ func (h *studentHandler) RenderStudentPage(c echo.Context) error {
 
 	programs, err := h.programUseCase.GetProgramList(ctx)
 	if err != nil {
-		fmt.Println("error get program list: ", err.Error())
+		slog.Error("Get Program List Failed", "error", err.Error())
 	}
 
 	programModels := slices.AppendSeq(
@@ -134,7 +135,7 @@ func (h *studentHandler) RenderAddStudentPage(c echo.Context) error {
 
 	programs, err := h.programUseCase.GetProgramList(ctx)
 	if err != nil {
-		fmt.Println("error get program list: ", err.Error())
+		slog.Error("Get Program List Failed", "error", err.Error())
 	}
 
 	programModels := slices.AppendSeq(
@@ -188,16 +189,17 @@ func (h *studentHandler) HandleAddStudent(c echo.Context) error {
 	)
 
 	if err := h.studentUseCase.AddStudent(ctx, student); err != nil {
+		slog.Error("Add Student Failed", "error", err.Error())
 		toast := viewmodel.NewErrorToast(err.Error())
 		if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
-			fmt.Println("error setting fash: ", err.Error())
+			slog.Error("Flash Message", "error", err.Error())
 		}
 		return c.Redirect(http.StatusSeeOther, "/app/add-student")
 	}
 
 	toast := viewmodel.NewSuccessToast("student added to the system")
 	if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
-		fmt.Println("error setting flash: ", err.Error())
+		slog.Error("Flash Message", "error", err.Error())
 	}
 
 	return c.Redirect(http.StatusSeeOther, "/app/add-student")
@@ -230,16 +232,17 @@ func (h *studentHandler) HandleUpdateStudent(c echo.Context) error {
 	)
 
 	if err := h.studentUseCase.UpdateStudent(ctx, student); err != nil {
+		slog.Error("Update Student Failed", "error", err.Error())
 		toast := viewmodel.NewErrorToast(err.Error())
 		if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
-			fmt.Println("error setting fash: ", err.Error())
+			slog.Error("Flash Message", "error", err.Error())
 		}
 		return c.Redirect(http.StatusSeeOther, utils.StripQueryParams(c.Request().Referer()))
 	}
 
 	toast := viewmodel.NewSuccessToast("student data updated")
 	if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
-		fmt.Println("error setting fash: ", err.Error())
+		slog.Error("Flash Message", "error", err.Error())
 	}
 
 	return c.Redirect(http.StatusSeeOther, utils.StripQueryParams(c.Request().Referer()))
@@ -254,17 +257,19 @@ func (h *studentHandler) HandleUploadDocument(c echo.Context) error {
 
 	file, err := c.FormFile("file")
 	if err != nil {
+		slog.Error("Extracting Form File Failed", "error", err.Error())
 		toast := viewmodel.NewErrorToast(err.Error())
 		if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
-			fmt.Println("error setting fash: ", err.Error())
+			slog.Error("Flash Message", "error", err.Error())
 		}
 		return c.Redirect(http.StatusSeeOther, utils.StripQueryParams(c.Request().Referer()))
 	}
 
 	if err := h.studentUseCase.UploadDocument(ctx, controlNumber, documentType, filename, file); err != nil {
+		slog.Error("Upload Document Failed", "error", err.Error())
 		toast := viewmodel.NewErrorToast(err.Error())
 		if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
-			fmt.Println("error setting fash: ", err.Error())
+			slog.Error("Upload Document Failed", "error", err.Error())
 		}
 		return c.Redirect(http.StatusSeeOther, utils.StripQueryParams(c.Request().Referer()))
 	}
@@ -285,17 +290,19 @@ func (h *studentHandler) HandleReuploadDocument(c echo.Context) error {
 
 	file, err := c.FormFile("file")
 	if err != nil {
+		slog.Error("Extracting Form File Failed", "error", err.Error())
 		toast := viewmodel.NewErrorToast(err.Error())
 		if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
-			fmt.Println("error setting fash: ", err.Error())
+			slog.Error("Flash Message", "error", err.Error())
 		}
 		return c.Redirect(http.StatusSeeOther, c.Request().Referer())
 	}
 
 	if err := h.studentUseCase.ReuploadDocument(ctx, filename, documentID, file); err != nil {
+		slog.Error("Reupload Document Failed", "error", err.Error())
 		toast := viewmodel.NewErrorToast(err.Error())
 		if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
-			fmt.Println("error setting fash: ", err.Error())
+			slog.Error("Flash Message", "error", err.Error())
 		}
 		return c.Redirect(http.StatusSeeOther, utils.StripQueryParams(c.Request().Referer()))
 	}

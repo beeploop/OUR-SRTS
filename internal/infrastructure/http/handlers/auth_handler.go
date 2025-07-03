@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"fmt"
+	"log/slog"
 	"net/http"
 
 	uc "github.com/beeploop/our-srts/internal/application/usecases/auth"
@@ -43,9 +43,10 @@ func (h *authHandler) HandleLogin(c echo.Context) error {
 
 	admin, err := h.authUseCase.Login(ctx, username, password)
 	if err != nil {
+		slog.Error("Login Failed", "error", err.Error())
 		toast := viewmodel.NewErrorToast(err.Error())
 		if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
-			fmt.Println("error setting fash: ", err.Error())
+			slog.Error("Flash Message", "error", err.Error())
 		}
 		return c.Redirect(http.StatusSeeOther, "/auth/login")
 	}
@@ -62,7 +63,7 @@ func (h *authHandler) HandleLogout(c echo.Context) error {
 	if err := h.sessionManager.ClearSession(c.Response().Writer, c.Request()); err != nil {
 		toast := viewmodel.NewErrorToast(err.Error())
 		if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
-			fmt.Println("error setting fash: ", err.Error())
+			slog.Error("Flash Message", "error", err.Error())
 		}
 		return c.Redirect(http.StatusSeeOther, c.Request().Referer())
 	}

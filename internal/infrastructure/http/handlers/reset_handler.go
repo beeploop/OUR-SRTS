@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"context"
-	"fmt"
+	"log/slog"
 	"net/http"
 	"slices"
 
@@ -51,9 +51,10 @@ func (h *resetHandler) HandleRequestReset(c echo.Context) error {
 	username := c.FormValue("username")
 
 	if err := h.resetUseCase.RequestPasswordReset(ctx, username); err != nil {
+		slog.Error("Request Password Reset Failed", "error", err.Error())
 		toast := viewmodel.NewErrorToast(err.Error())
 		if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
-			fmt.Println("error setting fash: ", err.Error())
+			slog.Error("Flash Message", "error", err.Error())
 		}
 		return c.Redirect(http.StatusSeeOther, c.Request().Referer())
 	}
@@ -71,6 +72,7 @@ func (h *resetHandler) RenderRequestsListPage(c echo.Context) error {
 
 	requests, err := h.resetUseCase.GetRequestList(ctx)
 	if err != nil {
+		slog.Error("Get Request List Failed", "error", err.Error())
 		page := app.RequestsPage(admin, make([]viewmodel.PasswordResetRequest, 0))
 		return page.Render(ctx, c.Response().Writer)
 	}
@@ -99,16 +101,17 @@ func (h *resetHandler) HandleFulfillRequest(c echo.Context) error {
 	password := c.FormValue("password")
 
 	if err := h.resetUseCase.FulfillRequest(ctx, requestID, newPassword, password); err != nil {
+		slog.Error("Fulfill Request Failed", "error", err.Error())
 		toast := viewmodel.NewErrorToast(err.Error())
 		if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
-			fmt.Println("error setting fash: ", err.Error())
+			slog.Error("Flash Message", "error", err.Error())
 		}
 		return c.Redirect(http.StatusSeeOther, "/app/requests")
 	}
 
 	toast := viewmodel.NewSuccessToast("account password reset successful")
 	if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
-		fmt.Println("error setting flash: ", err.Error())
+		slog.Error("Flash Message", "error", err.Error())
 	}
 
 	return c.Redirect(http.StatusSeeOther, "/app/requests")
@@ -121,16 +124,17 @@ func (h *resetHandler) HandleRejectRequest(c echo.Context) error {
 	password := c.FormValue("password")
 
 	if err := h.resetUseCase.RejectRequest(ctx, requestID, password); err != nil {
+		slog.Error("Reject Request Failed", "error", err.Error())
 		toast := viewmodel.NewErrorToast(err.Error())
 		if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
-			fmt.Println("error setting fash: ", err.Error())
+			slog.Error("Flash Mesage", "error", err.Error())
 		}
 		return c.Redirect(http.StatusSeeOther, "/app/requests")
 	}
 
 	toast := viewmodel.NewSuccessToast("password reset rejected")
 	if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
-		fmt.Println("error setting flash: ", err.Error())
+		slog.Error("Flash Mesage", "error", err.Error())
 	}
 
 	return c.Redirect(http.StatusSeeOther, "/app/requests")

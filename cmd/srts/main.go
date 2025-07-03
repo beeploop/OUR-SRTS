@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"log/slog"
 	"os"
 	"os/signal"
 	"syscall"
@@ -17,6 +18,17 @@ import (
 
 func main() {
 	cfg := config.Load()
+
+	logfile, err := os.OpenFile(cfg.LOG_FILE, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatalf("error opening log file: %s\n", err.Error())
+	}
+	defer logfile.Close()
+
+	logger := slog.New(slog.NewJSONHandler(logfile, &slog.HandlerOptions{
+		Level: slog.LevelDebug,
+	}))
+	slog.SetDefault(logger)
 
 	db, err := persistence.NewMysql(mysql.Config{
 		User:                 cfg.DB_USER,

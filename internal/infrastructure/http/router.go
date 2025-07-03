@@ -5,10 +5,11 @@ import (
 
 	"github.com/beeploop/our-srts/internal/application/interfaces"
 	"github.com/beeploop/our-srts/internal/config"
+	"github.com/beeploop/our-srts/internal/infrastructure/http/middleware"
 	"github.com/beeploop/our-srts/internal/infrastructure/session"
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	md "github.com/labstack/echo/v4/middleware"
 )
 
 type Router struct {
@@ -36,8 +37,8 @@ func NewRouter(cfg *config.Config, db *sqlx.DB, storage interfaces.Storage) *Rou
 }
 
 func (r *Router) registerRoutes() {
-
-	r.Echo.Use(middleware.RemoveTrailingSlash())
+	r.Echo.Use(md.RemoveTrailingSlash())
+	r.Echo.Use(middleware.CustomLogger)
 
 	r.Echo.Static("/assets", "web/assets/")
 	r.Echo.Static("/uploads", "uploads")

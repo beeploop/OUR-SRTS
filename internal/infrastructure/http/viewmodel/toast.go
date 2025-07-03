@@ -3,7 +3,6 @@ package viewmodel
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 
 	"github.com/beeploop/our-srts/internal/pkg/contextkeys"
 	"github.com/google/uuid"
@@ -43,7 +42,6 @@ func NewErrorToast(msg string) Toast {
 }
 
 func (t Toast) ToJson() string {
-	fmt.Println("called toast to json()")
 	b, err := json.Marshal(t)
 	if err != nil {
 		return ""

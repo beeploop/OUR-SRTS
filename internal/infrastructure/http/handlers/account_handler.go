@@ -3,6 +3,7 @@ package handlers
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"slices"
 
@@ -36,11 +37,13 @@ func (h *accountHandler) RenderManageStaffPage(c echo.Context) error {
 
 	admin, ok := ctx.Value(contextkeys.SessionKey).(viewmodel.Admin)
 	if !ok {
+		slog.Error("Session Context", "error", "could not convert session from context to viewmodel.Admin")
 		return c.Redirect(http.StatusSeeOther, "/auth/login")
 	}
 
 	accountModels, err := h.adminUseCase.GetAccounts(ctx)
 	if err != nil {
+		slog.Error("Get Account Failed", "error", err.Error())
 		page := app.ManageStaffPage(admin, make([]viewmodel.Admin, 0))
 		return page.Render(ctx, c.Response().Writer)
 	}
@@ -71,16 +74,17 @@ func (h *accountHandler) HandleAddAccount(c echo.Context) error {
 	admin := entities.NewAdmin(fullname, username, password, entities.ROLE_STAFF)
 
 	if err := h.adminUseCase.CreateAccount(ctx, admin); err != nil {
+		slog.Error("Create Account Failed", "error", err.Error())
 		toast := viewmodel.NewErrorToast(err.Error())
 		if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
-			fmt.Println("error setting fash: ", err.Error())
+			slog.Error("Flash Message", "error", err.Error())
 		}
 		return c.Redirect(http.StatusSeeOther, "/app/manage-staff")
 	}
 
 	toast := viewmodel.NewSuccessToast("new staff account created")
 	if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
-		fmt.Println("error setting flash: ", err.Error())
+		slog.Error("Flash Message", "error", err.Error())
 	}
 
 	return c.Redirect(http.StatusSeeOther, "/app/manage-staff")
@@ -93,16 +97,17 @@ func (h *accountHandler) HandleDeleteAccount(c echo.Context) error {
 	password := c.FormValue("password")
 
 	if err := h.adminUseCase.DeleteAccount(ctx, accountID, password); err != nil {
+		slog.Error("Delete Account Failed", "error", err.Error())
 		toast := viewmodel.NewErrorToast(err.Error())
 		if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
-			fmt.Println("error setting fash: ", err.Error())
+			slog.Error("Flash Message", "error", err.Error())
 		}
 		return c.Redirect(http.StatusSeeOther, "/app/manage-staff")
 	}
 
 	toast := viewmodel.NewSuccessToast("account deleted permanently")
 	if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
-		fmt.Println("error setting flash: ", err.Error())
+		slog.Error("Flash Message", "error", err.Error())
 	}
 
 	return c.Redirect(http.StatusSeeOther, "/app/manage-staff")
@@ -115,16 +120,17 @@ func (h *accountHandler) HandleDisableAccount(c echo.Context) error {
 	password := c.FormValue("password")
 
 	if err := h.adminUseCase.DisableAccount(ctx, accountID, password); err != nil {
+		slog.Error("Disable Account Failed", "error", err.Error())
 		toast := viewmodel.NewErrorToast(err.Error())
 		if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
-			fmt.Println("error setting fash: ", err.Error())
+			slog.Error("Flash Message", "error", err.Error())
 		}
 		return c.Redirect(http.StatusSeeOther, "/app/manage-staff")
 	}
 
 	toast := viewmodel.NewSuccessToast("account disabled")
 	if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
-		fmt.Println("error setting flash: ", err.Error())
+		slog.Error("Flash Message", "error", err.Error())
 	}
 
 	return c.Redirect(http.StatusSeeOther, "/app/manage-staff")
@@ -137,9 +143,10 @@ func (h *accountHandler) HandleEnableAccount(c echo.Context) error {
 	password := c.FormValue("password")
 
 	if err := h.adminUseCase.EnableAccount(ctx, accountID, password); err != nil {
+		slog.Error("Enable Account Failed", "error", err.Error())
 		toast := viewmodel.NewErrorToast(err.Error())
 		if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
-			fmt.Println("error setting fash: ", err.Error())
+			slog.Error("Flash Message", "error", err.Error())
 		}
 		return c.Redirect(http.StatusSeeOther, "/app/manage-staff")
 	}
