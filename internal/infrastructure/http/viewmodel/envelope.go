@@ -55,3 +55,12 @@ func (e Envelope) SingleDocumentWithType(docType string) Document {
 
 	return Document{}
 }
+
+func (e Envelope) DocumentGroupsWithoutTypeTitle(title string) []DocumentGroup {
+	return slices.AppendSeq(
+		make([]DocumentGroup, 0),
+		utils.Retain(e.DocumentGroups, func(group DocumentGroup) bool {
+			return group.Type.Title != title
+		}),
+	)
+}

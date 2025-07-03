@@ -99,7 +99,7 @@ templ StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithM
 						</tr>
 					</thead>
 					<tbody>
-						for _, group := range student.Envelope.DocumentGroups {
+						for _, group := range student.Envelope.DocumentGroupsWithoutTypeTitle("other") {
 							<tr>
 								<td class="p-2">{ group.Type.FullTitle }</td>
 								<td class="p-2">

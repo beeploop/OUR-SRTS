@@ -278,7 +278,7 @@ func StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithMa
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			for _, group := range student.Envelope.DocumentGroups {
+			for _, group := range student.Envelope.DocumentGroupsWithoutTypeTitle("other") {
 				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "<tr><td class=\"p-2\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
