@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"slices"
@@ -9,6 +10,7 @@ import (
 	"github.com/beeploop/our-srts/internal/application/usecases/student"
 	"github.com/beeploop/our-srts/internal/domain/entities"
 	"github.com/beeploop/our-srts/internal/infrastructure/http/viewmodel"
+	"github.com/beeploop/our-srts/internal/infrastructure/session"
 	"github.com/beeploop/our-srts/internal/pkg/contextkeys"
 	"github.com/beeploop/our-srts/internal/pkg/utils"
 	"github.com/beeploop/our-srts/web/views/pages/app"
@@ -18,15 +20,18 @@ import (
 type studentHandler struct {
 	studentUseCase *student.UseCase
 	programUseCase *program.UseCase
+	sessionManager *session.SessionManager
 }
 
 func NewStudentHandler(
 	studentUseCase *student.UseCase,
 	programUseCase *program.UseCase,
+	sessionManager *session.SessionManager,
 ) *studentHandler {
 	return &studentHandler{
 		studentUseCase: studentUseCase,
 		programUseCase: programUseCase,
+		sessionManager: sessionManager,
 	}
 }
 
@@ -61,6 +66,11 @@ func (h *studentHandler) RenderSearch(c echo.Context) error {
 			return viewmodel.ProgramFromDomain(program)
 		}),
 	)
+
+	toast, ok := h.sessionManager.GetFlash(c.Response().Writer, c.Request())
+	if ok {
+		ctx = context.WithValue(ctx, contextkeys.ToastKey, toast)
+	}
 
 	page := app.SearchPage(admin, programModels, studentModels)
 	return page.Render(ctx, c.Response().Writer)
@@ -105,6 +115,11 @@ func (h *studentHandler) RenderStudentPage(c echo.Context) error {
 		}),
 	)
 
+	toast, ok := h.sessionManager.GetFlash(c.Response().Writer, c.Request())
+	if ok {
+		ctx = context.WithValue(ctx, contextkeys.ToastKey, toast)
+	}
+
 	page := app.StudentPage(admin, studentModel, programModels)
 	return page.Render(ctx, c.Response().Writer)
 }
@@ -137,6 +152,11 @@ func (h *studentHandler) RenderAddStudentPage(c echo.Context) error {
 		}),
 	)
 
+	toast, ok := h.sessionManager.GetFlash(c.Response().Writer, c.Request())
+	if ok {
+		ctx = context.WithValue(ctx, contextkeys.ToastKey, toast)
+	}
+
 	page := app.AddStudentPage(admin, programModels)
 	return page.Render(ctx, c.Response().Writer)
 }
@@ -168,7 +188,16 @@ func (h *studentHandler) HandleAddStudent(c echo.Context) error {
 	)
 
 	if err := h.studentUseCase.AddStudent(ctx, student); err != nil {
+		toast := viewmodel.NewErrorToast(err.Error())
+		if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
+			fmt.Println("error setting fash: ", err.Error())
+		}
 		return c.Redirect(http.StatusSeeOther, "/app/add-student")
+	}
+
+	toast := viewmodel.NewSuccessToast("student added to the system")
+	if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
+		fmt.Println("error setting flash: ", err.Error())
 	}
 
 	return c.Redirect(http.StatusSeeOther, "/app/add-student")
@@ -201,8 +230,16 @@ func (h *studentHandler) HandleUpdateStudent(c echo.Context) error {
 	)
 
 	if err := h.studentUseCase.UpdateStudent(ctx, student); err != nil {
-		fmt.Println("error: ", err.Error())
+		toast := viewmodel.NewErrorToast(err.Error())
+		if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
+			fmt.Println("error setting fash: ", err.Error())
+		}
 		return c.Redirect(http.StatusSeeOther, utils.StripQueryParams(c.Request().Referer()))
+	}
+
+	toast := viewmodel.NewSuccessToast("student data updated")
+	if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
+		fmt.Println("error setting fash: ", err.Error())
 	}
 
 	return c.Redirect(http.StatusSeeOther, utils.StripQueryParams(c.Request().Referer()))
@@ -217,12 +254,24 @@ func (h *studentHandler) HandleUploadDocument(c echo.Context) error {
 
 	file, err := c.FormFile("file")
 	if err != nil {
-		return c.Redirect(http.StatusSeeOther, c.Request().Referer())
+		toast := viewmodel.NewErrorToast(err.Error())
+		if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
+			fmt.Println("error setting fash: ", err.Error())
+		}
+		return c.Redirect(http.StatusSeeOther, utils.StripQueryParams(c.Request().Referer()))
 	}
 
 	if err := h.studentUseCase.UploadDocument(ctx, controlNumber, documentType, filename, file); err != nil {
-		fmt.Println("error: ", err.Error())
+		toast := viewmodel.NewErrorToast(err.Error())
+		if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
+			fmt.Println("error setting fash: ", err.Error())
+		}
 		return c.Redirect(http.StatusSeeOther, utils.StripQueryParams(c.Request().Referer()))
+	}
+
+	toast := viewmodel.NewSuccessToast("upload successful")
+	if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
+		fmt.Println("error setting flash: ", err.Error())
 	}
 
 	return c.Redirect(http.StatusSeeOther, utils.StripQueryParams(c.Request().Referer()))
@@ -236,11 +285,24 @@ func (h *studentHandler) HandleReuploadDocument(c echo.Context) error {
 
 	file, err := c.FormFile("file")
 	if err != nil {
+		toast := viewmodel.NewErrorToast(err.Error())
+		if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
+			fmt.Println("error setting fash: ", err.Error())
+		}
 		return c.Redirect(http.StatusSeeOther, c.Request().Referer())
 	}
 
 	if err := h.studentUseCase.ReuploadDocument(ctx, filename, documentID, file); err != nil {
+		toast := viewmodel.NewErrorToast(err.Error())
+		if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
+			fmt.Println("error setting fash: ", err.Error())
+		}
 		return c.Redirect(http.StatusSeeOther, utils.StripQueryParams(c.Request().Referer()))
+	}
+
+	toast := viewmodel.NewSuccessToast("reupload successful")
+	if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
+		fmt.Println("error setting flash: ", err.Error())
 	}
 
 	return c.Redirect(http.StatusSeeOther, utils.StripQueryParams(c.Request().Referer()))

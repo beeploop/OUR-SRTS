@@ -35,7 +35,7 @@ func MainLayout(admin viewmodel.Admin) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>OUR-SRTS</title><link rel=\"icon\" type=\"image/x-icon\" href=\"/assets/images/logo.png\"><link rel=\"stylesheet\" href=\"/assets/styles/style.css\"><!-- Alpine Core --><script defer src=\"/assets/scripts/alpine_core.js\"></script><!-- Alpine Plugins --><script defer src=\"/assets/scripts/alpine_focus.js\"></script><script defer src=\"/assets/scripts/alpine_collapse.js\"></script></head><body class=\"font-roboto text-sm h-[calc(100vh-4rem)]\"><header class=\"\"><div class=\"max-h-[4rem] border-0 border-b-[1px] border-gray\"><div class=\"h-2 bg-primary\"></div><div class=\"flex justify-between items-center px-4 py-2\"><div class=\"flex items-center justify-between\"><div class=\"flex gap-4\"><div class=\"aspect-square w-10\"><img src=\"/assets/images/logo.png\" alt=\"registrar logo\"></div><div class=\"text-sm text-primary\"><p>Tagum -</p><p>Mabini</p></div><div class=\"inline-block min-h-[1em] w-1 self-stretch bg-yellow-400 \"></div><div class=\"text-sm\"><p>Office of the University Registrar</p><p><span class=\"text-primary\">Student Records</span> <span class=\"text-yellow-500\">Tracking System</span></p></div></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>OUR-SRTS</title><link rel=\"icon\" type=\"image/x-icon\" href=\"/assets/images/logo.png\"><link rel=\"stylesheet\" href=\"/assets/styles/style.css\"><!-- Alpine Core --><script defer src=\"/assets/scripts/alpine_core.js\"></script><!-- Alpine Plugins --><script defer src=\"/assets/scripts/alpine_focus.js\"></script><script defer src=\"/assets/scripts/alpine_collapse.js\"></script></head><body class=\"font-roboto h-[calc(100vh-4rem)] text-sm\"><header class=\"\"><div class=\"max-h-[4rem] border-0 border-b-[1px] border-gray\"><div class=\"h-2 bg-primary\"></div><div class=\"flex items-center justify-between px-4 py-2\"><div class=\"flex items-center justify-between\"><div class=\"flex gap-4\"><div class=\"aspect-square w-10\"><img src=\"/assets/images/logo.png\" alt=\"registrar logo\"></div><div class=\"text-sm text-primary\"><p>Tagum -</p><p>Mabini</p></div><div class=\"inline-block min-h-[1em] w-1 self-stretch bg-yellow-400 \"></div><div class=\"text-sm\"><p>Office of the University Registrar</p><p><span class=\"text-primary\">Student Records</span> <span class=\"text-yellow-500\">Tracking System</span></p></div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -46,7 +46,7 @@ func MainLayout(admin viewmodel.Admin) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div></div></header><main class=\"grid grid-cols-12\"><aside class=\"col-span-2 border-r border-gray pl-1.5 pt-1.5 h-[calc(100vh-4rem)]\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div></div></header><main class=\"grid grid-cols-12\"><aside class=\"relative col-span-2 h-[calc(100vh-4rem)] border-r border-gray pt-1.5 pl-1.5\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -54,7 +54,11 @@ func MainLayout(admin viewmodel.Admin) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</aside><div class=\"col-span-10 rounded-sm p-1.5 overflow-y-scroll p-4 overflow-y-scroll max-h-[calc(100vh-4rem)]\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</aside><div class=\"col-span-10 max-h-[calc(100vh-4rem)] overflow-y-scroll overflow-y-scroll rounded-sm p-1.5 p-4\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = components.Toast().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

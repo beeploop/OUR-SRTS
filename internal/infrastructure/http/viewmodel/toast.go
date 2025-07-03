@@ -3,6 +3,7 @@ package viewmodel
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 
 	"github.com/beeploop/our-srts/internal/pkg/contextkeys"
 	"github.com/google/uuid"
@@ -41,25 +42,19 @@ func NewErrorToast(msg string) Toast {
 	}
 }
 
-func GetToastFromContext(ctx context.Context) Toast {
-	toast, ok := ctx.Value(contextkeys.ToastKey).(Toast)
-	if !ok {
-		return Toast{
-			ID:      uuid.New().String(),
-			Type:    INVALID_TOAST,
-			Title:   string(INVALID_TOAST),
-			Message: "",
-		}
-	}
-
-	return toast
-}
-
 func (t Toast) ToJson() string {
+	fmt.Println("called toast to json()")
 	b, err := json.Marshal(t)
 	if err != nil {
 		return ""
 	}
 
 	return string(b)
+}
+
+func ToastFromContext(ctx context.Context) string {
+	if toast, ok := ctx.Value(contextkeys.ToastKey).(string); ok {
+		return toast
+	}
+	return ""
 }

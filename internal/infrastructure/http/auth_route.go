@@ -20,7 +20,7 @@ func (r *Router) authRouteHandler(g *echo.Group) {
 	resetUseCase := reset.NewUseCase(adminRepo, resetRepo)
 
 	authHandler := handlers.NewAuthHandler(authUseCase, sessionManager)
-	resetHandler := handlers.NewResetHandler(resetUseCase)
+	resetHandler := handlers.NewResetHandler(resetUseCase, sessionManager)
 
 	g.GET("/login", authHandler.RenderLogin, middleware.PreventLogin(sessionManager))
 	g.POST("/login", authHandler.HandleLogin, middleware.PreventLogin(sessionManager))

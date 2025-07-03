@@ -54,3 +54,25 @@ func (s *SessionManager) GetAdmin(r *http.Request) (*SessionModel, bool) {
 	admin, ok := session.Values[s.sessionValue].(SessionModel)
 	return &admin, ok
 }
+
+func (s *SessionManager) SetFlash(w http.ResponseWriter, r *http.Request, flash string) error {
+	session, err := s.store.Get(r, s.sessionName)
+	if err != nil {
+		return err
+	}
+
+	session.Values["flash"] = flash
+	return session.Save(r, w)
+}
+
+func (s *SessionManager) GetFlash(w http.ResponseWriter, r *http.Request) (interface{}, bool) {
+	session, err := s.store.Get(r, s.sessionName)
+	if err != nil {
+		return nil, false
+	}
+
+	flash, ok := session.Values["flash"]
+	delete(session.Values, "flash")
+	session.Save(r, w)
+	return flash, ok
+}

@@ -7,6 +7,7 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
+    --color-red-300: oklch(80.8% 0.114 19.571);
     --color-red-500: oklch(63.7% 0.237 25.331);
     --color-red-700: oklch(50.5% 0.213 27.518);
     --color-red-800: oklch(44.4% 0.177 26.899);
@@ -14,6 +15,7 @@
     --color-amber-600: oklch(66.6% 0.179 58.318);
     --color-yellow-400: oklch(85.2% 0.199 91.936);
     --color-yellow-500: oklch(79.5% 0.184 86.047);
+    --color-green-200: oklch(92.5% 0.084 155.995);
     --color-green-700: oklch(52.7% 0.154 150.069);
     --color-gray-400: oklch(70.7% 0.022 261.325);
     --color-gray-500: oklch(55.1% 0.027 264.364);
@@ -53,7 +55,9 @@
     --color-gray: var(--color-neutral-400);
     --color-gray-light: var(--color-neutral-300);
     --color-success: var(--color-green-700);
+    --color-success-light: var(--color-green-200);
     --color-error: var(--color-red-800);
+    --color-error-light: var(--color-red-300);
     --color-warning: var(--color-amber-600);
   }
 }
@@ -503,6 +507,9 @@
   .bg-error {
     background-color: var(--color-error);
   }
+  .bg-error-light {
+    background-color: var(--color-error-light);
+  }
   .bg-error\/25 {
     background-color: color-mix(in srgb, oklch(44.4% 0.177 26.899) 25%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
@@ -547,6 +554,9 @@
   }
   .bg-success {
     background-color: var(--color-success);
+  }
+  .bg-success-light {
+    background-color: var(--color-success-light);
   }
   .bg-success\/25 {
     background-color: color-mix(in srgb, oklch(52.7% 0.154 150.069) 25%, transparent);

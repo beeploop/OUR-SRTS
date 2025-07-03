@@ -50,7 +50,9 @@ func ManageStaffPage(admin viewmodel.Admin, accounts []viewmodel.Admin) templ.Co
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = components.Toast().Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.Banner(components.BannerProps{
+				Title: "Staff Management",
+			}).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -58,21 +60,11 @@ func ManageStaffPage(admin viewmodel.Admin, accounts []viewmodel.Admin) templ.Co
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.Banner(components.BannerProps{
-				Title: "Staff Management",
-			}).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
 			templ_7745c5c3_Err = components.Divider().Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, " <div><div class=\"mt-2 flex justify-end\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " <div><div class=\"mt-2 flex justify-end\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -104,44 +96,44 @@ func ManageStaffPage(admin viewmodel.Admin, accounts []viewmodel.Admin) templ.Co
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div><div class=\"mt-2\"><table class=\"w-full rounded-sm outline-1 outline-gray\"><thead class=\"bg-primary text-white\"><tr><td class=\"p-2\">Name</td><td class=\"p-2\">Username</td><td class=\"p-2\">Role</td><td class=\"p-2\">Status</td><td class=\"p-2\">Actions</td></tr></thead> <tbody class=\"divide-y divide-gray\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"mt-2\"><table class=\"w-full rounded-sm outline-1 outline-gray\"><thead class=\"bg-primary text-white\"><tr><td class=\"p-2\">Name</td><td class=\"p-2\">Username</td><td class=\"p-2\">Role</td><td class=\"p-2\">Status</td><td class=\"p-2\">Actions</td></tr></thead> <tbody class=\"divide-y divide-gray\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			if len(accounts) == 0 {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<tr class=\"\"><td class=\"p-2\" colspan=\"5\" align=\"center\">Empty</td></tr>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<tr class=\"\"><td class=\"p-2\" colspan=\"5\" align=\"center\">Empty</td></tr>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			} else {
 				for _, account := range accounts {
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<tr class=\"\"><td class=\"p-2\">")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<tr class=\"\"><td class=\"p-2\">")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 					var templ_7745c5c3_Var4 string
 					templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(account.Fullname)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/manage_staff_page.templ`, Line: 50, Col: 43}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/manage_staff_page.templ`, Line: 49, Col: 43}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</td><td class=\"p-2\">")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</td><td class=\"p-2\">")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 					var templ_7745c5c3_Var5 string
 					templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(account.Username)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/manage_staff_page.templ`, Line: 51, Col: 43}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/manage_staff_page.templ`, Line: 50, Col: 43}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</td><td class=\"p-2\">")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</td><td class=\"p-2\">")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -152,7 +144,7 @@ func ManageStaffPage(admin viewmodel.Admin, accounts []viewmodel.Admin) templ.Co
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</td><td class=\"p-2\">")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</td><td class=\"p-2\">")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -173,7 +165,7 @@ func ManageStaffPage(admin viewmodel.Admin, accounts []viewmodel.Admin) templ.Co
 							return templ_7745c5c3_Err
 						}
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "</td><td class=\"p-2\"><span class=\"flex gap-2\"><!-- disable button -->")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</td><td class=\"p-2\"><span class=\"flex gap-2\"><!-- disable button -->")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -242,13 +234,13 @@ func ManageStaffPage(admin viewmodel.Admin, accounts []viewmodel.Admin) templ.Co
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "</span></td></tr>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "</span></td></tr>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "</tbody></table></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "</tbody></table></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -283,7 +275,7 @@ func addStaffForm() templ.Component {
 			templ_7745c5c3_Var8 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<form action=\"/app/manage-staff\" method=\"POST\"><h2 class=\"text-bold text-lg\">Add Staff</h2><div class=\"mt-4 grid gap-4\"><div class=\"\"><label for=\"fullname\">Fullname</label><br><input type=\"text\" name=\"fullname\" autofocus autocomplete=\"off\" required class=\"mt-1.5 w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\" id=\"fullname\" placeholder=\"fullname\"></div><div class=\"\"><label for=\"username\">Username</label><br><input type=\"text\" name=\"username\" autofocus autocomplete=\"off\" required class=\"mt-1.5 w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\" id=\"username\" placeholder=\"username\"></div><div class=\"\"><label>Staff password</label><p class=\"text-xs text-red-700\">Password must be  <strong>at least 8 characters long, at least 1 uppercase, at least 1 lowercase, at least 1 special character, and no whitespace</strong></p><br><input type=\"password\" name=\"password\" autofocus autocomplete=\"off\" required class=\"mt-1.5 w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\" placeholder=\"password\"></div><div class=\"flex justify-end gap-2\"><button type=\"submit\" class=\"w-20 rounded-md bg-primary px-3 py-1.5 text-white hover:opacity-75 cursor-pointer\">Save</button></div></div></form>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<form action=\"/app/manage-staff\" method=\"POST\"><h2 class=\"text-bold text-lg\">Add Staff</h2><div class=\"mt-4 grid gap-4\"><div class=\"\"><label for=\"fullname\">Fullname</label><br><input type=\"text\" name=\"fullname\" autofocus autocomplete=\"off\" required class=\"mt-1.5 w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\" id=\"fullname\" placeholder=\"fullname\"></div><div class=\"\"><label for=\"username\">Username</label><br><input type=\"text\" name=\"username\" autofocus autocomplete=\"off\" required class=\"mt-1.5 w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\" id=\"username\" placeholder=\"username\"></div><div class=\"\"><label>Staff password</label><p class=\"text-xs text-red-700\">Password must be  <strong>at least 8 characters long, at least 1 uppercase, at least 1 lowercase, at least 1 special character, and no whitespace</strong></p><br><input type=\"password\" name=\"password\" autofocus autocomplete=\"off\" required class=\"mt-1.5 w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none\" placeholder=\"password\"></div><div class=\"flex justify-end gap-2\"><button type=\"submit\" class=\"w-20 rounded-md bg-primary px-3 py-1.5 text-white hover:opacity-75 cursor-pointer\">Save</button></div></div></form>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -312,33 +304,33 @@ func disableStaffForm(accountID string) templ.Component {
 			templ_7745c5c3_Var9 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "<div><h1>Disable Account</h1><form action=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<div><h1>Disable Account</h1><form action=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var10 templ.SafeURL
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("/app/manage-staff/%s/disable", accountID)))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/manage_staff_page.templ`, Line: 175, Col: 86}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/manage_staff_page.templ`, Line: 174, Col: 86}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "\" method=\"POST\"><div><input type=\"text\" hidden=\"true\" name=\"accountID\" value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "\" method=\"POST\"><div><input type=\"text\" hidden=\"true\" name=\"accountID\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var11 string
 		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(accountID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/manage_staff_page.templ`, Line: 177, Col: 71}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/manage_staff_page.templ`, Line: 176, Col: 71}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "\"></div><div class=\"mt-4\"><label class=\"\">Confirmation Password</label><br><input type=\"password\" name=\"password\" required autocomplete=\"off\" placeholder=\"password\" class=\"outline-1 outline-gray p-2 rounded-sm mt-1.5 w-full focus:outline-primary\"></div><div class=\"mt-2 flex justify-end\"><button type=\"submit\" class=\"bg-primary text-white text-xs cursor-pointer px-3 py-1.5 rounded-sm hover:opacity-75\">Continue</button></div></form></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "\"></div><div class=\"mt-4\"><label class=\"\">Confirmation Password</label><br><input type=\"password\" name=\"password\" required autocomplete=\"off\" placeholder=\"password\" class=\"outline-1 outline-gray p-2 rounded-sm mt-1.5 w-full focus:outline-primary\"></div><div class=\"mt-2 flex justify-end\"><button type=\"submit\" class=\"bg-primary text-white text-xs cursor-pointer px-3 py-1.5 rounded-sm hover:opacity-75\">Continue</button></div></form></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -367,33 +359,33 @@ func enableStaffForm(accountID string) templ.Component {
 			templ_7745c5c3_Var12 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "<div><h1>Enable Account</h1><form action=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "<div><h1>Enable Account</h1><form action=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var13 templ.SafeURL
 		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("/app/manage-staff/%s/enable", accountID)))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/manage_staff_page.templ`, Line: 204, Col: 85}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/manage_staff_page.templ`, Line: 203, Col: 85}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "\" method=\"POST\"><div><input type=\"text\" hidden=\"true\" name=\"accountID\" value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "\" method=\"POST\"><div><input type=\"text\" hidden=\"true\" name=\"accountID\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var14 string
 		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(accountID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/manage_staff_page.templ`, Line: 206, Col: 71}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/manage_staff_page.templ`, Line: 205, Col: 71}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "\"></div><div class=\"mt-4\"><label class=\"\">Confirmation Password</label><br><input type=\"password\" name=\"password\" required autocomplete=\"off\" placeholder=\"password\" class=\"outline-1 outline-gray p-2 rounded-sm mt-1.5 w-full focus:outline-primary\"></div><div class=\"mt-2 flex justify-end\"><button type=\"submit\" class=\"bg-primary text-white text-xs cursor-pointer px-3 py-1.5 rounded-sm hover:opacity-75\">Continue</button></div></form></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "\"></div><div class=\"mt-4\"><label class=\"\">Confirmation Password</label><br><input type=\"password\" name=\"password\" required autocomplete=\"off\" placeholder=\"password\" class=\"outline-1 outline-gray p-2 rounded-sm mt-1.5 w-full focus:outline-primary\"></div><div class=\"mt-2 flex justify-end\"><button type=\"submit\" class=\"bg-primary text-white text-xs cursor-pointer px-3 py-1.5 rounded-sm hover:opacity-75\">Continue</button></div></form></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -422,33 +414,33 @@ func deleteStaffForm(accountID string) templ.Component {
 			templ_7745c5c3_Var15 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "<div><h1>Delete Account</h1><form action=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "<div><h1>Delete Account</h1><form action=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var16 templ.SafeURL
 		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("/app/manage-staff/%s/delete", accountID)))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/manage_staff_page.templ`, Line: 233, Col: 85}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/manage_staff_page.templ`, Line: 232, Col: 85}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "\" method=\"POST\"><div><input type=\"text\" hidden=\"true\" name=\"accountID\" value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "\" method=\"POST\"><div><input type=\"text\" hidden=\"true\" name=\"accountID\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var17 string
 		templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(accountID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/manage_staff_page.templ`, Line: 235, Col: 71}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/manage_staff_page.templ`, Line: 234, Col: 71}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "\"></div><div class=\"mt-4\"><label class=\"\">Confirmation Password</label><br><input type=\"password\" name=\"password\" required autocomplete=\"off\" placeholder=\"password\" class=\"outline-1 outline-gray p-2 rounded-sm mt-1.5 w-full focus:outline-primary\"></div><div class=\"mt-2 flex justify-end\"><button type=\"submit\" class=\"bg-primary text-white text-xs cursor-pointer px-3 py-1.5 rounded-sm hover:opacity-75\">Continue</button></div></form></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "\"></div><div class=\"mt-4\"><label class=\"\">Confirmation Password</label><br><input type=\"password\" name=\"password\" required autocomplete=\"off\" placeholder=\"password\" class=\"outline-1 outline-gray p-2 rounded-sm mt-1.5 w-full focus:outline-primary\"></div><div class=\"mt-2 flex justify-end\"><button type=\"submit\" class=\"bg-primary text-white text-xs cursor-pointer px-3 py-1.5 rounded-sm hover:opacity-75\">Continue</button></div></form></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

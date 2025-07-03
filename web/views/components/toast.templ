@@ -8,12 +8,12 @@ import (
 templ Toast() {
 	<div class="relative">
 		<div
-			x-data={ fmt.Sprintf("toast('%s')", viewmodel.GetToastFromContext(ctx).ToJson()) }
+			x-data={ fmt.Sprintf("toast('%s')", viewmodel.ToastFromContext(ctx)) }
 			class="max-w-sm absolute right-2"
 		>
 			<template x-if="notification != null && notification.title == 'success'" x-bind:key="notification.id">
 				<div class="">
-					<div class="flex w-full items-center gap-2.5 bg-success/25 rounded-sm p-4 transition-all duration-300">
+					<div class="flex w-full items-center gap-2.5 bg-success-light rounded-sm p-4 transition-all duration-300">
 						<!-- Icon -->
 						<div class="text-success" aria-hidden="true">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5" aria-hidden="true">
@@ -41,7 +41,7 @@ templ Toast() {
 			</template>
 			<template x-if="notification != null && notification.title == 'error'" x-bind:key="notification.id">
 				<div class="relative">
-					<div class="flex w-full items-center gap-2.5 bg-error/25 rounded-sm p-4 transition-all duration-300">
+					<div class="flex w-full items-center gap-2.5 bg-error-light rounded-sm p-4 transition-all duration-300">
 						<!-- Icon -->
 						<div class="text-error" aria-hidden="true">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5" aria-hidden="true">
@@ -68,29 +68,36 @@ templ Toast() {
 				</div>
 			</template>
 			<script>
-            (function() {
-                document.addEventListener("alpine:init", () => {
-                    Alpine.data("toast", (t) => {
-                        return {
-                            notification: null,
-                            autoClose: true,
-                            autoCloseDelay: 5000,
-                            init() {
-                                const toast = JSON.parse(t);
-                                this.notification = toast;
+                (function() {
+                    document.addEventListener("alpine:init", () => {
+                        Alpine.data("toast", (t) => {
+                            return {
+                                notification: null,
+                                autoClose: true,
+                                autoCloseDelay: 5000,
+                                init() {
+                                    console.log("init toast");
 
-                                if (this.autoClose) {
-                                    setTimeout(() => this.removeNotification(), this.autoCloseDelay);
+                                    try {
+                                        const toast = JSON.parse(t);
+                                        console.log(toast);
+                                        this.notification = toast;
+
+                                        if (this.autoClose) {
+                                            setTimeout(() => this.removeNotification(), this.autoCloseDelay);
+                                        }
+                                    } catch (err) {
+                                        console.log("no toast message");
+                                    }
+                                },
+                                removeNotification() {
+                                    this.notification = null;
                                 }
-                            },
-                            removeNotification() {
-                                this.notification = null;
-                            }
-                        };
+                            };
+                        });
                     });
-                });
-             })();
-        </script>
+                 })();
+            </script>
 		</div>
 	</div>
 }

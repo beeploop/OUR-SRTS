@@ -49,7 +49,9 @@ func RequestsPage(admin viewmodel.Admin, requests []viewmodel.PasswordResetReque
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = components.Toast().Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.Banner(components.BannerProps{
+				Title: "Password Reset Requests",
+			}).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -57,41 +59,44 @@ func RequestsPage(admin viewmodel.Admin, requests []viewmodel.PasswordResetReque
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.Banner(components.BannerProps{
-				Title: "Password Reset Requests",
-			}).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
 			templ_7745c5c3_Err = components.Divider().Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, " <div class=\"mt-4\"><table class=\"w-full rounded-sm outline-1 outline-gray\"><thead class=\"bg-primary text-white\"><tr><td class=\"p-2\">Name</td><td class=\"p-2\">Username</td><td class=\"p-2\">Date Requested</td><td class=\"p-2\">Actions</td></tr></thead> <tbody class=\"divide-y divide-gray\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " <div class=\"mt-4\"><table class=\"w-full rounded-sm outline-1 outline-gray\"><thead class=\"bg-primary text-white\"><tr><td class=\"p-2\">Name</td><td class=\"p-2\">Username</td><td class=\"p-2\">Date Requested</td><td class=\"p-2\">Actions</td></tr></thead> <tbody class=\"divide-y divide-gray\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			if len(requests) == 0 {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<tr class=\"\"><td class=\"p-2\" colspan=\"4\" align=\"center\">Empty</td></tr>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<tr class=\"\"><td class=\"p-2\" colspan=\"4\" align=\"center\">Empty</td></tr>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			} else {
 				for _, request := range requests {
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<tr><td class=\"p-2\">")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<tr><td class=\"p-2\">")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 					var templ_7745c5c3_Var3 string
 					templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(request.Admin.Fullname)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/requests_page.templ`, Line: 36, Col: 48}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/requests_page.templ`, Line: 35, Col: 48}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</td><td class=\"p-2\">")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+					var templ_7745c5c3_Var4 string
+					templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(request.Admin.Username)
+					if templ_7745c5c3_Err != nil {
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/requests_page.templ`, Line: 36, Col: 48}
+					}
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -99,29 +104,16 @@ func RequestsPage(admin viewmodel.Admin, requests []viewmodel.PasswordResetReque
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					var templ_7745c5c3_Var4 string
-					templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(request.Admin.Username)
-					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/requests_page.templ`, Line: 37, Col: 48}
-					}
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
-					if templ_7745c5c3_Err != nil {
-						return templ_7745c5c3_Err
-					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</td><td class=\"p-2\">")
-					if templ_7745c5c3_Err != nil {
-						return templ_7745c5c3_Err
-					}
 					var templ_7745c5c3_Var5 string
 					templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(utils.TimeToString(request.CreatedAt))
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/requests_page.templ`, Line: 38, Col: 63}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/requests_page.templ`, Line: 37, Col: 63}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</td><td class=\"p-2\"><span class=\"flex gap-2\">")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</td><td class=\"p-2\"><span class=\"flex gap-2\">")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -183,13 +175,13 @@ func RequestsPage(admin viewmodel.Admin, requests []viewmodel.PasswordResetReque
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</span></td></tr>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</span></td></tr>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "</tbody></table></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</tbody></table></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -224,33 +216,33 @@ func fulfillForm(requestID string) templ.Component {
 			templ_7745c5c3_Var8 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<div><form action=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<div><form action=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var9 templ.SafeURL
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("/app/requests/%s/fulfill", requestID)))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/requests_page.templ`, Line: 74, Col: 82}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/requests_page.templ`, Line: 73, Col: 82}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "\" method=\"POST\"><h2 class=\"font-medium\">Fulfill Request</h2><div><input hidden=\"true\" name=\"requestID\" value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "\" method=\"POST\"><h2 class=\"font-medium\">Fulfill Request</h2><div><input hidden=\"true\" name=\"requestID\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(requestID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/requests_page.templ`, Line: 77, Col: 59}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/requests_page.templ`, Line: 76, Col: 59}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "\"></div><div class=\"mt-4\"><label for=\"newPassword\">New staff password</label><p class=\"text-xs text-primary\">Password must be  <strong>at least 8 characters long, at least 1 uppercase, at least 1 lowercase, at least 1 special character, and no whitespace</strong></p><input type=\"password\" name=\"newPassword\" autofocus autocomplete=\"off\" required class=\"mt-1.5 w-full rounded-sm p-2 outline-1 outline-gray focus:border-none focus:outline-primary\" id=\"newPassword\" placeholder=\"new staff password\"></div><div class=\"mt-4\"><label for=\"password\">Admin Password</label><br><input type=\"password\" name=\"password\" autofocus autocomplete=\"off\" required class=\"mt-1.5 w-full rounded-sm p-2 outline-1 outline-gray focus:border-none focus:outline-primary\" id=\"password\" placeholder=\"admin password\"></div><div class=\"flex justify-end mt-2\"><button type=\"submit\" class=\"bg-primary text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75\">Submit</button></div></form></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "\"></div><div class=\"mt-4\"><label for=\"newPassword\">New staff password</label><p class=\"text-xs text-primary\">Password must be  <strong>at least 8 characters long, at least 1 uppercase, at least 1 lowercase, at least 1 special character, and no whitespace</strong></p><input type=\"password\" name=\"newPassword\" autofocus autocomplete=\"off\" required class=\"mt-1.5 w-full rounded-sm p-2 outline-1 outline-gray focus:border-none focus:outline-primary\" id=\"newPassword\" placeholder=\"new staff password\"></div><div class=\"mt-4\"><label for=\"password\">Admin Password</label><br><input type=\"password\" name=\"password\" autofocus autocomplete=\"off\" required class=\"mt-1.5 w-full rounded-sm p-2 outline-1 outline-gray focus:border-none focus:outline-primary\" id=\"password\" placeholder=\"admin password\"></div><div class=\"flex justify-end mt-2\"><button type=\"submit\" class=\"bg-primary text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75\">Submit</button></div></form></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -279,33 +271,33 @@ func rejectForm(requestID string) templ.Component {
 			templ_7745c5c3_Var11 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "<div><form action=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<div><form action=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var12 templ.SafeURL
 		templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("/app/requests/%s/reject", requestID)))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/requests_page.templ`, Line: 125, Col: 81}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/requests_page.templ`, Line: 124, Col: 81}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "\" method=\"POST\"><h2 class=\"font-medium\">Reject Request</h2><div><input hidden=\"true\" name=\"requestID\" value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "\" method=\"POST\"><h2 class=\"font-medium\">Reject Request</h2><div><input hidden=\"true\" name=\"requestID\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var13 string
 		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(requestID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/requests_page.templ`, Line: 128, Col: 59}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/requests_page.templ`, Line: 127, Col: 59}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "\"></div><div class=\"mt-4\"><label for=\"password\">Admin Password</label><br><input type=\"password\" name=\"password\" autofocus autocomplete=\"off\" required class=\"mt-1.5 w-full rounded-sm p-2 outline-1 outline-gray focus:border-none focus:outline-primary\" id=\"password\" placeholder=\"admin password\"></div><div class=\"flex justify-end mt-2\"><button type=\"submit\" class=\"bg-primary text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75\">Submit</button></div></form></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "\"></div><div class=\"mt-4\"><label for=\"password\">Admin Password</label><br><input type=\"password\" name=\"password\" autofocus autocomplete=\"off\" required class=\"mt-1.5 w-full rounded-sm p-2 outline-1 outline-gray focus:border-none focus:outline-primary\" id=\"password\" placeholder=\"admin password\"></div><div class=\"flex justify-end mt-2\"><button type=\"submit\" class=\"bg-primary text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer hover:opacity-75\">Submit</button></div></form></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

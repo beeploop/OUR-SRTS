@@ -51,11 +51,7 @@ func StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithMa
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = components.Toast().Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, " <div class=\"mx-auto max-w-4xl\"><div class=\"flex gap-2\"><div class=\"aspect-square h-40 w-40 outline-1 outline-gray\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"mx-auto max-w-4xl\"><div class=\"flex gap-2\"><div class=\"aspect-square h-40 w-40 outline-1 outline-gray\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -76,7 +72,7 @@ func StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithMa
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(student.LastName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 32, Col: 26}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 31, Col: 26}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -89,7 +85,7 @@ func StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithMa
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(student.FirstName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 32, Col: 49}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 31, Col: 49}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -102,7 +98,7 @@ func StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithMa
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(student.MiddleName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 32, Col: 72}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 31, Col: 72}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -115,7 +111,7 @@ func StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithMa
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(utils.StripUnderscore(student.StudentType))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 36, Col: 52}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 35, Col: 52}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
@@ -128,7 +124,7 @@ func StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithMa
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(utils.StripUnderscore(student.CivilStatus))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 40, Col: 52}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 39, Col: 52}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -141,7 +137,7 @@ func StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithMa
 			var templ_7745c5c3_Var8 string
 			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(student.Program)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 44, Col: 25}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 43, Col: 25}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
@@ -154,7 +150,7 @@ func StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithMa
 			var templ_7745c5c3_Var9 string
 			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(student.Major)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 48, Col: 23}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 47, Col: 23}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
@@ -167,7 +163,7 @@ func StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithMa
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(student.ControlNumber)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 52, Col: 31}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 51, Col: 31}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
@@ -180,7 +176,7 @@ func StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithMa
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(student.Envelope.Location)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 56, Col: 35}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 55, Col: 35}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {
@@ -193,7 +189,7 @@ func StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithMa
 			var templ_7745c5c3_Var12 string
 			templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(utils.TimeToString(student.CreatedAt))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 60, Col: 47}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 59, Col: 47}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 			if templ_7745c5c3_Err != nil {
@@ -206,7 +202,7 @@ func StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithMa
 			var templ_7745c5c3_Var13 string
 			templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(utils.TimeToString(student.UpdatedAt))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 64, Col: 47}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 63, Col: 47}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 			if templ_7745c5c3_Err != nil {
@@ -286,7 +282,7 @@ func StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithMa
 				var templ_7745c5c3_Var16 string
 				templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(group.Type.FullTitle)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 104, Col: 46}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 103, Col: 46}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 				if templ_7745c5c3_Err != nil {
@@ -465,7 +461,7 @@ func StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithMa
 				var templ_7745c5c3_Var20 string
 				templ_7745c5c3_Var20, templ_7745c5c3_Err = templ.JoinStringErrs(document.Filename)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 199, Col: 55}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 198, Col: 55}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var20))
 				if templ_7745c5c3_Err != nil {
@@ -572,7 +568,7 @@ func updateStudentDataForm(student viewmodel.Student, programWithMajors []viewmo
 			var templ_7745c5c3_Var24 templ.SafeURL
 			templ_7745c5c3_Var24, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("/app/search/%s/update", student.ControlNumber)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 234, Col: 87}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 233, Col: 87}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var24))
 			if templ_7745c5c3_Err != nil {
@@ -585,7 +581,7 @@ func updateStudentDataForm(student viewmodel.Student, programWithMajors []viewmo
 			var templ_7745c5c3_Var25 string
 			templ_7745c5c3_Var25, templ_7745c5c3_Err = templ.JoinStringErrs(student.LastName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 258, Col: 32}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 257, Col: 32}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var25))
 			if templ_7745c5c3_Err != nil {
@@ -598,7 +594,7 @@ func updateStudentDataForm(student viewmodel.Student, programWithMajors []viewmo
 			var templ_7745c5c3_Var26 string
 			templ_7745c5c3_Var26, templ_7745c5c3_Err = templ.JoinStringErrs(student.FirstName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 272, Col: 33}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 271, Col: 33}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var26))
 			if templ_7745c5c3_Err != nil {
@@ -611,7 +607,7 @@ func updateStudentDataForm(student viewmodel.Student, programWithMajors []viewmo
 			var templ_7745c5c3_Var27 string
 			templ_7745c5c3_Var27, templ_7745c5c3_Err = templ.JoinStringErrs(student.MiddleName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 286, Col: 34}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 285, Col: 34}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var27))
 			if templ_7745c5c3_Err != nil {
@@ -624,7 +620,7 @@ func updateStudentDataForm(student viewmodel.Student, programWithMajors []viewmo
 			var templ_7745c5c3_Var28 string
 			templ_7745c5c3_Var28, templ_7745c5c3_Err = templ.JoinStringErrs(student.ControlNumber)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 301, Col: 36}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 300, Col: 36}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var28))
 			if templ_7745c5c3_Err != nil {
@@ -637,7 +633,7 @@ func updateStudentDataForm(student viewmodel.Student, programWithMajors []viewmo
 			var templ_7745c5c3_Var29 string
 			templ_7745c5c3_Var29, templ_7745c5c3_Err = templ.JoinStringErrs(student.Envelope.Location)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 316, Col: 40}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 315, Col: 40}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var29))
 			if templ_7745c5c3_Err != nil {
@@ -650,7 +646,7 @@ func updateStudentDataForm(student viewmodel.Student, programWithMajors []viewmo
 			var templ_7745c5c3_Var30 string
 			templ_7745c5c3_Var30, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("studentType('%s')", student.StudentType))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 320, Col: 87}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 319, Col: 87}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var30))
 			if templ_7745c5c3_Err != nil {
@@ -663,7 +659,7 @@ func updateStudentDataForm(student viewmodel.Student, programWithMajors []viewmo
 			var templ_7745c5c3_Var31 string
 			templ_7745c5c3_Var31, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("civilStatus('%s')", student.CivilStatus))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 345, Col: 87}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 344, Col: 87}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var31))
 			if templ_7745c5c3_Err != nil {
@@ -739,7 +735,7 @@ func uploadUnlistedDocForm(student viewmodel.Student) templ.Component {
 			var templ_7745c5c3_Var34 templ.SafeURL
 			templ_7745c5c3_Var34, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("/app/search/%s/upload", student.ControlNumber)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 458, Col: 87}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 457, Col: 87}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var34))
 			if templ_7745c5c3_Err != nil {
@@ -752,7 +748,7 @@ func uploadUnlistedDocForm(student viewmodel.Student) templ.Component {
 			var templ_7745c5c3_Var35 string
 			templ_7745c5c3_Var35, templ_7745c5c3_Err = templ.JoinStringErrs(student.ControlNumber)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 471, Col: 41}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 470, Col: 41}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var35))
 			if templ_7745c5c3_Err != nil {
@@ -824,7 +820,7 @@ func uploadDocumentForm(student viewmodel.Student, doctype viewmodel.DocumentTyp
 			var templ_7745c5c3_Var38 string
 			templ_7745c5c3_Var38, templ_7745c5c3_Err = templ.JoinStringErrs(doctype.FullTitle)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 509, Col: 53}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 508, Col: 53}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var38))
 			if templ_7745c5c3_Err != nil {
@@ -837,7 +833,7 @@ func uploadDocumentForm(student viewmodel.Student, doctype viewmodel.DocumentTyp
 			var templ_7745c5c3_Var39 templ.SafeURL
 			templ_7745c5c3_Var39, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("/app/search/%s/upload", student.ControlNumber)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 511, Col: 87}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 510, Col: 87}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var39))
 			if templ_7745c5c3_Err != nil {
@@ -850,7 +846,7 @@ func uploadDocumentForm(student viewmodel.Student, doctype viewmodel.DocumentTyp
 			var templ_7745c5c3_Var40 string
 			templ_7745c5c3_Var40, templ_7745c5c3_Err = templ.JoinStringErrs(student.ControlNumber)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 524, Col: 41}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 523, Col: 41}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var40))
 			if templ_7745c5c3_Err != nil {
@@ -863,7 +859,7 @@ func uploadDocumentForm(student viewmodel.Student, doctype viewmodel.DocumentTyp
 			var templ_7745c5c3_Var41 string
 			templ_7745c5c3_Var41, templ_7745c5c3_Err = templ.JoinStringErrs(doctype.Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 525, Col: 33}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 524, Col: 33}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var41))
 			if templ_7745c5c3_Err != nil {
@@ -935,7 +931,7 @@ func reUploadDocumentForm(student viewmodel.Student, group viewmodel.DocumentGro
 			var templ_7745c5c3_Var44 string
 			templ_7745c5c3_Var44, templ_7745c5c3_Err = templ.JoinStringErrs(group.Type.FullTitle)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 550, Col: 58}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 549, Col: 58}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var44))
 			if templ_7745c5c3_Err != nil {
@@ -948,7 +944,7 @@ func reUploadDocumentForm(student viewmodel.Student, group viewmodel.DocumentGro
 			var templ_7745c5c3_Var45 templ.SafeURL
 			templ_7745c5c3_Var45, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("/app/search/%s/reupload", student.ControlNumber)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 552, Col: 89}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 551, Col: 89}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var45))
 			if templ_7745c5c3_Err != nil {
@@ -961,7 +957,7 @@ func reUploadDocumentForm(student viewmodel.Student, group viewmodel.DocumentGro
 			var templ_7745c5c3_Var46 string
 			templ_7745c5c3_Var46, templ_7745c5c3_Err = templ.JoinStringErrs(group.First().ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 565, Col: 36}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 564, Col: 36}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var46))
 			if templ_7745c5c3_Err != nil {
@@ -1021,7 +1017,7 @@ func multipleEntryDocumentGroup(student viewmodel.Student, group viewmodel.Docum
 		var templ_7745c5c3_Var48 string
 		templ_7745c5c3_Var48, templ_7745c5c3_Err = templ.JoinStringErrs(group.Type.FullTitle)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 589, Col: 48}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 588, Col: 48}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var48))
 		if templ_7745c5c3_Err != nil {
@@ -1045,7 +1041,7 @@ func multipleEntryDocumentGroup(student viewmodel.Student, group viewmodel.Docum
 				var templ_7745c5c3_Var49 string
 				templ_7745c5c3_Var49, templ_7745c5c3_Err = templ.JoinStringErrs(document.Filename)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 606, Col: 43}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 605, Col: 43}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var49))
 				if templ_7745c5c3_Err != nil {
@@ -1147,7 +1143,7 @@ func uploadMultipleEntryForm(student viewmodel.Student, group viewmodel.Document
 			var templ_7745c5c3_Var53 string
 			templ_7745c5c3_Var53, templ_7745c5c3_Err = templ.JoinStringErrs(group.Type.FullTitle)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 639, Col: 56}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 638, Col: 56}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var53))
 			if templ_7745c5c3_Err != nil {
@@ -1160,7 +1156,7 @@ func uploadMultipleEntryForm(student viewmodel.Student, group viewmodel.Document
 			var templ_7745c5c3_Var54 templ.SafeURL
 			templ_7745c5c3_Var54, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("/app/search/%s/upload", student.ControlNumber)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 641, Col: 87}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 640, Col: 87}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var54))
 			if templ_7745c5c3_Err != nil {
@@ -1173,7 +1169,7 @@ func uploadMultipleEntryForm(student viewmodel.Student, group viewmodel.Document
 			var templ_7745c5c3_Var55 string
 			templ_7745c5c3_Var55, templ_7745c5c3_Err = templ.JoinStringErrs(student.ControlNumber)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 654, Col: 41}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 653, Col: 41}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var55))
 			if templ_7745c5c3_Err != nil {
@@ -1186,7 +1182,7 @@ func uploadMultipleEntryForm(student viewmodel.Student, group viewmodel.Document
 			var templ_7745c5c3_Var56 string
 			templ_7745c5c3_Var56, templ_7745c5c3_Err = templ.JoinStringErrs(group.Type.Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 655, Col: 36}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 654, Col: 36}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var56))
 			if templ_7745c5c3_Err != nil {
@@ -1258,7 +1254,7 @@ func reUploadMultipleEntryForm(student viewmodel.Student, document viewmodel.Doc
 			var templ_7745c5c3_Var59 string
 			templ_7745c5c3_Var59, templ_7745c5c3_Err = templ.JoinStringErrs(document.Filename)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 692, Col: 55}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 691, Col: 55}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var59))
 			if templ_7745c5c3_Err != nil {
@@ -1271,7 +1267,7 @@ func reUploadMultipleEntryForm(student viewmodel.Student, document viewmodel.Doc
 			var templ_7745c5c3_Var60 templ.SafeURL
 			templ_7745c5c3_Var60, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("/app/search/%s/reupload", student.ControlNumber)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 694, Col: 89}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 693, Col: 89}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var60))
 			if templ_7745c5c3_Err != nil {
@@ -1284,7 +1280,7 @@ func reUploadMultipleEntryForm(student viewmodel.Student, document viewmodel.Doc
 			var templ_7745c5c3_Var61 string
 			templ_7745c5c3_Var61, templ_7745c5c3_Err = templ.JoinStringErrs(document.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 707, Col: 31}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 706, Col: 31}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var61))
 			if templ_7745c5c3_Err != nil {
@@ -1297,7 +1293,7 @@ func reUploadMultipleEntryForm(student viewmodel.Student, document viewmodel.Doc
 			var templ_7745c5c3_Var62 string
 			templ_7745c5c3_Var62, templ_7745c5c3_Err = templ.JoinStringErrs(strings.Split(document.Filename, ".")[0])
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 718, Col: 54}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/app/student_page.templ`, Line: 717, Col: 54}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var62))
 			if templ_7745c5c3_Err != nil {

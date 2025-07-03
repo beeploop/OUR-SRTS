@@ -12,7 +12,6 @@ import (
 
 templ StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithMajors []viewmodel.ProgramWithMajors) {
 	@layouts.MainLayout(admin) {
-		@components.Toast()
 		<div class="mx-auto max-w-4xl">
 			<div class="flex gap-2">
 				<div class="aspect-square h-40 w-40 outline-1 outline-gray">

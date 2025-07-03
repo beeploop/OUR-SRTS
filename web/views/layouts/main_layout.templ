@@ -21,11 +21,11 @@ templ MainLayout(admin viewmodel.Admin) {
 			<script defer src="/assets/scripts/alpine_focus.js"></script>
 			<script defer src="/assets/scripts/alpine_collapse.js"></script>
 		</head>
-		<body class="font-roboto text-sm h-[calc(100vh-4rem)]">
+		<body class="font-roboto h-[calc(100vh-4rem)] text-sm">
 			<header class="">
 				<div class="max-h-[4rem] border-0 border-b-[1px] border-gray">
 					<div class="h-2 bg-primary"></div>
-					<div class="flex justify-between items-center px-4 py-2">
+					<div class="flex items-center justify-between px-4 py-2">
 						<div class="flex items-center justify-between">
 							<div class="flex gap-4">
 								<div class="aspect-square w-10">
@@ -50,10 +50,11 @@ templ MainLayout(admin viewmodel.Admin) {
 				</div>
 			</header>
 			<main class="grid grid-cols-12">
-				<aside class="col-span-2 border-r border-gray pl-1.5 pt-1.5 h-[calc(100vh-4rem)]">
+				<aside class="relative col-span-2 h-[calc(100vh-4rem)] border-r border-gray pt-1.5 pl-1.5">
 					@components.Sidebar(admin)
 				</aside>
-				<div class="col-span-10 rounded-sm p-1.5 overflow-y-scroll p-4 overflow-y-scroll max-h-[calc(100vh-4rem)]">
+				<div class="col-span-10 max-h-[calc(100vh-4rem)] overflow-y-scroll overflow-y-scroll rounded-sm p-1.5 p-4">
+					@components.Toast()
 					{ children... }
 				</div>
 			</main>

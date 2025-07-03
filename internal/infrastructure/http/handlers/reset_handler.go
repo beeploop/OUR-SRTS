@@ -1,12 +1,15 @@
 package handlers
 
 import (
+	"context"
+	"fmt"
 	"net/http"
 	"slices"
 
 	"github.com/beeploop/our-srts/internal/application/usecases/reset"
 	"github.com/beeploop/our-srts/internal/domain/entities"
 	"github.com/beeploop/our-srts/internal/infrastructure/http/viewmodel"
+	"github.com/beeploop/our-srts/internal/infrastructure/session"
 	"github.com/beeploop/our-srts/internal/pkg/contextkeys"
 	"github.com/beeploop/our-srts/internal/pkg/utils"
 	"github.com/beeploop/our-srts/web/views/pages/app"
@@ -15,14 +18,17 @@ import (
 )
 
 type resetHandler struct {
-	resetUseCase *reset.UseCase
+	resetUseCase   *reset.UseCase
+	sessionManager *session.SessionManager
 }
 
 func NewResetHandler(
 	resetUseCase *reset.UseCase,
+	sessionManager *session.SessionManager,
 ) *resetHandler {
 	return &resetHandler{
-		resetUseCase: resetUseCase,
+		resetUseCase:   resetUseCase,
+		sessionManager: sessionManager,
 	}
 }
 
@@ -66,6 +72,11 @@ func (h *resetHandler) RenderRequestsListPage(c echo.Context) error {
 		}),
 	)
 
+	toast, ok := h.sessionManager.GetFlash(c.Response().Writer, c.Request())
+	if ok {
+		ctx = context.WithValue(ctx, contextkeys.ToastKey, toast)
+	}
+
 	page := app.RequestsPage(admin, requestModels)
 	return page.Render(ctx, c.Response().Writer)
 }
@@ -78,7 +89,16 @@ func (h *resetHandler) HandleFulfillRequest(c echo.Context) error {
 	password := c.FormValue("password")
 
 	if err := h.resetUseCase.FulfillRequest(ctx, requestID, newPassword, password); err != nil {
+		toast := viewmodel.NewErrorToast(err.Error())
+		if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
+			fmt.Println("error setting fash: ", err.Error())
+		}
 		return c.Redirect(http.StatusSeeOther, "/app/requests")
+	}
+
+	toast := viewmodel.NewSuccessToast("account password reset successful")
+	if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
+		fmt.Println("error setting flash: ", err.Error())
 	}
 
 	return c.Redirect(http.StatusSeeOther, "/app/requests")
@@ -91,7 +111,16 @@ func (h *resetHandler) HandleRejectRequest(c echo.Context) error {
 	password := c.FormValue("password")
 
 	if err := h.resetUseCase.RejectRequest(ctx, requestID, password); err != nil {
+		toast := viewmodel.NewErrorToast(err.Error())
+		if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
+			fmt.Println("error setting fash: ", err.Error())
+		}
 		return c.Redirect(http.StatusSeeOther, "/app/requests")
+	}
+
+	toast := viewmodel.NewSuccessToast("password reset rejected")
+	if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
+		fmt.Println("error setting flash: ", err.Error())
 	}
 
 	return c.Redirect(http.StatusSeeOther, "/app/requests")

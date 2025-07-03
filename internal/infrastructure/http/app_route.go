@@ -35,9 +35,9 @@ func (r *Router) appRouterHandler(g *echo.Group) {
 	resetRepo := repositories.NewPasswordResetRepository(r.db)
 	resetUseCase := reset.NewUseCase(adminRepo, resetRepo)
 
-	studentHandler := handlers.NewStudentHandler(studentUseCase, programUseCase)
-	accountHandler := handlers.NewAccountHandler(adminUseCase)
-	resetHandler := handlers.NewResetHandler(resetUseCase)
+	studentHandler := handlers.NewStudentHandler(studentUseCase, programUseCase, sessionManager)
+	accountHandler := handlers.NewAccountHandler(adminUseCase, sessionManager)
+	resetHandler := handlers.NewResetHandler(resetUseCase, sessionManager)
 
 	g.GET("/search", studentHandler.RenderSearch)
 	g.GET("/search/:controlNumber", studentHandler.RenderStudentPage)
