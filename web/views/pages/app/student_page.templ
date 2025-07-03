@@ -16,9 +16,9 @@ templ StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithM
 				<div class="aspect-square h-40 w-40 outline-1 outline-gray">
 					@components.ProfileImage(components.ProfileImageProps{
 						Source: utils.Ternary(
-							student.Envelope.DocumentWithType("photo").ID == "",
+							student.Envelope.SingleDocumentWithType("photo").ID == "",
 							"/assets/images/placeholder.jpg",
-							student.Envelope.DocumentWithType("photo").StoragePath),
+							student.Envelope.SingleDocumentWithType("photo").StoragePath),
 					})
 				</div>
 			</div>
@@ -96,43 +96,61 @@ templ StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithM
 						</tr>
 					</thead>
 					<tbody>
-						for _, document := range student.Envelope.Documents {
+						for _, group := range student.Envelope.DocumentGroups {
 							<tr>
-								<td class="p-2">{ utils.StripUnderscore(document.Type) }</td>
+								<td class="p-2">{ group.Type.FullTitle }</td>
 								<td class="p-2">
-									if document.ID == "" {
-										@components.SoftBadge(components.BadgeProps{
-											Title:   "Unavailable",
-											Variant: components.ERROR_BADGE,
-										})
+									if group.Type.AllowMultiple {
+										if group.IsEmpty() {
+											@components.SoftBadge(components.BadgeProps{
+												Title:   "Unavailable",
+												Variant: components.ERROR_BADGE,
+											})
+										} else {
+											@components.SoftBadge(components.BadgeProps{
+												Title:   "On-File",
+												Variant: components.SUCCESS_BADGE,
+											})
+										}
 									} else {
-										@components.SoftBadge(components.BadgeProps{
-											Title:   "On-File",
-											Variant: components.SUCCESS_BADGE,
-										})
+										if group.IsEmpty() {
+											@components.SoftBadge(components.BadgeProps{
+												Title:   "Unavailable",
+												Variant: components.ERROR_BADGE,
+											})
+										} else {
+											@components.SoftBadge(components.BadgeProps{
+												Title:   "On-File",
+												Variant: components.SUCCESS_BADGE,
+											})
+										}
 									}
 								</td>
 								<td class="p-2">
 									<span class="flex gap-2">
-										if document.ID == "" {
-											<a
-												class="cursor-pointer rounded-sm rounded-sm bg-gray px-3 py-1.5 text-xs text-white hover:opacity-75"
-											>Open</a>
+										if group.Type.AllowMultiple {
+											<button type="button" class="bg-primary text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer">Open</button>
 										} else {
-											<a
-												href="#"
-												class="cursor-pointer rounded-sm rounded-sm bg-success px-3 py-1.5 text-xs text-white hover:opacity-75"
-											>Open</a>
+											if group.IsEmpty() {
+												<a
+													class="cursor-pointer rounded-sm rounded-sm bg-gray px-3 py-1.5 text-xs text-white hover:opacity-75"
+												>Open</a>
+											} else {
+												<a
+													href="#"
+													class="cursor-pointer rounded-sm rounded-sm bg-success px-3 py-1.5 text-xs text-white hover:opacity-75"
+												>Open</a>
+											}
 										}
 										@components.OffCanvas(components.OffCanvasProps{
-											ID: document.Type,
+											ID: group.Type.Title,
 											Button: components.OCButton(components.OCButtonProps{
 												Label:    "Add",
-												Disabled: utils.Ternary(document.ID != "", true, false),
+												Disabled: utils.Ternary(!group.IsEmpty(), true, false),
 												Variant:  components.ERROR_BTN,
 											}),
 										}) {
-											@uploadDocumentForm(student, document)
+											@uploadDocumentForm(student, group.Type)
 										}
 									</span>
 								</td>
@@ -399,10 +417,10 @@ templ uploadUnlistedDocForm(student viewmodel.Student) {
 	}
 }
 
-templ uploadDocumentForm(student viewmodel.Student, document viewmodel.Document) {
+templ uploadDocumentForm(student viewmodel.Student, doctype viewmodel.DocumentType) {
 	@components.LoaderOverlay() {
 		<div>
-			<h2 class="font-medium">Add/Upload { utils.Capitalize(utils.StripUnderscore(document.Type)) }</h2>
+			<h2 class="font-medium">Add/Upload { doctype.FullTitle }</h2>
 			<form
 				action={ templ.SafeURL(fmt.Sprintf("/app/search/%s/upload", student.ControlNumber)) }
 				method="POST"
@@ -418,7 +436,7 @@ templ uploadDocumentForm(student viewmodel.Student, document viewmodel.Document)
 			>
 				<div class="w-full">
 					<input value={ student.ControlNumber } name="controlNumber" hidden="true"/>
-					<input value={ document.Type } name="documentType" hidden="true"/>
+					<input value={ doctype.Title } name="documentType" hidden="true"/>
 				</div>
 				<div class="w-full">
 					<label for="file" class="">Select file</label>
@@ -426,7 +444,7 @@ templ uploadDocumentForm(student viewmodel.Student, document viewmodel.Document)
 					@components.FilePicker(components.FilePickerProps{
 						ID:      "file",
 						Name:    "file",
-						Accepts: utils.Ternary(document.Type == "photo", []string{"images/*"}, []string{".pdf"}),
+						Accepts: utils.Ternary(doctype.Title == "photo", []string{"images/*"}, []string{".pdf"}),
 					})
 				</div>
 				<div class="mt-4 flex w-full justify-end">

@@ -31,7 +31,7 @@ type Student struct {
 	Program       Program
 	Major         Major
 	ImagePath     string
-	Envelope      *Envelope
+	Envelope      Envelope
 	CreatedAt     time.Time
 	UpdatedAt     time.Time
 }
@@ -58,7 +58,7 @@ func NewStudent(
 		CivilStatus:   status,
 		ProgramID:     programID,
 		MajorID:       majorID,
-		Envelope:      NewEnvelope(fmt.Sprintf("%s_%s", controlNumber, lastname), fileLocation),
+		Envelope:      *NewEnvelope(fmt.Sprintf("%s_%s", controlNumber, lastname), fileLocation),
 		CreatedAt:     time.Now(),
 		UpdatedAt:     time.Now(),
 	}
@@ -136,7 +136,7 @@ func (s *Student) Copy() *Student {
 		CivilStatus:   s.CivilStatus,
 		ProgramID:     s.ProgramID,
 		MajorID:       s.MajorID,
-		Envelope:      s.Envelope.Copy(),
+		Envelope:      *s.Envelope.Copy(),
 		CreatedAt:     s.CreatedAt,
 		UpdatedAt:     s.UpdatedAt,
 	}

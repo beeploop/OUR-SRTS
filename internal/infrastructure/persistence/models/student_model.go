@@ -38,7 +38,7 @@ func (m *StudentModel) ToDomain() *entities.Student {
 		Program:       *m.Program.ToDomain(),
 		MajorID:       m.MajorID,
 		Major:         *m.Major.ToDomain(),
-		Envelope:      m.Envelope.ToDomain(),
+		Envelope:      *m.Envelope.ToDomain(),
 		CreatedAt:     m.CreatedAt,
 		UpdatedAt:     m.UpdatedAt,
 	}

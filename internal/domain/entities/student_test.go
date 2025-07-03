@@ -2,6 +2,7 @@ package entities
 
 import (
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -95,16 +96,19 @@ func TestStudent(t *testing.T) {
 	t.Run("test add document", func(t *testing.T) {
 		student := testStudent.Copy()
 		docT := DocumentType{
-			ID:   "test",
-			Name: "test document",
+			ID:    "test",
+			Title: "test",
 		}
 		document := NewDocument(docT, "test file", "/file/path")
 
 		student.AddDocument(*document)
 
-		assert.EqualValues(t, 1, len(student.Envelope.Documents))
+		group := student.Envelope.GroupWithTypeTitle("test")
 
-		addedDoc := student.Envelope.Documents[0]
+		assert.NotNil(t, group)
+		assert.EqualValues(t, 1, len(group.Documents))
+
+		addedDoc := group.Documents[0]
 
 		assert.ObjectsAreEqualValues(document, addedDoc)
 	})
@@ -115,12 +119,11 @@ func TestStudent(t *testing.T) {
 		updatedStudent.FirstName = "foo"
 		updatedStudent.StudentType = GRADUATE
 		updatedStudent.CivilStatus = MARRIED
+		updatedStudent.UpdatedAt = time.Now()
 
 		err := student.FullUpdate(updatedStudent)
 
 		assert.NoError(t, err)
-		if !assert.ObjectsAreEqualValues(student, updatedStudent) {
-			t.Fatalf("expected: %v, got: %v\n", updatedStudent, student)
-		}
+		assert.EqualExportedValues(t, student, updatedStudent)
 	})
 }

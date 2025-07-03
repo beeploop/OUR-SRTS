@@ -9,26 +9,29 @@ import (
 )
 
 type EnvelopeModel struct {
-	ID        string          `db:"id"`
-	Owner     string          `db:"owner"`
-	Location  string          `db:"location"`
-	Documents []DocumentModel `db:"documents"`
-	CreatedAt time.Time       `db:"created_at"`
-	UpdatedAt time.Time       `db:"updated_at"`
+	ID             string `db:"id"`
+	Owner          string `db:"owner"`
+	Location       string `db:"location"`
+	DocumentGroups []DocumentGroupModel
+	CreatedAt      time.Time `db:"created_at"`
+	UpdatedAt      time.Time `db:"updated_at"`
 }
 
 func (e *EnvelopeModel) ToDomain() *entities.Envelope {
-	return &entities.Envelope{
+	envelope := &entities.Envelope{
 		ID:       e.ID,
 		Owner:    e.Owner,
 		Location: e.Location,
-		Documents: slices.AppendSeq(
-			make([]entities.Document, 0),
-			utils.Map(e.Documents, func(document DocumentModel) entities.Document {
-				return *document.ToDomain()
+		DocumentGroups: slices.AppendSeq(
+			make([]*entities.DocumentGroup, 0),
+			utils.Map(e.DocumentGroups, func(group DocumentGroupModel) *entities.DocumentGroup {
+				return group.ToDomain()
 			}),
 		),
 		CreatedAt: e.CreatedAt,
-		UpdatedAt: e.UpdatedAt,
 	}
+
+	envelope.SetUpdatedAt(e.UpdatedAt)
+
+	return envelope
 }

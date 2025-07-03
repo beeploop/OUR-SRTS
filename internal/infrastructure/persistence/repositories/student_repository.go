@@ -288,22 +288,31 @@ func (r *StudentRepository) findEnvelope(ctx context.Context, envelopeID string)
 				return nil, err
 			}
 
-			document := new(models.DocumentModel)
-			if err := r.db.GetContext(ctx, document, query, args...); err != nil {
+			documents := make([]*models.DocumentModel, 0)
+			if err := r.db.SelectContext(ctx, &documents, query, args...); err != nil {
 				if err != sql.ErrNoRows {
 					return nil, err
 				}
 			}
 
-			envelope.Documents = append(envelope.Documents, models.DocumentModel{
-				ID:          document.ID,
-				TypeID:      docType.ID,
-				Type:        *docType,
-				EnvelopeID:  envelopeID,
-				Filename:    document.Filename,
-				StoragePath: document.StoragePath,
-				UploadedAt:  document.UploadedAt,
-			})
+			group := models.DocumentGroupModel{
+				Type:      *docType,
+				Documents: make([]models.DocumentModel, 0),
+			}
+
+			for _, document := range documents {
+				group.Documents = append(group.Documents, models.DocumentModel{
+					ID:          document.ID,
+					TypeID:      docType.ID,
+					Type:        *docType,
+					EnvelopeID:  envelopeID,
+					Filename:    document.Filename,
+					StoragePath: document.StoragePath,
+					UploadedAt:  document.UploadedAt,
+				})
+			}
+
+			envelope.DocumentGroups = append(envelope.DocumentGroups, group)
 		}
 	}
 
@@ -313,7 +322,7 @@ func (r *StudentRepository) findEnvelope(ctx context.Context, envelopeID string)
 func (r *StudentRepository) getDocumentTypes(ctx context.Context) ([]*models.DocumentTypeModel, error) {
 	query, args, err := sq.Select("*").
 		From("document_type").
-		OrderBy("name ASC").
+		OrderBy("title ASC").
 		ToSql()
 	if err != nil {
 		return nil, err

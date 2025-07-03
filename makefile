@@ -5,10 +5,14 @@ all: templates tailwind build
 build:
 	@echo "building..."
 	@go build -o bin/our-srts cmd/srts/main.go
+	@go build -o bin/seeder cmd/seeder/main.go
 	@echo "built binary in /bin"
 
 run: 
 	@go run cmd/srts/main.go
+
+seed:
+	@go run cmd/seeder/main.go
 
 test:
 	@grc go test -v -failfast -cover ./...

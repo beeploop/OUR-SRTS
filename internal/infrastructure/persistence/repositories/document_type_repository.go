@@ -23,8 +23,8 @@ func NewDocumentTypeRepository(db *sqlx.DB) *DocumentTypeRepository {
 
 func (r *DocumentTypeRepository) Create(ctx context.Context, docType *entities.DocumentType) (*entities.DocumentType, error) {
 	query, args, err := sq.Insert("document_type").
-		Columns("id", "name").
-		Values(docType.ID, docType.Name).
+		Columns("id", "title", "full_title", "is_stable", "allow_multiple").
+		Values(docType.ID, docType.Title, docType.FullTitle, docType.Stable, docType.AllowMultiple).
 		ToSql()
 	if err != nil {
 		return nil, err
@@ -60,10 +60,10 @@ func (r *DocumentTypeRepository) FindAll(ctx context.Context) ([]*entities.Docum
 	return results, nil
 }
 
-func (r *DocumentTypeRepository) FindByName(ctx context.Context, name string) (*entities.DocumentType, error) {
+func (r *DocumentTypeRepository) FindByTitle(ctx context.Context, title string) (*entities.DocumentType, error) {
 	query, args, err := sq.Select("*").
 		From("document_type").
-		Where(sq.Eq{"name": name}).
+		Where(sq.Eq{"title": title}).
 		ToSql()
 	if err != nil {
 		return nil, err

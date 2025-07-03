@@ -49,7 +49,7 @@ func StudentFromDomain(student *entities.Student) Student {
 		CivilStatus:   string(student.CivilStatus),
 		Program:       student.Program.Title,
 		Major:         student.Major.Title,
-		Envelope:      EnvelopeFromDomain(student.Envelope),
+		Envelope:      EnvelopeFromDomain(&student.Envelope),
 		CreatedAt:     student.CreatedAt,
 		UpdatedAt:     student.UpdatedAt,
 	}

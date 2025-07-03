@@ -10,22 +10,22 @@ import (
 )
 
 type Envelope struct {
-	ID        string
-	Owner     string
-	Location  string
-	Documents []Document
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	ID             string
+	Owner          string
+	Location       string
+	DocumentGroups []*DocumentGroup
+	CreatedAt      time.Time
+	updatedAt      time.Time
 }
 
 func NewEnvelope(owner, location string) *Envelope {
 	return &Envelope{
-		ID:        uuid.New().String(),
-		Owner:     owner,
-		Location:  location,
-		Documents: make([]Document, 0),
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
+		ID:             uuid.New().String(),
+		Owner:          owner,
+		Location:       location,
+		DocumentGroups: make([]*DocumentGroup, 0),
+		CreatedAt:      time.Now(),
+		updatedAt:      time.Now(),
 	}
 }
 
@@ -40,13 +40,21 @@ func (e *Envelope) Validate() error {
 }
 
 func (e *Envelope) AddDocument(document Document) {
-	e.Documents = append(e.Documents, document)
-	e.UpdatedAt = time.Now()
+	for _, group := range e.DocumentGroups {
+		if group.Type.Title == document.Type.Title {
+			group.Append(document)
+			return
+		}
+	}
+
+	group := NewDocumentGroup(document.Type)
+	group.Append(document)
+	e.DocumentGroups = append(e.DocumentGroups, group)
 }
 
 func (e *Envelope) UpdateOwner(owner string) error {
 	e.Owner = owner
-	e.UpdatedAt = time.Now()
+	e.updatedAt = time.Now()
 	return e.Validate()
 }
 
@@ -56,8 +64,27 @@ func (e *Envelope) UpdateLocation(location string) error {
 	}
 
 	e.Location = location
-	e.UpdatedAt = time.Now()
+	e.updatedAt = time.Now()
 	return e.Validate()
+}
+
+func (e *Envelope) GroupWithTypeTitle(title string) *DocumentGroup {
+	for _, group := range e.DocumentGroups {
+		if group.Type.Title == title {
+			return group
+		}
+	}
+
+	return nil
+}
+
+func (s *Envelope) SetUpdatedAt(t time.Time) error {
+	s.updatedAt = t
+	return s.Validate()
+}
+
+func (s *Envelope) UpdatedAt() time.Time {
+	return s.updatedAt
 }
 
 func (e *Envelope) Copy() *Envelope {
@@ -65,13 +92,13 @@ func (e *Envelope) Copy() *Envelope {
 		ID:       e.ID,
 		Owner:    e.Owner,
 		Location: e.Location,
-		Documents: slices.AppendSeq(
-			make([]Document, 0),
-			utils.Map(e.Documents, func(document Document) Document {
-				return document
+		DocumentGroups: slices.AppendSeq(
+			make([]*DocumentGroup, 0),
+			utils.Map(e.DocumentGroups, func(group *DocumentGroup) *DocumentGroup {
+				return group.Copy()
 			}),
 		),
 		CreatedAt: e.CreatedAt,
-		UpdatedAt: e.UpdatedAt,
+		updatedAt: e.updatedAt,
 	}
 }

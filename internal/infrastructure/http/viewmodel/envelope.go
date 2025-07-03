@@ -9,12 +9,12 @@ import (
 )
 
 type Envelope struct {
-	ID        string     `json:"id"`
-	Owner     string     `json:"owner"`
-	Location  string     `json:"location"`
-	Documents []Document `json:"documents"`
-	CreatedAt time.Time  `json:"created_at"`
-	UpdatedAt time.Time  `json:"updated_at"`
+	ID             string          `json:"id"`
+	Owner          string          `json:"owner"`
+	Location       string          `json:"location"`
+	DocumentGroups []DocumentGroup `json:"document_groups"`
+	CreatedAt      time.Time       `json:"created_at"`
+	UpdatedAt      time.Time       `json:"updated_at"`
 }
 
 func EnvelopeFromDomain(envelope *entities.Envelope) Envelope {
@@ -22,21 +22,33 @@ func EnvelopeFromDomain(envelope *entities.Envelope) Envelope {
 		ID:       envelope.ID,
 		Owner:    envelope.Owner,
 		Location: envelope.Location,
-		Documents: slices.AppendSeq(
-			make([]Document, 0),
-			utils.Map(envelope.Documents, func(document entities.Document) Document {
-				return DocumentFromDomain(&document)
+		DocumentGroups: slices.AppendSeq(
+			make([]DocumentGroup, 0),
+			utils.Map(envelope.DocumentGroups, func(group *entities.DocumentGroup) DocumentGroup {
+				return DocumentGroupFromDomain(group)
 			}),
 		),
 		CreatedAt: envelope.CreatedAt,
-		UpdatedAt: envelope.UpdatedAt,
+		UpdatedAt: envelope.UpdatedAt(),
 	}
 }
 
-func (e Envelope) DocumentWithType(docType string) Document {
-	for _, document := range e.Documents {
-		if document.Type == docType {
-			return document
+func (e Envelope) DocumentWithType(docType string) []Document {
+	for _, group := range e.DocumentGroups {
+		if group.Type.Title == docType {
+			return group.Documents
+		}
+
+		break
+	}
+
+	return make([]Document, 0)
+}
+
+func (e Envelope) SingleDocumentWithType(docType string) Document {
+	for _, group := range e.DocumentGroups {
+		if group.Type.Title == docType {
+			return group.Documents[0]
 		}
 
 		break

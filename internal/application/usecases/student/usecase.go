@@ -111,14 +111,14 @@ func (u *UseCase) UploadDocument(ctx context.Context, studentControlNumber, docT
 		return err
 	}
 
-	documentType, err := u.documentTypeRepo.FindByName(ctx, docType)
+	documentType, err := u.documentTypeRepo.FindByTitle(ctx, docType)
 	if err != nil {
 		return err
 	}
 
 	{
 		ext := filepath.Ext(content.Filename)
-		if documentType.Name == "photo" {
+		if documentType.Title == "photo" {
 			validFiles := []string{".png", ".jpg", ".jpeg"}
 
 			if !slices.Contains(validFiles, ext) {
@@ -131,7 +131,7 @@ func (u *UseCase) UploadDocument(ctx context.Context, studentControlNumber, docT
 		}
 	}
 
-	filename := fmt.Sprintf("%s%s", documentType.Name, filepath.Ext(content.Filename))
+	filename := fmt.Sprintf("%s%s", documentType.Title, filepath.Ext(content.Filename))
 	folder := fmt.Sprintf("%s_%s", student.ControlNumber, utils.WhiteSpaceToUnderscore(student.LastName))
 	filepath := u.fs.ConstructPath(ctx, folder, filename)
 	if err := u.fs.Save(ctx, filepath, file); err != nil {
@@ -139,7 +139,7 @@ func (u *UseCase) UploadDocument(ctx context.Context, studentControlNumber, docT
 	}
 
 	document := entities.NewDocument(*documentType, filename, filepath)
-	if _, err := u.studentRepo.UploadDocument(ctx, document, student.Envelope); err != nil {
+	if _, err := u.studentRepo.UploadDocument(ctx, document, &student.Envelope); err != nil {
 		return err
 	}
 

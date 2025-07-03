@@ -44,3 +44,13 @@ func (d *Document) UpdateFilename(filename string) error {
 	d.Filename = filename
 	return d.validate()
 }
+
+func (d *Document) Copy() *Document {
+	return &Document{
+		ID:          d.ID,
+		Type:        *d.Type.Copy(),
+		Filename:    d.Filename,
+		StoragePath: d.StoragePath,
+		UploadedAt:  d.UploadedAt,
+	}
+}

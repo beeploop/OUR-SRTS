@@ -78,6 +78,7 @@ func (h *studentHandler) RenderStudentPage(c echo.Context) error {
 
 	student, err := h.studentUseCase.GetStudent(ctx, control_number)
 	if err != nil {
+		fmt.Println("error: ", err.Error())
 		page := app.StudentPage(admin, viewmodel.Student{}, make([]viewmodel.ProgramWithMajors, 0))
 		return page.Render(ctx, c.Response().Writer)
 	}

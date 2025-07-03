@@ -9,5 +9,5 @@ import (
 type DocumentTypeRepository interface {
 	Create(ctx context.Context, docType *entities.DocumentType) (*entities.DocumentType, error)
 	FindAll(ctx context.Context) ([]*entities.DocumentType, error)
-	FindByName(ctx context.Context, name string) (*entities.DocumentType, error)
+	FindByTitle(ctx context.Context, title string) (*entities.DocumentType, error)
 }

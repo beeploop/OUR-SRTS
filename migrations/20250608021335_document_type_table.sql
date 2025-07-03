@@ -1,7 +1,10 @@
 -- +goose Up
 CREATE TABLE IF NOT EXISTS document_type (
     id varchar(255) not null,
-    name varchar(255) not null unique,
+    title varchar(255) not null unique,
+    full_title varchar(255) not null,
+    is_stable boolean default true,
+    allow_multiple boolean default false,
     PRIMARY KEY(id),
     INDEX (id)
 );
