@@ -134,15 +134,17 @@ templ StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithM
 											<button type="button" class="bg-primary text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer">Open</button>
 										} else {
 											if group.IsEmpty() {
-												<a
-													class="cursor-pointer rounded-sm rounded-sm bg-gray px-3 py-1.5 text-xs text-white hover:opacity-75"
-												>Open</a>
+												@components.LinkButton(components.LinkButtonProps{
+													Label:   "Open",
+													Disable: true,
+												})
 											} else {
-												<a
-													href={ templ.SafeURL(fmt.Sprintf("http://%s/%s", ctx.Value(contextkeys.HostKey).(string), group.First().StoragePath)) }
-													class="cursor-pointer rounded-sm rounded-sm bg-success px-3 py-1.5 text-xs text-white hover:opacity-75"
-													target="_blank"
-												>Open</a>
+												@components.LinkButton(components.LinkButtonProps{
+													Label:   "Open",
+													Href:    fmt.Sprintf("http://%s/%s", ctx.Value(contextkeys.HostKey).(string), group.First().StoragePath),
+													Target:  "_blank",
+													Disable: false,
+												})
 											}
 										}
 										@components.OffCanvas(components.OffCanvasProps{
