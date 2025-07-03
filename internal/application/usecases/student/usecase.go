@@ -17,17 +17,20 @@ import (
 
 type UseCase struct {
 	studentRepo      repositories.StudentRepository
+	documentRepo     repositories.DocumentRepository
 	documentTypeRepo repositories.DocumentTypeRepository
 	fs               interfaces.Storage
 }
 
 func NewUseCase(
 	studentRepo repositories.StudentRepository,
+	documentRepo repositories.DocumentRepository,
 	documentTypeRepo repositories.DocumentTypeRepository,
 	fs interfaces.Storage,
 ) *UseCase {
 	return &UseCase{
 		studentRepo:      studentRepo,
+		documentRepo:     documentRepo,
 		documentTypeRepo: documentTypeRepo,
 		fs:               fs,
 	}
@@ -140,6 +143,40 @@ func (u *UseCase) UploadDocument(ctx context.Context, studentControlNumber, docT
 
 	document := entities.NewDocument(*documentType, filename, filepath)
 	if _, err := u.studentRepo.UploadDocument(ctx, document, &student.Envelope); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (u *UseCase) ReuploadDocument(ctx context.Context, filename, documentID string, content *multipart.FileHeader) error {
+	if documentID == "" {
+		return errors.New("invalid document ID")
+	}
+
+	file, err := content.Open()
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	existingDocument, err := u.documentRepo.FindByID(ctx, documentID)
+	if err != nil {
+		return err
+	}
+
+	if filename != "" {
+		filename = fmt.Sprintf("%s%s", filename, filepath.Ext(content.Filename))
+		if err := existingDocument.UpdateFilename(filename); err != nil {
+			return err
+		}
+	}
+
+	if err := u.fs.Save(ctx, existingDocument.StoragePath, file); err != nil {
+		return err
+	}
+
+	if err := u.documentRepo.Save(ctx, existingDocument); err != nil {
 		return err
 	}
 

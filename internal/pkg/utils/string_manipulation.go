@@ -26,3 +26,7 @@ func Capitalize(text string) string {
 
 	return strings.Join(capitalized, " ")
 }
+
+func StripQueryParams(url string) string {
+	return strings.Split(url, "?")[0]
+}

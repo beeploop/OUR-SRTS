@@ -201,10 +201,10 @@ func (h *studentHandler) HandleUpdateStudent(c echo.Context) error {
 	)
 
 	if err := h.studentUseCase.UpdateStudent(ctx, student); err != nil {
-		return c.Redirect(http.StatusSeeOther, c.Request().Referer())
+		return c.Redirect(http.StatusSeeOther, utils.StripQueryParams(c.Request().Referer()))
 	}
 
-	return c.Redirect(http.StatusSeeOther, c.Request().Referer())
+	return c.Redirect(http.StatusSeeOther, utils.StripQueryParams(c.Request().Referer()))
 }
 
 func (h *studentHandler) HandleUploadDocument(c echo.Context) error {
@@ -221,8 +221,26 @@ func (h *studentHandler) HandleUploadDocument(c echo.Context) error {
 
 	if err := h.studentUseCase.UploadDocument(ctx, controlNumber, documentType, filename, file); err != nil {
 		fmt.Println("error: ", err.Error())
+		return c.Redirect(http.StatusSeeOther, utils.StripQueryParams(c.Request().Referer()))
+	}
+
+	return c.Redirect(http.StatusSeeOther, utils.StripQueryParams(c.Request().Referer()))
+}
+
+func (h *studentHandler) HandleReuploadDocument(c echo.Context) error {
+	ctx := c.Request().Context()
+
+	documentID := c.FormValue("documentID")
+	filename := c.FormValue("filename")
+
+	file, err := c.FormFile("file")
+	if err != nil {
 		return c.Redirect(http.StatusSeeOther, c.Request().Referer())
 	}
 
-	return c.Redirect(http.StatusSeeOther, c.Request().Referer())
+	if err := h.studentUseCase.ReuploadDocument(ctx, filename, documentID, file); err != nil {
+		return c.Redirect(http.StatusSeeOther, utils.StripQueryParams(c.Request().Referer()))
+	}
+
+	return c.Redirect(http.StatusSeeOther, utils.StripQueryParams(c.Request().Referer()))
 }

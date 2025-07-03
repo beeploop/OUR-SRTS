@@ -33,14 +33,14 @@ func EnvelopeFromDomain(envelope *entities.Envelope) Envelope {
 	}
 }
 
-func (e Envelope) DocumentWithType(docType string) []Document {
+func (e Envelope) DocumentWithType(docType string) DocumentGroup {
 	for _, group := range e.DocumentGroups {
 		if group.Type.Title == docType {
-			return group.Documents
+			return group
 		}
 	}
 
-	return make([]Document, 0)
+	return DocumentGroup{}
 }
 
 func (e Envelope) SingleDocumentWithType(docType string) Document {

@@ -7,6 +7,7 @@ import (
 	"github.com/beeploop/our-srts/internal/pkg/utils"
 	"github.com/beeploop/our-srts/web/views/components"
 	"github.com/beeploop/our-srts/web/views/layouts"
+	"strings"
 )
 
 templ StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithMajors []viewmodel.ProgramWithMajors) {
@@ -102,36 +103,31 @@ templ StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithM
 							<tr>
 								<td class="p-2">{ group.Type.FullTitle }</td>
 								<td class="p-2">
-									if group.Type.AllowMultiple {
-										if group.IsEmpty() {
-											@components.SoftBadge(components.BadgeProps{
-												Title:   "Unavailable",
-												Variant: components.ERROR_BADGE,
-											})
-										} else {
-											@components.SoftBadge(components.BadgeProps{
-												Title:   "On-File",
-												Variant: components.SUCCESS_BADGE,
-											})
-										}
+									if group.IsEmpty() {
+										@components.SoftBadge(components.BadgeProps{
+											Title:   "Unavailable",
+											Variant: components.ERROR_BADGE,
+										})
 									} else {
-										if group.IsEmpty() {
-											@components.SoftBadge(components.BadgeProps{
-												Title:   "Unavailable",
-												Variant: components.ERROR_BADGE,
-											})
-										} else {
-											@components.SoftBadge(components.BadgeProps{
-												Title:   "On-File",
-												Variant: components.SUCCESS_BADGE,
-											})
-										}
+										@components.SoftBadge(components.BadgeProps{
+											Title:   "On-File",
+											Variant: components.SUCCESS_BADGE,
+										})
 									}
 								</td>
 								<td class="p-2">
 									<span class="flex gap-2">
 										if group.Type.AllowMultiple {
-											<button type="button" class="cursor-pointer rounded-sm bg-primary px-3 py-1.5 text-xs text-white">Open</button>
+											@components.OffCanvas(components.OffCanvasProps{
+												ID: fmt.Sprintf("view_%s", group.Type.Title),
+												Button: components.OCButton(components.OCButtonProps{
+													Label:    "Open",
+													Disabled: false,
+													Variant:  components.SUCCESS_BTN,
+												}),
+											}) {
+												@multipleEntryDocumentGroup(student, group)
+											}
 										} else {
 											if group.IsEmpty() {
 												@components.LinkButton(components.LinkButtonProps{
@@ -147,15 +143,38 @@ templ StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithM
 												})
 											}
 										}
-										@components.OffCanvas(components.OffCanvasProps{
-											ID: group.Type.Title,
-											Button: components.OCButton(components.OCButtonProps{
-												Label:    "Add",
-												Disabled: utils.Ternary(!group.IsEmpty(), true, false),
-												Variant:  components.ERROR_BTN,
-											}),
-										}) {
-											@uploadDocumentForm(student, group.Type)
+										if !group.Type.AllowMultiple && !group.IsEmpty() {
+											<!-- Show Update instead of upload -->
+											@components.OffCanvas(components.OffCanvasProps{
+												ID: fmt.Sprintf("upload_%s", group.Type.Title),
+												Button: components.OCButton(components.OCButtonProps{
+													Label:    "Reupload",
+													Disabled: false,
+													Variant:  components.WARNING_BTN,
+												}),
+											}) {
+												@reUploadDocumentForm(student, group)
+											}
+										} else {
+											<!-- Show Upload -->
+											@components.OffCanvas(components.OffCanvasProps{
+												ID: fmt.Sprintf("upload_%s", group.Type.Title),
+												Button: components.OCButton(components.OCButtonProps{
+													Label: "Upload",
+													Disabled: utils.Ternary(
+														group.Type.AllowMultiple,
+														false,
+														utils.Ternary(group.IsEmpty(), false, true),
+													),
+													Variant: components.ERROR_BTN,
+												}),
+											}) {
+												if group.Type.AllowMultiple {
+													@uploadMultipleEntryForm(student, group)
+												} else {
+													@uploadDocumentForm(student, group.Type)
+												}
+											}
 										}
 									</span>
 								</td>
@@ -175,16 +194,28 @@ templ StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithM
 						</tr>
 					</thead>
 					<tbody>
-						for _, document := range student.Envelope.DocumentWithType("other") {
+						for _, document := range student.Envelope.DocumentWithType("other").Documents {
 							<tr>
 								<td class="p-2 font-medium">{ document.Filename }</td>
 								<td class="p-2">
-									@components.LinkButton(components.LinkButtonProps{
-										Label:   "Open",
-										Href:    fmt.Sprintf("http://%s/%s", ctx.Value(contextkeys.HostKey).(string), document.StoragePath),
-										Target:  "_blank",
-										Disable: false,
-									})
+									<span class="flex gap-2">
+										@components.LinkButton(components.LinkButtonProps{
+											Label:   "Open",
+											Href:    fmt.Sprintf("http://%s/%s", ctx.Value(contextkeys.HostKey).(string), document.StoragePath),
+											Target:  "_blank",
+											Disable: false,
+										})
+										@components.OffCanvas(components.OffCanvasProps{
+											ID: fmt.Sprintf("reupload_%s", document.ID),
+											Button: components.OCButton(components.OCButtonProps{
+												Label:    "Reupload",
+												Disabled: false,
+												Variant:  components.WARNING_BTN,
+											}),
+										}) {
+											@reUploadMultipleEntryForm(student, document)
+										}
+									</span>
 								</td>
 							</tr>
 						}
@@ -422,7 +453,7 @@ templ updateStudentDataForm(student viewmodel.Student, programWithMajors []viewm
 templ uploadUnlistedDocForm(student viewmodel.Student) {
 	@components.LoaderOverlay() {
 		<div>
-			<h2 class="font-medium">Add/Upload Unlisted Document</h2>
+			<h2 class="font-medium">Upload Unlisted Document</h2>
 			<form
 				action={ templ.SafeURL(fmt.Sprintf("/app/search/%s/upload", student.ControlNumber)) }
 				method="POST"
@@ -475,7 +506,7 @@ templ uploadUnlistedDocForm(student viewmodel.Student) {
 templ uploadDocumentForm(student viewmodel.Student, doctype viewmodel.DocumentType) {
 	@components.LoaderOverlay() {
 		<div>
-			<h2 class="font-medium">Add/Upload { doctype.FullTitle }</h2>
+			<h2 class="font-medium">Upload { doctype.FullTitle }</h2>
 			<form
 				action={ templ.SafeURL(fmt.Sprintf("/app/search/%s/upload", student.ControlNumber)) }
 				method="POST"
@@ -500,6 +531,201 @@ templ uploadDocumentForm(student viewmodel.Student, doctype viewmodel.DocumentTy
 						ID:      "file",
 						Name:    "file",
 						Accepts: utils.Ternary(doctype.Title == "picture", []string{".png, .jpeg, .jpg"}, []string{".pdf"}),
+					})
+				</div>
+				<div class="mt-4 flex w-full justify-end">
+					<button
+						type="submit"
+						class="cursor-pointer rounded-sm bg-primary px-3 py-1.5 text-xs text-white hover:opacity-75"
+					>Upload</button>
+				</div>
+			</form>
+		</div>
+	}
+}
+
+templ reUploadDocumentForm(student viewmodel.Student, group viewmodel.DocumentGroup) {
+	@components.LoaderOverlay() {
+		<div>
+			<h2 class="font-medium">Reupload { group.Type.FullTitle }</h2>
+			<form
+				action={ templ.SafeURL(fmt.Sprintf("/app/search/%s/reupload", student.ControlNumber)) }
+				method="POST"
+				enctype="multipart/form-data"
+				class="mt-4"
+				x-ref="form"
+				@submit.prevent="
+                    if ($refs.form.checkValidity()) {
+                        loading = true;
+                        $refs.form.submit();
+                    }
+                "
+			>
+				<div class="w-full">
+					<input value={ group.First().ID } name="documentID" hidden="true"/>
+				</div>
+				<div class="w-full">
+					<label for="file" class="">Select new file</label>
+					<br/>
+					@components.FilePicker(components.FilePickerProps{
+						ID:      "file",
+						Name:    "file",
+						Accepts: utils.Ternary(group.Type.Title == "picture", []string{".png, .jpeg, .jpg"}, []string{".pdf"}),
+					})
+				</div>
+				<div class="mt-4 flex w-full justify-end">
+					<button
+						type="submit"
+						class="cursor-pointer rounded-sm bg-primary px-3 py-1.5 text-xs text-white hover:opacity-75"
+					>Upload</button>
+				</div>
+			</form>
+		</div>
+	}
+}
+
+templ multipleEntryDocumentGroup(student viewmodel.Student, group viewmodel.DocumentGroup) {
+	<div>
+		<h2 class="font-medium">{ group.Type.FullTitle }</h2>
+		<div class="mt-2">
+			<table class="mt-2 w-full rounded-sm outline-1 outline-gray">
+				<thead class="bg-primary text-white">
+					<tr>
+						<td class="p-2">File</td>
+						<td class="p-2">Actions</td>
+					</tr>
+				</thead>
+				<tbody>
+					if group.IsEmpty() {
+						<tr>
+							<td class="p-2" colspan="2" align="center">Empty</td>
+						</tr>
+					} else {
+						for _, document := range group.Documents {
+							<tr>
+								<td class="p-2">{ document.Filename }</td>
+								<td class="p-2">
+									<span class="flex gap-2">
+										@components.LinkButton(components.LinkButtonProps{
+											Label:   "Open",
+											Href:    fmt.Sprintf("http://%s/%s", ctx.Value(contextkeys.HostKey).(string), document.StoragePath),
+											Target:  "_blank",
+											Disable: false,
+										})
+										@components.OffCanvas(components.OffCanvasProps{
+											ID: fmt.Sprintf("reupload_%s", document.ID),
+											Button: components.OCButton(components.OCButtonProps{
+												Label:    "Reupload",
+												Disabled: false,
+												Variant:  components.WARNING_BTN,
+											}),
+										}) {
+											@reUploadMultipleEntryForm(student, document)
+										}
+									</span>
+								</td>
+							</tr>
+						}
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+}
+
+templ uploadMultipleEntryForm(student viewmodel.Student, group viewmodel.DocumentGroup) {
+	@components.LoaderOverlay() {
+		<div>
+			<h2 class="font-medium">Upload { group.Type.FullTitle }</h2>
+			<form
+				action={ templ.SafeURL(fmt.Sprintf("/app/search/%s/upload", student.ControlNumber)) }
+				method="POST"
+				enctype="multipart/form-data"
+				class="mt-4 grid gap-4"
+				x-ref="form"
+				@submit.prevent="
+                    if ($refs.form.checkValidity()) {
+                        loading = true;
+                        $refs.form.submit();
+                    }
+                "
+			>
+				<div class="w-full">
+					<input value={ student.ControlNumber } name="controlNumber" hidden="true"/>
+					<input value={ group.Type.Title } name="documentType" hidden="true"/>
+				</div>
+				<div class="w-full">
+					<label for="filename" class="font-medium">Filename</label>
+					<br/>
+					<input
+						type="text"
+						id="filename"
+						name="filename"
+						placeholder="filename"
+						required
+						class="rounded-sm p-2 outline-1 outline-gray focus:border-none focus:outline-primary mt-1.5 w-full"
+					/>
+				</div>
+				<div class="w-full">
+					<label for="file" class="font-medium">Select file</label>
+					<br/>
+					@components.FilePicker(components.FilePickerProps{
+						ID:      "file",
+						Name:    "file",
+						Accepts: []string{".pdf"},
+					})
+				</div>
+				<div class="mt-4 flex w-full justify-end">
+					<button
+						type="submit"
+						class="cursor-pointer rounded-sm bg-primary px-3 py-1.5 text-xs text-white hover:opacity-75"
+					>Upload</button>
+				</div>
+			</form>
+		</div>
+	}
+}
+
+templ reUploadMultipleEntryForm(student viewmodel.Student, document viewmodel.Document) {
+	@components.LoaderOverlay() {
+		<div>
+			<h2 class="font-medium">Reupload { document.Filename }</h2>
+			<form
+				action={ templ.SafeURL(fmt.Sprintf("/app/search/%s/reupload", student.ControlNumber)) }
+				method="POST"
+				enctype="multipart/form-data"
+				class="mt-4 grid gap-4"
+				x-ref="form"
+				@submit.prevent="
+                    if ($refs.form.checkValidity()) {
+                        loading = true;
+                        $refs.form.submit();
+                    }
+                "
+			>
+				<div class="w-full">
+					<input value={ document.ID } name="documentID" hidden="true"/>
+				</div>
+				<div class="w-full">
+					<label for="filename" class="font-medium">Filename</label>
+					<br/>
+					<input
+						type="text"
+						id="filename"
+						name="filename"
+						placeholder="filename"
+						required
+						value={ strings.Split(document.Filename, ".")[0] }
+						class="rounded-sm p-2 outline-1 outline-gray focus:border-none focus:outline-primary mt-1.5 w-full"
+					/>
+				</div>
+				<div class="w-full">
+					<label for="file" class="font-medium">Select new file</label>
+					<br/>
+					@components.FilePicker(components.FilePickerProps{
+						ID:      "file",
+						Name:    "file",
+						Accepts: []string{".pdf"},
 					})
 				</div>
 				<div class="mt-4 flex w-full justify-end">
