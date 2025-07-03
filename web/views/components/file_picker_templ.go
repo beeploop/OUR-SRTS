@@ -76,7 +76,7 @@ func FilePicker(props FilePickerProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\" class=\"mt-1.5 w-full cursor-pointer rounded-sm outline-1 outline-gray file:bg-primary file:text-white file:p-2 text-xs\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\" required class=\"mt-1.5 w-full cursor-pointer rounded-sm outline-1 outline-gray file:bg-primary file:text-white file:p-2 text-xs\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

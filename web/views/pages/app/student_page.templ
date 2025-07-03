@@ -131,7 +131,7 @@ templ StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithM
 								<td class="p-2">
 									<span class="flex gap-2">
 										if group.Type.AllowMultiple {
-											<button type="button" class="bg-primary text-white text-xs rounded-sm px-3 py-1.5 cursor-pointer">Open</button>
+											<button type="button" class="cursor-pointer rounded-sm bg-primary px-3 py-1.5 text-xs text-white">Open</button>
 										} else {
 											if group.IsEmpty() {
 												@components.LinkButton(components.LinkButtonProps{
@@ -163,6 +163,13 @@ templ StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithM
 						}
 					</tbody>
 				</table>
+			</div>
+			<!-- Other Files -->
+			<div class="mt-4">
+				<h2 class="text-xl font-medium">Other Files</h2>
+				for _, document := range student.Envelope.DocumentWithType("other") {
+					<p>{ document.Filename }</p>
+				}
 			</div>
 		</div>
 	}
@@ -395,11 +402,12 @@ templ updateStudentDataForm(student viewmodel.Student, programWithMajors []viewm
 templ uploadUnlistedDocForm(student viewmodel.Student) {
 	@components.LoaderOverlay() {
 		<div>
-			<h2 class="font-medium">Upload Unlisted Document</h2>
+			<h2 class="font-medium">Add/Upload Unlisted Document</h2>
 			<form
-				action="#"
+				action={ templ.SafeURL(fmt.Sprintf("/app/search/%s/upload", student.ControlNumber)) }
 				method="POST"
-				class="mt-4"
+				enctype="multipart/form-data"
+				class="mt-4 grid gap-4"
 				x-ref="form"
 				@submit.prevent="
                     if ($refs.form.checkValidity()) {
@@ -409,13 +417,35 @@ templ uploadUnlistedDocForm(student viewmodel.Student) {
                 "
 			>
 				<div class="w-full">
-					<span>{ student.Fullname() }</span>
+					<input value={ student.ControlNumber } name="controlNumber" hidden="true"/>
+					<input value="other" name="documentType" hidden="true"/>
 				</div>
-				<div class="mt-4 flex justify-end">
+				<div class="w-full">
+					<label for="label" class="">File Label</label>
+					<br/>
+					<input
+						type="text"
+						id="label"
+						name="label"
+						placeholder="label"
+						required
+						class="rounded-sm p-2 outline-1 outline-gray focus:border-none focus:outline-primary mt-1.5 w-full"
+					/>
+				</div>
+				<div class="w-full">
+					<label for="file" class="">Select file</label>
+					<br/>
+					@components.FilePicker(components.FilePickerProps{
+						ID:      "file",
+						Name:    "file",
+						Accepts: []string{".pdf"},
+					})
+				</div>
+				<div class="mt-4 flex w-full justify-end">
 					<button
 						type="submit"
-						class="cursor-pointer rounded-md bg-primary px-3 py-1.5 text-white hover:opacity-75"
-					>Submit</button>
+						class="cursor-pointer rounded-sm bg-primary px-3 py-1.5 text-xs text-white hover:opacity-75"
+					>Upload</button>
 				</div>
 			</form>
 		</div>
