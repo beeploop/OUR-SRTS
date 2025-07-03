@@ -35,7 +35,13 @@ func NewResetHandler(
 func (h *resetHandler) RenderRequestResetPage(c echo.Context) error {
 	ctx := c.Request().Context()
 
-	page := auth.ResetRequestPage()
+	toast, ok := h.sessionManager.GetFlash(c.Response().Writer, c.Request())
+	if !ok {
+		toast = ""
+	}
+	err := toast.(string)
+
+	page := auth.ResetRequestPage(err)
 	return page.Render(ctx, c.Response().Writer)
 }
 
@@ -45,7 +51,11 @@ func (h *resetHandler) HandleRequestReset(c echo.Context) error {
 	username := c.FormValue("username")
 
 	if err := h.resetUseCase.RequestPasswordReset(ctx, username); err != nil {
-		return c.Redirect(http.StatusSeeOther, "/auth/login")
+		toast := viewmodel.NewErrorToast(err.Error())
+		if err := h.sessionManager.SetFlash(c.Response().Writer, c.Request(), toast.ToJson()); err != nil {
+			fmt.Println("error setting fash: ", err.Error())
+		}
+		return c.Redirect(http.StatusSeeOther, c.Request().Referer())
 	}
 
 	return c.Redirect(http.StatusSeeOther, "/auth/login")

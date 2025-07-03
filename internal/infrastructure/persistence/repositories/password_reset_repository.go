@@ -68,6 +68,42 @@ func (r *PasswordResetRepository) FindByID(ctx context.Context, id string) (*ent
 	return request.ToDomain(), nil
 }
 
+func (r *PasswordResetRepository) FindByAdminIDWhereActive(ctx context.Context, adminID string) (*entities.PasswordResetRequest, error) {
+	query, args, err := sq.Select("*").
+		From("reset_request").
+		Where(
+			sq.And{
+				sq.Eq{"admin_id": adminID},
+				sq.Eq{"status": entities.REQUEST_STATUS_PENDING},
+			},
+		).
+		ToSql()
+	if err != nil {
+		return nil, err
+	}
+
+	request := new(models.PasswordResetRequestModel)
+	if err := r.db.GetContext(ctx, request, query, args...); err != nil {
+		return nil, err
+	}
+
+	{
+		query, args, err := sq.Select("*").
+			From("admin").
+			Where(sq.Eq{"id": request.AdminID}).
+			ToSql()
+		if err != nil {
+			return nil, err
+		}
+
+		if err := r.db.GetContext(ctx, &request.Admin, query, args...); err != nil {
+			return nil, err
+		}
+	}
+
+	return request.ToDomain(), nil
+}
+
 func (r *PasswordResetRepository) FindAll(ctx context.Context) ([]*entities.PasswordResetRequest, error) {
 	query, args, err := sq.Select("*").
 		From("reset_request").

@@ -39,6 +39,11 @@ func (u *UseCase) RequestPasswordReset(ctx context.Context, username string) err
 		return errors.New("forbidden action")
 	}
 
+	existingRequest, err := u.passwordResetRepo.FindByAdminIDWhereActive(ctx, account.ID)
+	if err == nil && existingRequest != nil {
+		return errors.New("already have pending request")
+	}
+
 	request := entities.NewResetRequest(*account)
 	if _, err := u.passwordResetRepo.Create(ctx, request); err != nil {
 		return err

@@ -2,6 +2,8 @@ package repositories
 
 import (
 	"context"
+	"database/sql"
+	"errors"
 	"slices"
 
 	sq "github.com/Masterminds/squirrel"
@@ -65,6 +67,9 @@ func (r *AdminRepository) FindByUsername(ctx context.Context, username string) (
 
 	admin := new(models.AdminModel)
 	if err := r.db.GetContext(ctx, admin, query, args...); err != nil {
+		if err == sql.ErrNoRows {
+			return nil, errors.New("account not found")
+		}
 		return nil, err
 	}
 

@@ -1,8 +1,11 @@
 package auth
 
-import "github.com/beeploop/our-srts/web/views/layouts"
+import (
+	"fmt"
+	"github.com/beeploop/our-srts/web/views/layouts"
+)
 
-templ LoginPage() {
+templ LoginPage(errorMessage string) {
 	@layouts.DefaultLayout() {
 		<div class="mx-auto my-0 mt-8 max-w-sm text-center">
 			<div class="mb-8">
@@ -14,6 +17,35 @@ templ LoginPage() {
 					<p>Login to get started</p>
 				</div>
 			</div>
+			if errorMessage != "" {
+				<div
+					class="mb-4 bg-error/25 text-error p-2 rounded-sm outline-1 outline-error"
+					x-data={ fmt.Sprintf("errorMessage('%s')", errorMessage) }
+				>
+					<p x-text="data.message"></p>
+					<script>
+                        (function() {
+                            document.addEventListener("alpine:init", () => {
+                                Alpine.data("errorMessage", (t) => {
+                                    return {
+                                        message: null,
+                                        init() {
+                                            console.log("init error message");
+                                            try {
+                                                const data = JSON.parse(t);
+                                                console.log(data);
+                                                this.data = data;
+                                            } catch (err) {
+                                                console.log(err);
+                                            }
+                                        },
+                                    };
+                                });
+                            });
+                         })()
+                    </script>
+				</div>
+			}
 			<form action="/auth/login" method="POST" class="">
 				<div class="mb-4">
 					<input

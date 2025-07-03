@@ -8,9 +8,12 @@ package auth
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/beeploop/our-srts/web/views/layouts"
+import (
+	"fmt"
+	"github.com/beeploop/our-srts/web/views/layouts"
+)
 
-func LoginPage() templ.Component {
+func LoginPage(errorMessage string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -43,7 +46,30 @@ func LoginPage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"mx-auto my-0 mt-8 max-w-sm text-center\"><div class=\"mb-8\"><div class=\"mb-4 flex justify-center\"><img src=\"/assets/images/logo.png\" alt=\"University logo\" class=\"aspect-square w-20\"></div><div class=\"\"><h2 class=\"text-2xl font-bold\">Welcome OUR Personnel!</h2><p>Login to get started</p></div></div><form action=\"/auth/login\" method=\"POST\" class=\"\"><div class=\"mb-4\"><input type=\"text\" autofocus autocomplete=\"off\" name=\"username\" placeholder=\"username\" class=\"w-full rounded-md border border-gray-400 p-2 focus:border-primary focus:outline-none\"></div><div class=\"mb-4\"><input type=\"password\" name=\"password\" placeholder=\"password\" class=\"w-full rounded-md border border-gray-400 p-2 focus:border-primary focus:outline-none\"></div><div><button type=\"submit\" class=\"w-full cursor-pointer rounded-md bg-primary px-3 py-1.5 text-white hover:opacity-75\">Login</button></div></form><div class=\"mt-2\"><a href=\"/auth/reset/request\" class=\"text-xs text-primary hover:underline\">Request password reset</a></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"mx-auto my-0 mt-8 max-w-sm text-center\"><div class=\"mb-8\"><div class=\"mb-4 flex justify-center\"><img src=\"/assets/images/logo.png\" alt=\"University logo\" class=\"aspect-square w-20\"></div><div class=\"\"><h2 class=\"text-2xl font-bold\">Welcome OUR Personnel!</h2><p>Login to get started</p></div></div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			if errorMessage != "" {
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"mb-4 bg-error/25 text-error p-2 rounded-sm outline-1 outline-error\" x-data=\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var3 string
+				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("errorMessage('%s')", errorMessage))
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/views/pages/auth/login.templ`, Line: 23, Col: 61}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\"><p x-text=\"data.message\"></p><script>\n                        (function() {\n                            document.addEventListener(\"alpine:init\", () => {\n                                Alpine.data(\"errorMessage\", (t) => {\n                                    return {\n                                        message: null,\n                                        init() {\n                                            console.log(\"init error message\");\n                                            try {\n                                                const data = JSON.parse(t);\n                                                console.log(data);\n                                                this.data = data;\n                                            } catch (err) {\n                                                console.log(err);\n                                            }\n                                        },\n                                    };\n                                });\n                            });\n                         })()\n                    </script></div>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<form action=\"/auth/login\" method=\"POST\" class=\"\"><div class=\"mb-4\"><input type=\"text\" autofocus autocomplete=\"off\" name=\"username\" placeholder=\"username\" class=\"w-full rounded-md border border-gray-400 p-2 focus:border-primary focus:outline-none\"></div><div class=\"mb-4\"><input type=\"password\" name=\"password\" placeholder=\"password\" class=\"w-full rounded-md border border-gray-400 p-2 focus:border-primary focus:outline-none\"></div><div><button type=\"submit\" class=\"w-full cursor-pointer rounded-md bg-primary px-3 py-1.5 text-white hover:opacity-75\">Login</button></div></form><div class=\"mt-2\"><a href=\"/auth/reset/request\" class=\"text-xs text-primary hover:underline\">Request password reset</a></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
