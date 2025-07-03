@@ -48,10 +48,11 @@ func (e Envelope) DocumentWithType(docType string) []Document {
 func (e Envelope) SingleDocumentWithType(docType string) Document {
 	for _, group := range e.DocumentGroups {
 		if group.Type.Title == docType {
-			return group.Documents[0]
+			if !group.IsEmpty() {
+				return group.Documents[0]
+			}
+			break
 		}
-
-		break
 	}
 
 	return Document{}

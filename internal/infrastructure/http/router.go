@@ -40,6 +40,7 @@ func (r *Router) registerRoutes() {
 	r.Echo.Use(middleware.RemoveTrailingSlash())
 
 	r.Echo.Static("/assets", "web/assets/")
+	r.Echo.Static("/uploads", "uploads")
 
 	indexRoute := r.Echo.Group("/")
 	r.indexRouteHandler(indexRoute)

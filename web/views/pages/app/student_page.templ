@@ -16,9 +16,10 @@ templ StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithM
 				<div class="aspect-square h-40 w-40 outline-1 outline-gray">
 					@components.ProfileImage(components.ProfileImageProps{
 						Source: utils.Ternary(
-							student.Envelope.SingleDocumentWithType("photo").ID == "",
+							student.Envelope.SingleDocumentWithType("picture").ID == "",
 							"/assets/images/placeholder.jpg",
-							student.Envelope.SingleDocumentWithType("photo").StoragePath),
+							fmt.Sprintf("/%s", student.Envelope.SingleDocumentWithType("picture").StoragePath),
+						),
 					})
 				</div>
 			</div>
@@ -137,8 +138,9 @@ templ StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithM
 												>Open</a>
 											} else {
 												<a
-													href="#"
+													href={ templ.SafeURL(fmt.Sprintf("%s", group.Documents[0].StoragePath)) }
 													class="cursor-pointer rounded-sm rounded-sm bg-success px-3 py-1.5 text-xs text-white hover:opacity-75"
+													target="_blank"
 												>Open</a>
 											}
 										}
@@ -444,7 +446,7 @@ templ uploadDocumentForm(student viewmodel.Student, doctype viewmodel.DocumentTy
 					@components.FilePicker(components.FilePickerProps{
 						ID:      "file",
 						Name:    "file",
-						Accepts: utils.Ternary(doctype.Title == "photo", []string{"images/*"}, []string{".pdf"}),
+						Accepts: utils.Ternary(doctype.Title == "picture", []string{".png, .jpeg, .jpg"}, []string{".pdf"}),
 					})
 				</div>
 				<div class="mt-4 flex w-full justify-end">

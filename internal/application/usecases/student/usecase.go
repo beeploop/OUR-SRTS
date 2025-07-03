@@ -118,7 +118,7 @@ func (u *UseCase) UploadDocument(ctx context.Context, studentControlNumber, docT
 
 	{
 		ext := filepath.Ext(content.Filename)
-		if documentType.Title == "photo" {
+		if documentType.Title == "picture" {
 			validFiles := []string{".png", ".jpg", ".jpeg"}
 
 			if !slices.Contains(validFiles, ext) {
