@@ -35,7 +35,7 @@ func (r *StudentRepository) Create(ctx context.Context, student *entities.Studen
 		envelope := student.Envelope
 		query, args, err := sq.Insert("envelope").
 			Columns("id", "owner", "location", "created_at", "updated_at").
-			Values(envelope.ID, envelope.Owner, envelope.Location, envelope.CreatedAt, envelope.UpdatedAt).
+			Values(envelope.ID, envelope.Owner, envelope.Location, envelope.CreatedAt, envelope.UpdatedAt()).
 			ToSql()
 		if err != nil {
 			return nil, err

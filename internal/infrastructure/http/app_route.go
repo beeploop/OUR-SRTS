@@ -18,6 +18,7 @@ func (r *Router) appRouterHandler(g *echo.Group) {
 	g.Use(middleware.EnsureLoggedIn(sessionManager))
 	g.Use(middleware.SessionMiddleware(sessionManager))
 	g.Use(middleware.RBACMiddleware(sessionManager))
+	g.Use(middleware.HostInjector)
 
 	documentTypeRepo := repositories.NewDocumentTypeRepository(r.db)
 

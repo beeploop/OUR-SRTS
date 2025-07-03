@@ -3,6 +3,7 @@ package app
 import (
 	"fmt"
 	"github.com/beeploop/our-srts/internal/infrastructure/http/viewmodel"
+	"github.com/beeploop/our-srts/internal/pkg/contextkeys"
 	"github.com/beeploop/our-srts/internal/pkg/utils"
 	"github.com/beeploop/our-srts/web/views/components"
 	"github.com/beeploop/our-srts/web/views/layouts"
@@ -17,8 +18,8 @@ templ StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithM
 					@components.ProfileImage(components.ProfileImageProps{
 						Source: utils.Ternary(
 							student.Envelope.SingleDocumentWithType("picture").ID == "",
-							"/assets/images/placeholder.jpg",
-							fmt.Sprintf("/%s", student.Envelope.SingleDocumentWithType("picture").StoragePath),
+							"",
+							student.Envelope.SingleDocumentWithType("picture").StoragePath,
 						),
 					})
 				</div>
@@ -138,7 +139,7 @@ templ StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithM
 												>Open</a>
 											} else {
 												<a
-													href={ templ.SafeURL(fmt.Sprintf("%s", group.Documents[0].StoragePath)) }
+													href={ templ.SafeURL(fmt.Sprintf("http://%s/%s", ctx.Value(contextkeys.HostKey).(string), group.First().StoragePath)) }
 													class="cursor-pointer rounded-sm rounded-sm bg-success px-3 py-1.5 text-xs text-white hover:opacity-75"
 													target="_blank"
 												>Open</a>
