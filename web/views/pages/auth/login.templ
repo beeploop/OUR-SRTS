@@ -1,0 +1,80 @@
+package auth
+
+import (
+	"fmt"
+	"github.com/beeploop/our-srts/web/views/layouts"
+)
+
+templ LoginPage(errorMessage string) {
+	@layouts.DefaultLayout() {
+		<div class="mx-auto my-0 mt-8 max-w-sm text-center">
+			<div class="mb-8">
+				<div class="mb-4 flex justify-center">
+					<img src="/assets/images/logo.png" alt="University logo" class="aspect-square w-20"/>
+				</div>
+				<div class="">
+					<h2 class="text-2xl font-bold">Welcome OUR Personnel!</h2>
+					<p>Login to get started</p>
+				</div>
+			</div>
+			if errorMessage != "" {
+				<div
+					class="mb-4 bg-error/25 text-error p-2 rounded-sm outline-1 outline-error"
+					x-data={ fmt.Sprintf("errorMessage('%s')", errorMessage) }
+				>
+					<p x-text="data.message"></p>
+					<script>
+                        (function() {
+                            document.addEventListener("alpine:init", () => {
+                                Alpine.data("errorMessage", (t) => {
+                                    return {
+                                        message: null,
+                                        init() {
+                                            console.log("init error message");
+                                            try {
+                                                const data = JSON.parse(t);
+                                                console.log(data);
+                                                this.data = data;
+                                            } catch (err) {
+                                                console.log(err);
+                                            }
+                                        },
+                                    };
+                                });
+                            });
+                         })()
+                    </script>
+				</div>
+			}
+			<form action="/auth/login" method="POST" class="">
+				<div class="mb-4">
+					<input
+						type="text"
+						autofocus
+						autocomplete="off"
+						name="username"
+						placeholder="username"
+						class="w-full rounded-md border border-gray-400 p-2 focus:border-primary focus:outline-none"
+					/>
+				</div>
+				<div class="mb-4">
+					<input
+						type="password"
+						name="password"
+						placeholder="password"
+						class="w-full rounded-md border border-gray-400 p-2 focus:border-primary focus:outline-none"
+					/>
+				</div>
+				<div>
+					<button
+						type="submit"
+						class="w-full cursor-pointer rounded-md bg-primary px-3 py-1.5 text-white hover:opacity-75"
+					>Login</button>
+				</div>
+			</form>
+			<div class="mt-2">
+				<a href="/auth/reset/request" class="text-xs text-primary hover:underline">Request password reset</a>
+			</div>
+		</div>
+	}
+}

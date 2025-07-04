@@ -1,6 +1,12 @@
-tempDir/
-logs/
-nas/
+tempDir
+logs
+nas
+node_modules
+mysql
+bin
+tmp
+seed_files
+uploads
 
 Registrar-SRTS*
 
@@ -10,3 +16,4 @@ release/
 *.env
 .release.env
 .debug.env
+*.csv

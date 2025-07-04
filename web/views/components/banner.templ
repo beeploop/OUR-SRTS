@@ -1,0 +1,15 @@
+package components
+
+type BannerProps struct {
+	Title    string
+	Subtitle string
+}
+
+templ Banner(props BannerProps) {
+	<div>
+		<h1 class="text-2xl font-medium">{ props.Title }</h1>
+		if props.Subtitle != "" {
+			<p>{ props.Subtitle }</p>
+		}
+	</div>
+}

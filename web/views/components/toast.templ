@@ -1,0 +1,103 @@
+package components
+
+import (
+	"fmt"
+	"github.com/beeploop/our-srts/internal/infrastructure/http/viewmodel"
+)
+
+templ Toast() {
+	<div class="relative">
+		<div
+			x-data={ fmt.Sprintf("toast('%s')", viewmodel.ToastFromContext(ctx)) }
+			class="max-w-sm absolute right-2"
+		>
+			<template x-if="notification != null && notification.title == 'success'" x-bind:key="notification.id">
+				<div class="">
+					<div class="flex w-full items-center gap-2.5 bg-success-light rounded-sm p-4 transition-all duration-300">
+						<!-- Icon -->
+						<div class="text-success" aria-hidden="true">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5" aria-hidden="true">
+								<path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z" clip-rule="evenodd"></path>
+							</svg>
+						</div>
+						<!-- Title & Message -->
+						<div class="flex flex-col gap-2">
+							<h3 x-text="notification.title"></h3>
+							<p x-text="notification.message"></p>
+						</div>
+						<!--Dismiss Button -->
+						<button
+							type="button"
+							class="ml-auto cursor-pointer"
+							aria-label="dismiss notification"
+							x-on:click="removeNotification()"
+						>
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" class="size-5 shrink-0" aria-hidden="true">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+							</svg>
+						</button>
+					</div>
+				</div>
+			</template>
+			<template x-if="notification != null && notification.title == 'error'" x-bind:key="notification.id">
+				<div class="relative">
+					<div class="flex w-full items-center gap-2.5 bg-error-light rounded-sm p-4 transition-all duration-300">
+						<!-- Icon -->
+						<div class="text-error" aria-hidden="true">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5" aria-hidden="true">
+								<path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z" clip-rule="evenodd"></path>
+							</svg>
+						</div>
+						<!-- Title & Message -->
+						<div class="flex flex-col gap-2">
+							<h3 x-text="notification.title"></h3>
+							<p x-text="notification.message"></p>
+						</div>
+						<!--Dismiss Button -->
+						<button
+							type="button"
+							class="ml-auto cursor-pointer"
+							aria-label="dismiss notification"
+							x-on:click="removeNotification()"
+						>
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" class="size-5 shrink-0" aria-hidden="true">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+							</svg>
+						</button>
+					</div>
+				</div>
+			</template>
+			<script>
+                (function() {
+                    document.addEventListener("alpine:init", () => {
+                        Alpine.data("toast", (t) => {
+                            return {
+                                notification: null,
+                                autoClose: true,
+                                autoCloseDelay: 5000,
+                                init() {
+                                    console.log("init toast");
+
+                                    try {
+                                        const toast = JSON.parse(t);
+                                        console.log(toast);
+                                        this.notification = toast;
+
+                                        if (this.autoClose) {
+                                            setTimeout(() => this.removeNotification(), this.autoCloseDelay);
+                                        }
+                                    } catch (err) {
+                                        console.log("no toast message");
+                                    }
+                                },
+                                removeNotification() {
+                                    this.notification = null;
+                                }
+                            };
+                        });
+                    });
+                 })();
+            </script>
+		</div>
+	</div>
+}

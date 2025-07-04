@@ -1,0 +1,29 @@
+package components
+
+import "github.com/beeploop/our-srts/internal/pkg/utils"
+
+type LinkButtonProps struct {
+	Label   string
+	Href    string
+	Target  string
+	Disable bool
+}
+
+templ LinkButton(props LinkButtonProps) {
+	if props.Href == "" {
+		<a
+			class={ utils.Ternary(
+            props.Disable,
+            "cursor-pointer rounded-sm rounded-sm bg-gray px-3 py-1.5 text-xs text-white hover:opacity-75",
+            "cursor-pointer rounded-sm rounded-sm bg-success px-3 py-1.5 text-xs text-white hover:opacity-75",
+            ) }
+			class="cursor-pointer rounded-sm rounded-sm bg-success px-3 py-1.5 text-xs text-white hover:opacity-75"
+		>{ utils.Ternary(props.Label == "", "Open", props.Label) }</a>
+	} else {
+		<a
+			href={ templ.SafeURL(props.Href) }
+			class="cursor-pointer rounded-sm rounded-sm bg-success px-3 py-1.5 text-xs text-white hover:opacity-75"
+			target={ props.Target }
+		>{ utils.Ternary(props.Label == "", "Open", props.Label) }</a>
+	}
+}

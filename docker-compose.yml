@@ -1,11 +1,11 @@
-services: 
-  db: 
-    image: mysql
-    container_name: dev-db
+services:
+  db:
+    image: mysql:latest
+    container_name: db
     restart: on-failure
     env_file:
-      - "./.db.env"
+        - ./.db.env
     ports:
-      - "3306:3306"
+      - 3306:3306
     volumes:
-      - "./db/migrations/000001_init_schema.up.sql:/docker-entrypoint-initdb.d/init.sql"
+      - ./mysql:/var/lib/mysql

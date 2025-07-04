@@ -1,0 +1,739 @@
+package app
+
+import (
+	"fmt"
+	"github.com/beeploop/our-srts/internal/infrastructure/http/viewmodel"
+	"github.com/beeploop/our-srts/internal/pkg/contextkeys"
+	"github.com/beeploop/our-srts/internal/pkg/utils"
+	"github.com/beeploop/our-srts/web/views/components"
+	"github.com/beeploop/our-srts/web/views/layouts"
+	"strings"
+)
+
+templ StudentPage(admin viewmodel.Admin, student viewmodel.Student, programWithMajors []viewmodel.ProgramWithMajors) {
+	@layouts.MainLayout(admin) {
+		<div class="mx-auto max-w-4xl">
+			<div class="flex gap-2">
+				<div class="aspect-square h-40 w-40 outline-1 outline-gray">
+					@components.ProfileImage(components.ProfileImageProps{
+						Source: utils.Ternary(
+							student.Envelope.SingleDocumentWithType("picture").ID == "",
+							"",
+							student.Envelope.SingleDocumentWithType("picture").StoragePath,
+						),
+					})
+				</div>
+			</div>
+			<!-- Student Data -->
+			<div>
+				<div class="mt-1.5 flex gap-2">
+					<span class="font-medium">Name:</span>
+					<p>{ student.LastName }, { student.FirstName } { student.MiddleName }</p>
+				</div>
+				<div class="mt-1.5 flex gap-2">
+					<span class="font-medium">Student Type:</span>
+					<p>{ utils.StripUnderscore(student.StudentType) }</p>
+				</div>
+				<div class="mt-1.5 flex gap-2">
+					<span class="font-medium">Civil Status:</span>
+					<p>{ utils.StripUnderscore(student.CivilStatus) }</p>
+				</div>
+				<div class="mt-1.5 flex gap-2">
+					<span class="font-medium">Program:</span>
+					<p>{ student.Program }</p>
+				</div>
+				<div class="mt-1.5 flex gap-2">
+					<span class="font-medium">Major:</span>
+					<p>{ student.Major }</p>
+				</div>
+				<div class="mt-1.5 flex gap-2">
+					<span class="font-medium">Control Number:</span>
+					<p>{ student.ControlNumber }</p>
+				</div>
+				<div class="mt-1.5 flex gap-2">
+					<span class="font-medium">File Location:</span>
+					<p>{ student.Envelope.Location }</p>
+				</div>
+				<div class="mt-1.5 flex gap-2">
+					<span class="font-medium">Date Added:</span>
+					<p>{ utils.TimeToString(student.CreatedAt) }</p>
+				</div>
+				<div class="mt-1.5 flex gap-2">
+					<span class="font-medium">Last Modified:</span>
+					<p>{ utils.TimeToString(student.UpdatedAt) }</p>
+				</div>
+			</div>
+			<!-- Actions -->
+			<div class="mt-2 flex justify-end gap-2">
+				@components.OffCanvas(components.OffCanvasProps{
+					ID: fmt.Sprintf("update_%s", student.ControlNumber),
+					Button: components.OCButton(components.OCButtonProps{
+						Label:    "Update Data",
+						Disabled: false,
+						Variant:  components.WARNING_BTN,
+					}),
+				}) {
+					@updateStudentDataForm(student, programWithMajors)
+				}
+				@components.OffCanvas(components.OffCanvasProps{
+					ID: fmt.Sprintf("upload_%s", student.ControlNumber),
+					Button: components.OCButton(components.OCButtonProps{
+						Label:    "New Unlisted File",
+						Disabled: false,
+						Variant:  components.ERROR_BTN,
+					}),
+				}) {
+					@uploadUnlistedDocForm(student)
+				}
+			</div>
+			<!-- Files -->
+			<div class="mt-4">
+				<h2 class="text-xl font-medium">Files</h2>
+				<table class="mt-2 w-full rounded-sm outline-1 outline-gray">
+					<thead class="bg-primary text-white">
+						<tr>
+							<td class="p-2">File</td>
+							<td class="p-2">Remarks</td>
+							<td class="p-2">Actions</td>
+						</tr>
+					</thead>
+					<tbody>
+						for _, group := range student.Envelope.DocumentGroupsWithoutTypeTitle("other") {
+							<tr>
+								<td class="p-2">{ group.Type.FullTitle }</td>
+								<td class="p-2">
+									if group.IsEmpty() {
+										@components.SoftBadge(components.BadgeProps{
+											Title:   "Unavailable",
+											Variant: components.ERROR_BADGE,
+										})
+									} else {
+										@components.SoftBadge(components.BadgeProps{
+											Title:   "On-File",
+											Variant: components.SUCCESS_BADGE,
+										})
+									}
+								</td>
+								<td class="p-2">
+									<span class="flex gap-2">
+										if group.Type.AllowMultiple {
+											@components.OffCanvas(components.OffCanvasProps{
+												ID: fmt.Sprintf("view_%s", group.Type.Title),
+												Button: components.OCButton(components.OCButtonProps{
+													Label:    "Open",
+													Disabled: false,
+													Variant:  components.SUCCESS_BTN,
+												}),
+											}) {
+												@multipleEntryDocumentGroup(student, group)
+											}
+										} else {
+											if group.IsEmpty() {
+												@components.LinkButton(components.LinkButtonProps{
+													Label:   "Open",
+													Disable: true,
+												})
+											} else {
+												@components.LinkButton(components.LinkButtonProps{
+													Label:   "Open",
+													Href:    fmt.Sprintf("http://%s/%s", ctx.Value(contextkeys.HostKey).(string), group.First().StoragePath),
+													Target:  "_blank",
+													Disable: false,
+												})
+											}
+										}
+										if !group.Type.AllowMultiple && !group.IsEmpty() {
+											<!-- Show Update instead of upload -->
+											@components.OffCanvas(components.OffCanvasProps{
+												ID: fmt.Sprintf("upload_%s", group.Type.Title),
+												Button: components.OCButton(components.OCButtonProps{
+													Label:    "Reupload",
+													Disabled: false,
+													Variant:  components.WARNING_BTN,
+												}),
+											}) {
+												@reUploadDocumentForm(student, group)
+											}
+										} else {
+											<!-- Show Upload -->
+											@components.OffCanvas(components.OffCanvasProps{
+												ID: fmt.Sprintf("upload_%s", group.Type.Title),
+												Button: components.OCButton(components.OCButtonProps{
+													Label: "Upload",
+													Disabled: utils.Ternary(
+														group.Type.AllowMultiple,
+														false,
+														utils.Ternary(group.IsEmpty(), false, true),
+													),
+													Variant: components.ERROR_BTN,
+												}),
+											}) {
+												if group.Type.AllowMultiple {
+													@uploadMultipleEntryForm(student, group)
+												} else {
+													@uploadDocumentForm(student, group.Type)
+												}
+											}
+										}
+									</span>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+			<!-- Other Files -->
+			<div class="mt-4">
+				<h2 class="text-xl font-medium">Other Files</h2>
+				<table class="mt-2 w-full rounded-sm outline-1 outline-gray">
+					<thead class="bg-primary text-white">
+						<tr>
+							<td class="p-2">File</td>
+							<td class="p-2">Actions</td>
+						</tr>
+					</thead>
+					<tbody>
+						for _, document := range student.Envelope.DocumentWithType("other").Documents {
+							<tr>
+								<td class="p-2 font-medium">{ document.Filename }</td>
+								<td class="p-2">
+									<span class="flex gap-2">
+										@components.LinkButton(components.LinkButtonProps{
+											Label:   "Open",
+											Href:    fmt.Sprintf("http://%s/%s", ctx.Value(contextkeys.HostKey).(string), document.StoragePath),
+											Target:  "_blank",
+											Disable: false,
+										})
+										@components.OffCanvas(components.OffCanvasProps{
+											ID: fmt.Sprintf("reupload_%s", document.ID),
+											Button: components.OCButton(components.OCButtonProps{
+												Label:    "Reupload",
+												Disabled: false,
+												Variant:  components.WARNING_BTN,
+											}),
+										}) {
+											@reUploadMultipleEntryForm(student, document)
+										}
+									</span>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	}
+}
+
+templ updateStudentDataForm(student viewmodel.Student, programWithMajors []viewmodel.ProgramWithMajors) {
+	@components.LoaderOverlay() {
+		<div>
+			<h2 class="font-medium">Update Student Data</h2>
+			<form
+				action={ templ.SafeURL(fmt.Sprintf("/app/search/%s/update", student.ControlNumber)) }
+				method="POST"
+				class="mt-4"
+				x-ref="form"
+				@submit.prevent="
+                    if ($refs.form.checkValidity()) {
+                        loading = true;
+                        $refs.form.submit();
+                    }
+                "
+			>
+				<div class="grid gap-2">
+					<div class="flex justify-evenly gap-2">
+						<div class="w-full">
+							<label for="lastname">Lastname</label>
+							<br/>
+							<input
+								id="lastname"
+								type="text"
+								required
+								autofocus
+								autocomplete="off"
+								name="lastname"
+								placeholder="lastname"
+								value={ student.LastName }
+								class="w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none"
+							/>
+						</div>
+						<div class="w-full">
+							<label for="firstname">Firstname</label>
+							<br/>
+							<input
+								id="firstname"
+								type="text"
+								required
+								autocomplete="off"
+								name="firstname"
+								placeholder="firstname"
+								value={ student.FirstName }
+								class="w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none"
+							/>
+						</div>
+						<div class="w-full">
+							<label for="middlename">Middlename</label>
+							<br/>
+							<input
+								id="middlename"
+								type="text"
+								required
+								autocomplete="off"
+								name="middlename"
+								placeholder="middlename"
+								value={ student.MiddleName }
+								class="w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none"
+							/>
+						</div>
+					</div>
+					<div class="w-full">
+						<label for="controlNumber">File Control Number</label>
+						<br/>
+						<input
+							id="controlNumber"
+							type="text"
+							required
+							autocomplete="off"
+							name="controlNumber"
+							placeholder="xxxxx"
+							value={ student.ControlNumber }
+							readonly="true"
+							class="w-full rounded-md border border-gray p-2 read-only:bg-gray-light read-only:text-gray focus:border-primary focus:outline-none"
+						/>
+					</div>
+					<div class="w-full">
+						<label for="fileLocation">File Location</label>
+						<br/>
+						<input
+							id="fileLocation"
+							type="text"
+							required
+							autocomplete="off"
+							name="fileLocation"
+							placeholder="xxxxx"
+							value={ student.Envelope.Location }
+							class="w-full rounded-md border border-gray p-2 focus:border-primary focus:outline-none"
+						/>
+					</div>
+					<div class="w-full" x-data={ fmt.Sprintf("studentType('%s')", student.StudentType) }>
+						<label for="type">Student Type</label>
+						<br/>
+						<select
+							id="type"
+							name="type"
+							x-model="type"
+							class="w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none"
+						>
+							<option value="non_transferee">Non-Transferee</option>
+							<option value="transferee">Transferee</option>
+							<option value="graduate">Graduate</option>
+						</select>
+						<script>
+                            (function() {
+                                document.addEventListener("alpine:init", () => {
+                                    Alpine.data("studentType", (t) => {
+                                        return {
+                                            type: t,
+                                        };
+                                    });
+                                })
+                             })();
+                        </script>
+					</div>
+					<div class="w-full" x-data={ fmt.Sprintf("civilStatus('%s')", student.CivilStatus) }>
+						<label for="civilStatus">Civil Status</label>
+						<br/>
+						<select
+							id="civilStatus"
+							name="civilStatus"
+							x-model="status"
+							class="w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none"
+						>
+							<option value="single">Single</option>
+							<option value="married">Married</option>
+						</select>
+						<script>
+                            (function() {
+                                document.addEventListener("alpine:init", () => {
+                                    Alpine.data("civilStatus", (s) => {
+                                        return {
+                                            status: s,
+                                        };
+                                    });
+                                });
+                             })();
+                        </script>
+					</div>
+					<div x-data="updateStudent()">
+						<div class="w-full">
+							<label for="program">Program</label>
+							<br/>
+							<select
+								id="program"
+								name="program"
+								x-model="selectedProgramID"
+								required
+								class="w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none"
+							>
+								<option value="">__select a program__</option>
+								<template x-for="item in data" :key="item.program.id">
+									<option :value="item.program.id" x-text="item.program.title" :selected="item.program.id === selectedProgramID"></option>
+								</template>
+							</select>
+						</div>
+						<div class="mt-2 w-full">
+							<label for="major">Major</label>
+							<br/>
+							<select
+								id="major"
+								name="major"
+								x-model="selectedMajorID"
+								:disabled="!majors().length"
+								class="w-full rounded-md border border-gray bg-white p-2 focus:border-primary focus:outline-none disabled:bg-gray-light disabled:text-gray"
+							>
+								<option value="">__select a major__</option>
+								<template x-for="major in majors()" :key="major.id">
+									<option :value="major.id" x-text="major.title" :selected="major.id === selectedMajorID"></option>
+								</template>
+							</select>
+						</div>
+					</div>
+					@templ.JSONScript("selectedProgram", student.Program)
+					@templ.JSONScript("selectedMajor", student.Major)
+					@templ.JSONScript("programs", programWithMajors)
+					<script>
+                    (function() {
+                         document.addEventListener("alpine:init", () => {
+                             Alpine.data("updateStudent", () => {
+                                 return {
+                                     data: null,
+                                     selectedProgramID: "",
+                                     selectedMajorID: "",
+                                     init() {
+                                         const data = JSON.parse(document.getElementById("programs").textContent);
+                                         this.data = data;
+
+                                         const selectedProgram = JSON.parse(document.getElementById("selectedProgram").textContent);
+                                         const selectedMajor = JSON.parse(document.getElementById("selectedMajor").textContent);
+
+                                         if (!selectedProgram) {
+                                             console.log("no preselected program");
+                                             return;
+                                         }
+
+                                         const program = this.data.find(item => item.program.title === selectedProgram);
+                                         this.selectedProgramID = program ? program.program.id : "";
+
+                                         const major = program.majors.find(item => item.title === selectedMajor);
+                                         this.selectedMajorID = major ? major.id : "";
+                                     },
+                                     majors() {
+                                         const found = this.data.find(item => item.program.id === this.selectedProgramID);
+                                         return found ? found.majors : [];
+                                     },
+                                 };
+                             });
+                         });
+                     })();
+                </script>
+				</div>
+				<div class="mt-2 flex justify-end">
+					<button
+						type="submit"
+						class="cursor-pointer rounded-md bg-primary px-3 py-1.5 text-white hover:opacity-75"
+					>Save</button>
+				</div>
+			</form>
+		</div>
+	}
+}
+
+templ uploadUnlistedDocForm(student viewmodel.Student) {
+	@components.LoaderOverlay() {
+		<div>
+			<h2 class="font-medium">Upload Unlisted Document</h2>
+			<form
+				action={ templ.SafeURL(fmt.Sprintf("/app/search/%s/upload", student.ControlNumber)) }
+				method="POST"
+				enctype="multipart/form-data"
+				class="mt-4 grid gap-4"
+				x-ref="form"
+				@submit.prevent="
+                    if ($refs.form.checkValidity()) {
+                        loading = true;
+                        $refs.form.submit();
+                    }
+                "
+			>
+				<div class="w-full">
+					<input value={ student.ControlNumber } name="controlNumber" hidden="true"/>
+					<input value="other" name="documentType" hidden="true"/>
+				</div>
+				<div class="w-full">
+					<label for="filename" class="font-medium">Filename</label>
+					<br/>
+					<input
+						type="text"
+						id="filename"
+						name="filename"
+						placeholder="filename"
+						required
+						class="rounded-sm p-2 outline-1 outline-gray focus:border-none focus:outline-primary mt-1.5 w-full"
+					/>
+				</div>
+				<div class="w-full">
+					<label for="file" class="font-medium">Select file</label>
+					<br/>
+					@components.FilePicker(components.FilePickerProps{
+						ID:      "file",
+						Name:    "file",
+						Accepts: []string{".pdf"},
+					})
+				</div>
+				<div class="mt-4 flex w-full justify-end">
+					<button
+						type="submit"
+						class="cursor-pointer rounded-sm bg-primary px-3 py-1.5 text-xs text-white hover:opacity-75"
+					>Upload</button>
+				</div>
+			</form>
+		</div>
+	}
+}
+
+templ uploadDocumentForm(student viewmodel.Student, doctype viewmodel.DocumentType) {
+	@components.LoaderOverlay() {
+		<div>
+			<h2 class="font-medium">Upload { doctype.FullTitle }</h2>
+			<form
+				action={ templ.SafeURL(fmt.Sprintf("/app/search/%s/upload", student.ControlNumber)) }
+				method="POST"
+				enctype="multipart/form-data"
+				class="mt-4"
+				x-ref="form"
+				@submit.prevent="
+                    if ($refs.form.checkValidity()) {
+                        loading = true;
+                        $refs.form.submit();
+                    }
+                "
+			>
+				<div class="w-full">
+					<input value={ student.ControlNumber } name="controlNumber" hidden="true"/>
+					<input value={ doctype.Title } name="documentType" hidden="true"/>
+				</div>
+				<div class="w-full">
+					<label for="file" class="">Select file</label>
+					<br/>
+					@components.FilePicker(components.FilePickerProps{
+						ID:      "file",
+						Name:    "file",
+						Accepts: utils.Ternary(doctype.Title == "picture", []string{".png, .jpeg, .jpg"}, []string{".pdf"}),
+					})
+				</div>
+				<div class="mt-4 flex w-full justify-end">
+					<button
+						type="submit"
+						class="cursor-pointer rounded-sm bg-primary px-3 py-1.5 text-xs text-white hover:opacity-75"
+					>Upload</button>
+				</div>
+			</form>
+		</div>
+	}
+}
+
+templ reUploadDocumentForm(student viewmodel.Student, group viewmodel.DocumentGroup) {
+	@components.LoaderOverlay() {
+		<div>
+			<h2 class="font-medium">Reupload { group.Type.FullTitle }</h2>
+			<form
+				action={ templ.SafeURL(fmt.Sprintf("/app/search/%s/reupload", student.ControlNumber)) }
+				method="POST"
+				enctype="multipart/form-data"
+				class="mt-4"
+				x-ref="form"
+				@submit.prevent="
+                    if ($refs.form.checkValidity()) {
+                        loading = true;
+                        $refs.form.submit();
+                    }
+                "
+			>
+				<div class="w-full">
+					<input value={ group.First().ID } name="documentID" hidden="true"/>
+				</div>
+				<div class="w-full">
+					<label for="file" class="">Select new file</label>
+					<br/>
+					@components.FilePicker(components.FilePickerProps{
+						ID:      "file",
+						Name:    "file",
+						Accepts: utils.Ternary(group.Type.Title == "picture", []string{".png, .jpeg, .jpg"}, []string{".pdf"}),
+					})
+				</div>
+				<div class="mt-4 flex w-full justify-end">
+					<button
+						type="submit"
+						class="cursor-pointer rounded-sm bg-primary px-3 py-1.5 text-xs text-white hover:opacity-75"
+					>Upload</button>
+				</div>
+			</form>
+		</div>
+	}
+}
+
+templ multipleEntryDocumentGroup(student viewmodel.Student, group viewmodel.DocumentGroup) {
+	<div>
+		<h2 class="font-medium">{ group.Type.FullTitle }</h2>
+		<div class="mt-2">
+			<table class="mt-2 w-full rounded-sm outline-1 outline-gray">
+				<thead class="bg-primary text-white">
+					<tr>
+						<td class="p-2">File</td>
+						<td class="p-2">Actions</td>
+					</tr>
+				</thead>
+				<tbody>
+					if group.IsEmpty() {
+						<tr>
+							<td class="p-2" colspan="2" align="center">Empty</td>
+						</tr>
+					} else {
+						for _, document := range group.Documents {
+							<tr>
+								<td class="p-2">{ document.Filename }</td>
+								<td class="p-2">
+									<span class="flex gap-2">
+										@components.LinkButton(components.LinkButtonProps{
+											Label:   "Open",
+											Href:    fmt.Sprintf("http://%s/%s", ctx.Value(contextkeys.HostKey).(string), document.StoragePath),
+											Target:  "_blank",
+											Disable: false,
+										})
+										@components.OffCanvas(components.OffCanvasProps{
+											ID: fmt.Sprintf("reupload_%s", document.ID),
+											Button: components.OCButton(components.OCButtonProps{
+												Label:    "Reupload",
+												Disabled: false,
+												Variant:  components.WARNING_BTN,
+											}),
+										}) {
+											@reUploadMultipleEntryForm(student, document)
+										}
+									</span>
+								</td>
+							</tr>
+						}
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+}
+
+templ uploadMultipleEntryForm(student viewmodel.Student, group viewmodel.DocumentGroup) {
+	@components.LoaderOverlay() {
+		<div>
+			<h2 class="font-medium">Upload { group.Type.FullTitle }</h2>
+			<form
+				action={ templ.SafeURL(fmt.Sprintf("/app/search/%s/upload", student.ControlNumber)) }
+				method="POST"
+				enctype="multipart/form-data"
+				class="mt-4 grid gap-4"
+				x-ref="form"
+				@submit.prevent="
+                    if ($refs.form.checkValidity()) {
+                        loading = true;
+                        $refs.form.submit();
+                    }
+                "
+			>
+				<div class="w-full">
+					<input value={ student.ControlNumber } name="controlNumber" hidden="true"/>
+					<input value={ group.Type.Title } name="documentType" hidden="true"/>
+				</div>
+				<div class="w-full">
+					<label for="filename" class="font-medium">Filename</label>
+					<br/>
+					<input
+						type="text"
+						id="filename"
+						name="filename"
+						placeholder="filename"
+						required
+						class="rounded-sm p-2 outline-1 outline-gray focus:border-none focus:outline-primary mt-1.5 w-full"
+					/>
+				</div>
+				<div class="w-full">
+					<label for="file" class="font-medium">Select file</label>
+					<br/>
+					@components.FilePicker(components.FilePickerProps{
+						ID:      "file",
+						Name:    "file",
+						Accepts: []string{".pdf"},
+					})
+				</div>
+				<div class="mt-4 flex w-full justify-end">
+					<button
+						type="submit"
+						class="cursor-pointer rounded-sm bg-primary px-3 py-1.5 text-xs text-white hover:opacity-75"
+					>Upload</button>
+				</div>
+			</form>
+		</div>
+	}
+}
+
+templ reUploadMultipleEntryForm(student viewmodel.Student, document viewmodel.Document) {
+	@components.LoaderOverlay() {
+		<div>
+			<h2 class="font-medium">Reupload { document.Filename }</h2>
+			<form
+				action={ templ.SafeURL(fmt.Sprintf("/app/search/%s/reupload", student.ControlNumber)) }
+				method="POST"
+				enctype="multipart/form-data"
+				class="mt-4 grid gap-4"
+				x-ref="form"
+				@submit.prevent="
+                    if ($refs.form.checkValidity()) {
+                        loading = true;
+                        $refs.form.submit();
+                    }
+                "
+			>
+				<div class="w-full">
+					<input value={ document.ID } name="documentID" hidden="true"/>
+				</div>
+				<div class="w-full">
+					<label for="filename" class="font-medium">Filename</label>
+					<br/>
+					<input
+						type="text"
+						id="filename"
+						name="filename"
+						placeholder="filename"
+						required
+						value={ strings.Split(document.Filename, ".")[0] }
+						class="rounded-sm p-2 outline-1 outline-gray focus:border-none focus:outline-primary mt-1.5 w-full"
+					/>
+				</div>
+				<div class="w-full">
+					<label for="file" class="font-medium">Select new file</label>
+					<br/>
+					@components.FilePicker(components.FilePickerProps{
+						ID:      "file",
+						Name:    "file",
+						Accepts: []string{".pdf"},
+					})
+				</div>
+				<div class="mt-4 flex w-full justify-end">
+					<button
+						type="submit"
+						class="cursor-pointer rounded-sm bg-primary px-3 py-1.5 text-xs text-white hover:opacity-75"
+					>Upload</button>
+				</div>
+			</form>
+		</div>
+	}
+}

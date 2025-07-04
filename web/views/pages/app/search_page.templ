@@ -1,0 +1,120 @@
+package app
+
+import (
+	"fmt"
+	"github.com/beeploop/our-srts/internal/infrastructure/http/viewmodel"
+	"github.com/beeploop/our-srts/web/views/components"
+	"github.com/beeploop/our-srts/web/views/layouts"
+)
+
+templ SearchPage(admin viewmodel.Admin, programs []viewmodel.Program, students []viewmodel.StudentListItem) {
+	@layouts.MainLayout(admin) {
+		@components.Banner(components.BannerProps{
+			Title: "Search Student",
+		})
+		@components.Divider()
+		<div>
+			@searchbar(programs)
+			<table class="w-full outline-1 outline-gray rounded-sm">
+				<thead class="bg-primary text-white">
+					<tr>
+						<td class="p-2">#</td>
+						<td class="p-2">Control Number</td>
+						<td class="p-2">Lastname</td>
+						<td class="p-2">Firstname</td>
+						<td class="p-2">Middlename</td>
+						<td class="p-2">Actions</td>
+					</tr>
+				</thead>
+				<tbody class="divide-y divide-gray">
+					if len(students) == 0 {
+						<tr class="">
+							<td class="p-2" colspan="6" align="center">Empty</td>
+						</tr>
+					} else {
+						for i, student := range students {
+							<tr class="">
+								<td class="p-2">{ i + 1 }</td>
+								<td class="p-2">{ student.ControlNumber }</td>
+								<td class="p-2">{ student.Lastname }</td>
+								<td class="p-2">{ student.Firstname }</td>
+								<td class="p-2">{ student.Middlename }</td>
+								<td class="p-2">
+									<a
+										href={ templ.SafeURL(fmt.Sprintf("/app/search/%s", student.ControlNumber)) }
+										class="outline-1 outline-primary bg-red-500/25 text-primary cursor-pointer hover:opacity-75 px-3 py-1 rounded-sm"
+									>view</a>
+								</td>
+							</tr>
+						}
+					}
+				</tbody>
+			</table>
+		</div>
+	}
+}
+
+templ searchbar(programs []viewmodel.Program) {
+	<form>
+		<div class="flex gap-4 justify-end my-4">
+			<input
+				type="text"
+				name="query"
+				id="searchbar"
+				placeholder="search..."
+				autocomplete="off"
+				autofocus
+				class="outline-1 outline-gray rounded-sm p-2 focus:outline-primary w-full"
+			/>
+			<select
+				name="type"
+				id="search-type"
+				class="outline-1 outline-gray rounded-sm p-2 focus:outline-primary w-full"
+			>
+				<option value="lastname">Lastname</option>
+				<option value="firstname">Firstname</option>
+				<option value="middlename">Middlename</option>
+				<option value="control_number">Control Number</option>
+			</select>
+			<select
+				id="programs"
+				name="program"
+				class="outline-1 outline-gray rounded-sm p-2 focus:outline-primary w-full"
+			>
+				<option value="all">All</option>
+				for _, program := range programs {
+					<option value={ program.ID }>{ program.Title }</option>
+				}
+			</select>
+			<div>
+				<button type="submit" class="bg-primary text-white px-3 py-2 border-none hover:opacity-75 cursor-pointer rounded-sm flex items-center gap-2">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+						<path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path>
+					</svg>
+					<p>Search</p>
+				</button>
+			</div>
+		</div>
+		<script>
+            (function() {
+                const searchbar = document.getElementById("searchbar");
+                const searchtype = document.getElementById("search-type");
+                const programs = document.getElementById("programs");
+
+                const params = new URLSearchParams(window.location.search);
+                
+                if (params.has("query")) {
+                    searchbar.value = params.get("query");
+                }
+
+                if (params.has("type")) {
+                    searchtype.value = params.get("type");
+                }
+
+                if (params.has("program")) {
+                    programs.value = params.get("program");
+                }
+             })();
+        </script>
+	</form>
+}

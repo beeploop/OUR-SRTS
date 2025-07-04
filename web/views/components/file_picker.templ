@@ -1,0 +1,20 @@
+package components
+
+import "strings"
+
+type FilePickerProps struct {
+	ID      string
+	Name    string
+	Accepts []string
+}
+
+templ FilePicker(props FilePickerProps) {
+	<input
+		type="file"
+		id={ props.ID }
+		name={ props.Name }
+		accept={ strings.Join(props.Accepts, ", ") }
+		required
+		class="mt-1.5 w-full cursor-pointer rounded-sm outline-1 outline-gray file:bg-primary file:text-white file:p-2 text-xs"
+	/>
+}

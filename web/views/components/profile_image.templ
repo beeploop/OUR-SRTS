@@ -1,0 +1,26 @@
+package components
+
+import (
+	"fmt"
+	"github.com/beeploop/our-srts/internal/pkg/contextkeys"
+)
+
+type ProfileImageProps struct {
+	Source string
+}
+
+templ ProfileImage(props ProfileImageProps) {
+	if props.Source == "" {
+		<img
+			src="/assets/images/placeholder.jpg"
+			alt="student image"
+			class="aspect-square h-40 w-40"
+		/>
+	} else {
+		<img
+			src={ templ.SafeURL(fmt.Sprintf("http://%s/%s", ctx.Value(contextkeys.HostKey).(string), props.Source)) }
+			alt="student image"
+			class="aspect-square h-40 w-40"
+		/>
+	}
+}
