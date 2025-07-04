@@ -27,35 +27,35 @@ func (s *DiskStorage) ConstructPath(ctx context.Context, folderName, filename st
 	return filepath.Join(s.uploadDir, folderName, filename)
 }
 
-func (s *DiskStorage) Save(ctx context.Context, path string, content io.Reader) error {
+func (s *DiskStorage) Save(ctx context.Context, path string, content io.Reader) (string, error) {
 	if err := os.MkdirAll(filepath.Dir(path), s.dirPerms); err != nil {
-		return err
+		return "", err
 	}
 
 	// Save to temp location
 	tempPath, err := s.saveTemp(filepath.Base(path), content)
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	// Copy to upload location
 	tempFile, err := os.Open(tempPath)
 	if err != nil {
-		return err
+		return "", err
 	}
 	defer tempFile.Close()
 
 	file, err := os.Create(path)
 	if err != nil {
-		return err
+		return "", err
 	}
 	defer file.Close()
 
 	if _, err := io.Copy(file, tempFile); err != nil {
-		return err
+		return "", err
 	}
 
-	return s.Delete(ctx, tempPath)
+	return tempPath, nil
 }
 
 func (s *DiskStorage) Delete(ctx context.Context, path string) error {
