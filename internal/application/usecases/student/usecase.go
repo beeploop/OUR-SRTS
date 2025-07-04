@@ -7,7 +7,9 @@ import (
 	"mime/multipart"
 	"net/url"
 	"path/filepath"
+	"runtime"
 	"slices"
+	"strings"
 
 	"github.com/beeploop/our-srts/internal/application/interfaces"
 	"github.com/beeploop/our-srts/internal/domain/entities"
@@ -139,6 +141,10 @@ func (u *UseCase) UploadDocument(ctx context.Context, studentControlNumber, docT
 	filepath := u.fs.ConstructPath(ctx, folder, filename)
 	if err := u.fs.Save(ctx, filepath, file); err != nil {
 		return err
+	}
+
+	if runtime.GOOS == "windows" {
+		filepath = strings.ReplaceAll(filepath, "\\", "/")
 	}
 
 	document := entities.NewDocument(*documentType, filename, filepath)

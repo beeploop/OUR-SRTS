@@ -41,7 +41,7 @@ func (r *Router) registerRoutes() {
 	r.Echo.Use(middleware.CustomLogger)
 
 	r.Echo.Static("/assets", "web/assets/")
-	r.Echo.Static("/uploads", "uploads")
+	r.Echo.Static("/uploads", r.cfg.UPLOAD_DIR)
 
 	indexRoute := r.Echo.Group("/")
 	r.indexRouteHandler(indexRoute)
