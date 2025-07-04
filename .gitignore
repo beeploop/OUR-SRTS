@@ -5,6 +5,7 @@ node_modules
 mysql
 bin
 tmp
+temp
 seed_files
 uploads
 
