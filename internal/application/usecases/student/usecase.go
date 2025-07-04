@@ -139,7 +139,11 @@ func (u *UseCase) UploadDocument(ctx context.Context, studentControlNumber, docT
 	filename = fmt.Sprintf("%s%s", filename, filepath.Ext(content.Filename))
 	folder := fmt.Sprintf("%s_%s", student.ControlNumber, utils.WhiteSpaceToUnderscore(student.LastName))
 	filepath := u.fs.ConstructPath(ctx, folder, filename)
-	if err := u.fs.Save(ctx, filepath, file); err != nil {
+	tempPath, err := u.fs.Save(ctx, filepath, file)
+	if err != nil {
+		return err
+	}
+	if err := u.fs.Delete(ctx, tempPath); err != nil {
 		return err
 	}
 
@@ -178,7 +182,11 @@ func (u *UseCase) ReuploadDocument(ctx context.Context, filename, documentID str
 		}
 	}
 
-	if err := u.fs.Save(ctx, existingDocument.StoragePath, file); err != nil {
+	tempPath, err := u.fs.Save(ctx, existingDocument.StoragePath, file)
+	if err != nil {
+		return err
+	}
+	if err := u.fs.Delete(ctx, tempPath); err != nil {
 		return err
 	}
 
