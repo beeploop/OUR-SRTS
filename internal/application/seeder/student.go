@@ -3,6 +3,7 @@ package seeder
 import (
 	"context"
 	"encoding/csv"
+	"log"
 	"os"
 
 	"github.com/beeploop/our-srts/internal/domain/entities"
@@ -28,7 +29,7 @@ func (s *StudentSeeder) Execute(ctx context.Context, limit *int) error {
 	}
 
 	for i, record := range records {
-		if limit != nil && i+1 == *limit {
+		if limit != nil && *limit != 0 && i+1 == *limit {
 			break
 		}
 
@@ -53,6 +54,8 @@ func (s *StudentSeeder) Execute(ctx context.Context, limit *int) error {
 		if _, err := s.studentRepo.Create(ctx, student); err != nil {
 			return err
 		}
+
+		log.Println("inserted: ", student.FullName())
 	}
 
 	return nil

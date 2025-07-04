@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"log"
 
 	"github.com/beeploop/our-srts/internal/application/seeder"
@@ -28,39 +29,52 @@ func main() {
 	}
 	defer db.Close()
 
+	mode := flag.String("mode", "", "seeding mode (admin, program, student, documentType)")
+	source := flag.String("source", "", "source file")
+	limit := flag.Int("limit", 0, "limit number of students inserted")
+
+	flag.Parse()
+
 	ctx := context.Background()
 
-	adminsSourceFile := "./seed_files/admins.json"
-	adminRepo := repositories.NewAdminRepository(db)
-	adminSeeder := seeder.NewAdminSeeder(adminsSourceFile, adminRepo)
-
-	if err := adminSeeder.Execute(ctx); err != nil {
-		log.Fatalf("failed to seed admins: %s\n", err.Error())
+	if *source == "" {
+		log.Fatalf("invalid source file")
 	}
 
-	programSourceFile := "./seed_files/programs.json"
-	programRepo := repositories.NewProgramRepository(db)
-	programSeeder := seeder.NewProgramSeeder(programSourceFile, programRepo)
+	switch *mode {
+	case "admin":
+		adminRepo := repositories.NewAdminRepository(db)
+		adminSeeder := seeder.NewAdminSeeder(*source, adminRepo)
 
-	if err := programSeeder.Execute(ctx); err != nil {
-		log.Fatalf("failed to seed programs: %s\n", err.Error())
-	}
+		if err := adminSeeder.Execute(ctx); err != nil {
+			log.Fatalf("failed to seed admins: %s\n", err.Error())
+		}
+	case "program":
+		programRepo := repositories.NewProgramRepository(db)
+		programSeeder := seeder.NewProgramSeeder(*source, programRepo)
 
-	studentSourceFile := "./seed_files/tagum-trimmed.csv"
-	studentRepo := repositories.NewStudentRepository(db)
-	studentSeeder := seeder.NewStudentSeeder(studentSourceFile, studentRepo)
-	studentLimit := 10
+		if err := programSeeder.Execute(ctx); err != nil {
+			log.Fatalf("failed to seed programs: %s\n", err.Error())
+		}
 
-	if err := studentSeeder.Execute(ctx, &studentLimit); err != nil {
-		log.Fatalf("failed to seed students: %s\n", err.Error())
-	}
+	case "student":
+		studentRepo := repositories.NewStudentRepository(db)
+		studentSeeder := seeder.NewStudentSeeder(*source, studentRepo)
 
-	documentTypeSourceFile := "./seed_files/document_types.json"
-	documentTypeRepo := repositories.NewDocumentTypeRepository(db)
-	documentTypeSeeder := seeder.NewDocumentTypeSeeder(documentTypeSourceFile, documentTypeRepo)
+		if err := studentSeeder.Execute(ctx, limit); err != nil {
+			log.Fatalf("failed to seed students: %s\n", err.Error())
+		}
 
-	if err := documentTypeSeeder.Execute(ctx); err != nil {
-		log.Fatalf("failed to seed document types: %s\n", err.Error())
+	case "documentType":
+		documentTypeRepo := repositories.NewDocumentTypeRepository(db)
+		documentTypeSeeder := seeder.NewDocumentTypeSeeder(*source, documentTypeRepo)
+
+		if err := documentTypeSeeder.Execute(ctx); err != nil {
+			log.Fatalf("failed to seed document types: %s\n", err.Error())
+		}
+
+	default:
+		log.Fatalf("Invalid mode selected")
 	}
 
 	log.Printf("seeding complete\n")
