@@ -2,7 +2,6 @@ package storage
 
 import (
 	"context"
-	"errors"
 	"io"
 	"os"
 	"path/filepath"
@@ -41,6 +40,5 @@ func (s *DiskStorage) Save(ctx context.Context, path string, content io.Reader) 
 }
 
 func (s *DiskStorage) Delete(ctx context.Context, path string) error {
-	// TODO: Implement method
-	return errors.New("unimplemented method")
+	return os.Remove(path)
 }
